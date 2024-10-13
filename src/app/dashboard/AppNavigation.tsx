@@ -9,10 +9,11 @@ import {
   PersonStandingIcon,
   UserIcon,
 } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TopBar from "./TopBar";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useAuthContext } from "@/_context/AuthContext";
 
 interface MenuProps {
   title: string;
@@ -21,6 +22,13 @@ interface MenuProps {
 }
 
 const AppNavigation = ({ children }: { children: React.ReactNode }) => {
+  const auth = useAuthContext();
+  const router = useRouter();
+
+  if (auth.state.admin === null) {
+    router.replace("/login");
+    return;
+  }
   const [isCollapsed, setIsCollapsed] = useState(false);
   const pathName = usePathname();
 
@@ -55,6 +63,7 @@ const AppNavigation = ({ children }: { children: React.ReactNode }) => {
       path: "/dashboard/profile",
     },
   ];
+
   return (
     <div className=" h-svh flex flex-col">
       <TopBar onClick={handleCollapsible} />

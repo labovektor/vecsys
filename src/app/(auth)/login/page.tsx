@@ -27,8 +27,12 @@ import { useMutation } from "@tanstack/react-query";
 import axiosInstance from "@/lib/axios";
 import { schemaLogin } from "@/schema/auth_schema";
 import { useToast } from "@/components/hooks/use-toast";
+import { AuthActionKind, useAuthContext } from "@/_context/AuthContext";
+import { AxiosError, AxiosResponse } from "axios";
 
 const LoginScreen = () => {
+  const auth = useAuthContext();
+
   const { toast } = useToast();
   const form = useForm<z.infer<typeof schemaLogin>>({
     resolver: zodResolver(schemaLogin),
@@ -41,11 +45,20 @@ const LoginScreen = () => {
   const postLogin = useMutation({
     mutationFn: (payload: z.infer<typeof schemaLogin>) =>
       axiosInstance.post("/admin/login", payload),
-    onError: (error, variables, context) => {
+    onError: async (error) => {
+      const resData = await JSON.parse(
+        (error as AxiosError).response?.data as string
+      );
       toast({
         variant: "destructive",
         title: "Oops!",
-        description: error.response.data.message,
+        description: resData["message"],
+      });
+    },
+    onSuccess: (data) => {
+      auth.dispatch({
+        type: AuthActionKind.LOGIN,
+        payload: data.data,
       });
     },
   });
