@@ -9,13 +9,15 @@ const axiosInstance = axios.create({
   withCredentials: true,
 });
 
+const nonProtectedRoute = ["/", "/login"];
+
 axiosInstance.interceptors.response.use(
   (response) => {
     return response;
   },
   (error) => {
     if (error.response.status === 401) {
-      if (window.location.pathname !== "/login") {
+      if (!nonProtectedRoute.includes(window.location.pathname)) {
         console.error("Unauthorized - redirecting to login...");
         window.location.href = "/login";
       }
