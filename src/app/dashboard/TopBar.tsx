@@ -1,11 +1,17 @@
+"use client";
+
+import { useAuthContext } from "@/_context/AuthContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { baseURL } from "@/lib/axios";
+import { getInitial } from "@/lib/utils";
 import { Menu, Search, LogOut } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
 const TopBar = ({ onClick }: { onClick: () => void }) => {
+  const auth = useAuthContext();
   return (
     <header className=" border-b px-5 py-3 bg-vblue-900 flex gap-4 items-center justify-between ">
       <div className=" flex gap-4 items-center">
@@ -28,10 +34,17 @@ const TopBar = ({ onClick }: { onClick: () => void }) => {
 
       <div className=" flex gap-2 items-center space-x-4 rounded-md border border-slate-800 bg-vblue-800 text-white p-2">
         <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-          <AvatarFallback>VK</AvatarFallback>
+          <AvatarImage
+            src={`${baseURL}${auth.state.admin?.profile_picture}`}
+            alt={auth.state.admin?.display_name}
+          />
+          <AvatarFallback>
+            {getInitial(
+              auth.state.admin?.display_name ?? "Vektorial Labophase"
+            )}
+          </AvatarFallback>
         </Avatar>
-        Vectorian
+        {auth.state.admin?.display_name}
         <Button variant="destructive" className=" gap-2">
           <LogOut />
           Logout
