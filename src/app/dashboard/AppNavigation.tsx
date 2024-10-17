@@ -25,10 +25,12 @@ const AppNavigation = ({ children }: { children: React.ReactNode }) => {
   const auth = useAuthContext();
   const router = useRouter();
 
-  if (auth.state.admin === null) {
-    router.replace("/login");
-    return;
-  }
+  console.log(auth.state.admin);
+
+  // if (!auth.state.admin) {
+  //   router.replace("/login");
+  //   return;
+  // }
   const [isCollapsed, setIsCollapsed] = useState(false);
   const pathName = usePathname();
 

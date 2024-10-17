@@ -23,48 +23,39 @@ import Image from "next/image";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useMutation } from "@tanstack/react-query";
-import axiosInstance from "@/lib/axios";
 import { schemaLogin } from "@/schema/auth_schema";
 import { useToast } from "@/components/hooks/use-toast";
 import { AuthActionKind, useAuthContext } from "@/_context/AuthContext";
-import { AxiosError, AxiosResponse } from "axios";
+import { loginAction } from "@/_actions/auth.action";
+import { useRouter } from "next/navigation";
 
 const LoginScreen = () => {
   const auth = useAuthContext();
+  const router = useRouter();
 
   const { toast } = useToast();
   const form = useForm<z.infer<typeof schemaLogin>>({
     resolver: zodResolver(schemaLogin),
-    defaultValues: {
-      username: "",
-      password: "",
-    },
   });
 
-  const postLogin = useMutation({
-    mutationFn: (payload: z.infer<typeof schemaLogin>) =>
-      axiosInstance.post("/admin/login", payload),
-    onError: async (error) => {
-      const resData = await JSON.parse(
-        (error as AxiosError).response?.data as string
-      );
+  async function onSubmit(values: z.infer<typeof schemaLogin>) {
+    const { error, data } = await loginAction(values);
+
+    if (error) {
       toast({
         variant: "destructive",
         title: "Oops!",
-        description: resData["message"],
+        description: error,
       });
-    },
-    onSuccess: (data) => {
-      auth.dispatch({
-        type: AuthActionKind.LOGIN,
-        payload: data.data,
-      });
-    },
-  });
+      return;
+    }
 
-  function onSubmit(values: z.infer<typeof schemaLogin>) {
-    postLogin.mutate(values);
+    auth.dispatch({
+      type: AuthActionKind.LOGIN,
+      payload: data,
+    });
+
+    router.replace("/dashboard");
   }
   return (
     <div className=" flex justify-center items-center h-svh">
@@ -113,8 +104,12 @@ const LoginScreen = () => {
               />
             </CardContent>
             <CardFooter>
-              <Button className=" w-full" type="submit">
-                Login
+              <Button
+                disabled={form.formState.isSubmitting}
+                className=" w-full"
+                type="submit"
+              >
+                {form.formState.isSubmitting ? "Loging in..." : "Login"}
               </Button>
             </CardFooter>
           </Card>
