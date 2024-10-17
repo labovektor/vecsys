@@ -1,7 +1,14 @@
 "use client";
 
+import { getAdminAction } from "@/_actions/auth.action";
 import { AdminModel } from "@/_model/admin_model";
-import { createContext, Dispatch, useContext, useReducer } from "react";
+import {
+  createContext,
+  Dispatch,
+  useContext,
+  useEffect,
+  useReducer,
+} from "react";
 
 type AuthContextProviderProps = {
   children: React.ReactNode;
@@ -24,7 +31,7 @@ export enum AuthActionKind {
 
 interface AuthAction {
   type: AuthActionKind;
-  payload: AdminModel;
+  payload?: AdminModel;
 }
 
 interface AuthContextType {
@@ -35,7 +42,10 @@ interface AuthContextType {
 export const authReducer = (state: State, action: AuthAction): State => {
   switch (action.type) {
     case "LOGIN":
-      return { admin: action.payload };
+      console.log(action.payload);
+      if (action.payload) {
+        return { admin: action.payload };
+      }
     case "LOGOUT":
       return { admin: null };
     default:
@@ -47,6 +57,20 @@ export default function AuthContextProvider({
   children,
 }: AuthContextProviderProps) {
   const [state, dispatch] = useReducer(authReducer, initialState);
+
+  const initiateAdmin = async () => {
+    const { data } = await getAdminAction();
+    if (data) {
+      dispatch({
+        type: AuthActionKind.LOGIN,
+        payload: data,
+      });
+    }
+  };
+
+  useEffect(() => {
+    initiateAdmin();
+  }, []);
 
   return (
     <AuthContext.Provider value={{ state, dispatch }}>
