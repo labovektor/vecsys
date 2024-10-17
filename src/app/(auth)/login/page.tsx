@@ -58,7 +58,7 @@ const LoginScreen = () => {
     router.replace("/dashboard");
   }
   return (
-    <div className=" flex justify-center items-center h-svh">
+    <div className=" flex justify-center items-center h-svh bg-primary">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <Card className="w-[350px]">
