@@ -1,42 +1,13 @@
-import axiosInstance from "@/lib/axios";
-import { schemaLogin } from "@/features/auth/auth-schema";
-import { isAxiosError } from "axios";
-import { z } from "zod";
+"use server";
 
-export async function loginAction(payload: z.infer<typeof schemaLogin>) {
-  try {
-    const res = await axiosInstance.post("/admin/login", payload);
-    return {
-      data: res.data,
-    };
-  } catch (error) {
-    if (isAxiosError(error)) {
-      return {
-        error: error.response?.data["message"] ?? error.response?.data,
-      };
-    } else {
-      return {
-        error: (error as Error).message,
-      };
-    }
-  }
+import { SchemaLogin } from "@/features/auth/auth-schema";
+import { handleRequest } from "@/lib/safe-actions";
+import { Admin } from "./auth-entity";
+
+export async function loginAction(payload: SchemaLogin) {
+  return handleRequest<Admin>("POST", "/admin/login", payload);
 }
 
 export async function getAdminAction() {
-  try {
-    const res = await axiosInstance.get("/admin");
-    return {
-      data: res.data,
-    };
-  } catch (error) {
-    if (isAxiosError(error)) {
-      return {
-        error: error.response?.data["message"] ?? error.response?.data,
-      };
-    } else {
-      return {
-        error: (error as Error).message,
-      };
-    }
-  }
+  return handleRequest<Admin>("GET", "/admin");
 }

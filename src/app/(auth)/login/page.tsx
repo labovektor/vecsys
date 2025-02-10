@@ -22,23 +22,23 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { schemaLogin } from "@/features/auth/auth-schema";
+import { SchemaLogin, schemaLogin } from "@/features/auth/auth-schema";
 import { useToast } from "@/components/hooks/use-toast";
 import { AuthActionKind, useAuthContext } from "@/context/AuthContext";
 import { loginAction } from "@/features/auth/auth-action";
 import { useRouter } from "next/navigation";
+import { VIcons } from "@/lib/asset";
 
 const LoginScreen = () => {
   const auth = useAuthContext();
   const router = useRouter();
 
   const { toast } = useToast();
-  const form = useForm<z.infer<typeof schemaLogin>>({
+  const form = useForm<SchemaLogin>({
     resolver: zodResolver(schemaLogin),
   });
 
-  async function onSubmit(values: z.infer<typeof schemaLogin>) {
+  async function onSubmit(values: SchemaLogin) {
     const { error, data } = await loginAction(values);
 
     if (error) {
@@ -64,7 +64,7 @@ const LoginScreen = () => {
           <Card className="w-[350px]">
             <CardHeader>
               <Image
-                src="img/logo_main.svg"
+                src={VIcons.main}
                 width={120}
                 height={48}
                 alt="logo"
