@@ -36,6 +36,10 @@ const LoginScreen = () => {
   const { toast } = useToast();
   const form = useForm<SchemaLogin>({
     resolver: zodResolver(schemaLogin),
+    defaultValues: {
+      username: "",
+      password: "",
+    },
   });
 
   async function onSubmit(values: SchemaLogin) {

@@ -43,7 +43,6 @@ interface AuthContextType {
 export const authReducer = (state: State, action: AuthAction): State => {
   switch (action.type) {
     case "LOGIN":
-      console.log(action.payload);
       if (action.payload) {
         return { admin: action.payload };
       }
