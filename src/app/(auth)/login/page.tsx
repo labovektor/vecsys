@@ -23,10 +23,10 @@ import Image from "next/image";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { schemaLogin } from "@/schema/auth_schema";
+import { schemaLogin } from "@/features/auth/auth-schema";
 import { useToast } from "@/components/hooks/use-toast";
-import { AuthActionKind, useAuthContext } from "@/_context/AuthContext";
-import { loginAction } from "@/_actions/auth.action";
+import { AuthActionKind, useAuthContext } from "@/context/AuthContext";
+import { loginAction } from "@/features/auth/auth-action";
 import { useRouter } from "next/navigation";
 
 const LoginScreen = () => {

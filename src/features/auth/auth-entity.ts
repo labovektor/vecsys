@@ -1,4 +1,4 @@
-export type AdminModel = {
+export type Admin = {
   id: string;
   username: string;
   display_name: string;

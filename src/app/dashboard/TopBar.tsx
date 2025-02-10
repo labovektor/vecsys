@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuthContext } from "@/_context/AuthContext";
+import { useAuthContext } from "@/context/AuthContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

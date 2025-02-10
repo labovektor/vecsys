@@ -1,5 +1,5 @@
 import axiosInstance from "@/lib/axios";
-import { schemaLogin } from "@/schema/auth_schema";
+import { schemaLogin } from "@/features/auth/auth-schema";
 import { isAxiosError } from "axios";
 import { z } from "zod";
 

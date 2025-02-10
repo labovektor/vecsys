@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import QueryProviders from "@/_context/query_context";
+import QueryProviders from "@/context/query_context";
 import { Toaster } from "@/components/ui/toaster";
-import AuthContextProvider from "@/_context/AuthContext";
+import AuthContextProvider from "@/context/AuthContext";
 
 const roboto = Roboto({
   subsets: ["latin"],
