@@ -60,6 +60,7 @@ export default function AuthContextProvider({
 
   const initiateAdmin = async () => {
     const { data } = await getAdminAction();
+
     if (data) {
       dispatch({
         type: AuthActionKind.LOGIN,

@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* 
+
 :root {
   --card: 228 50% 92%;
   --card-foreground: 228 5% 15%;
@@ -43,7 +43,7 @@
   --input: 228 30% 50%;
   --ring: 228 96.5% 66.3%;
   --radius: 0.5rem;
-} */
+}
 
 @layer base {
   * {

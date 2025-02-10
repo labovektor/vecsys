@@ -11,7 +11,7 @@ import React from "react";
 const UserButton = () => {
   const auth = useAuthContext();
   return (
-    <div className=" flex gap-2 items-center space-x-4 rounded-md  text-white">
+    <div className=" flex gap-2 items-center space-x-4 rounded-md ">
       <Avatar>
         <AvatarImage
           src={`${baseURL}${auth.state.admin?.profile_picture}`}
