@@ -8,3 +8,5 @@ export const schemaLogin = z.object({
     message: "Password must be at least 6 characters.",
   }),
 });
+
+export type SchemaLogin = z.infer<typeof schemaLogin>;

@@ -1,7 +1,7 @@
 "use client";
 
-import { getAdminAction } from "@/_actions/auth.action";
-import { AdminModel } from "@/_model/admin_model";
+import { getAdminAction } from "@/features/auth/auth-action";
+import { Admin } from "@/features/auth/auth-entity";
 import {
   createContext,
   Dispatch,
@@ -16,7 +16,7 @@ type AuthContextProviderProps = {
 };
 
 interface State {
-  admin: AdminModel | null;
+  admin: Admin | null;
 }
 
 export const initialState: State = {
@@ -32,7 +32,7 @@ export enum AuthActionKind {
 
 interface AuthAction {
   type: AuthActionKind;
-  payload?: AdminModel;
+  payload?: Admin;
 }
 
 interface AuthContextType {
@@ -43,7 +43,6 @@ interface AuthContextType {
 export const authReducer = (state: State, action: AuthAction): State => {
   switch (action.type) {
     case "LOGIN":
-      console.log(action.payload);
       if (action.payload) {
         return { admin: action.payload };
       }
@@ -61,6 +60,7 @@ export default function AuthContextProvider({
 
   const initiateAdmin = async () => {
     const { data } = await getAdminAction();
+
     if (data) {
       dispatch({
         type: AuthActionKind.LOGIN,
