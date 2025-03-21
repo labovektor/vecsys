@@ -1,11 +1,9 @@
-import env from "@/lib/env";
 import axios from "axios";
 
 export const baseURL = "https://dash.grabpay.id:3443/staging/vecsys/api";
 
 const axiosInstance = axios.create({
   baseURL: baseURL,
-  // baseURL: "http://localhost:8787",
   withCredentials: true,
 });
 
