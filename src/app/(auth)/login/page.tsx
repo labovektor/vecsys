@@ -23,17 +23,13 @@ import Image from "next/image";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { SchemaLogin, schemaLogin } from "@/features/auth/auth-schema";
-import { useToast } from "@/components/hooks/use-toast";
-import { AuthActionKind, useAuthContext } from "@/context/AuthContext";
-import { loginAction } from "@/features/auth/auth-action";
 import { useRouter } from "next/navigation";
 import { VIcons } from "@/lib/asset";
+import handleRequest from "@/axios/request";
+import { toast } from "sonner";
 
 const LoginScreen = () => {
-  const auth = useAuthContext();
   const router = useRouter();
-
-  const { toast } = useToast();
   const form = useForm<SchemaLogin>({
     resolver: zodResolver(schemaLogin),
     defaultValues: {
@@ -43,21 +39,16 @@ const LoginScreen = () => {
   });
 
   async function onSubmit(values: SchemaLogin) {
-    const { error, data } = await loginAction(values);
+    const { error } = await handleRequest<unknown>(
+      "POST",
+      "/admin/login",
+      values
+    );
 
     if (error) {
-      toast({
-        variant: "destructive",
-        title: "Oops!",
-        description: error,
-      });
+      toast(error.message);
       return;
     }
-
-    auth.dispatch({
-      type: AuthActionKind.LOGIN,
-      payload: data,
-    });
 
     router.replace("/dashboard");
   }

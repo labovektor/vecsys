@@ -2,26 +2,24 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { useAuthContext } from "@/context/AuthContext";
-import { baseURL } from "@/lib/axios";
+import { baseURL } from "@/axios/axios";
 import { getInitial } from "@/lib/utils";
 import { LogOut } from "lucide-react";
 import React from "react";
+import { useUser } from "@/hooks/use-user";
 
 const UserButton = () => {
-  const auth = useAuthContext();
+  const { user } = useUser();
   return (
     <div className=" flex gap-2 items-center space-x-4 rounded-md ">
       <Avatar>
         <AvatarImage
-          src={`${baseURL}${auth.state.admin?.profile_picture}`}
-          alt={auth.state.admin?.display_name}
+          src={`${baseURL}${user?.profile_picture}`}
+          alt={user?.display_name}
         />
-        <AvatarFallback>
-          {getInitial(auth.state.admin?.display_name ?? "")}
-        </AvatarFallback>
+        <AvatarFallback>{getInitial(user?.display_name ?? "")}</AvatarFallback>
       </Avatar>
-      {auth.state.admin?.display_name}
+      {user?.display_name}
       <Button variant="destructive" className=" gap-2">
         <LogOut />
         Logout
