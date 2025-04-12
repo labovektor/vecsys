@@ -26,7 +26,7 @@ export default function RootLayout({
         <QueryProviders>
           <TooltipProvider>
             {children}
-            <Toaster />
+            <Toaster richColors />
           </TooltipProvider>
         </QueryProviders>
       </body>
