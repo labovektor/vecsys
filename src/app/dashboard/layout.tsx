@@ -14,7 +14,7 @@ export default function DashboardLayout({
         <AppSidebar />
         <main className=" w-full">
           <header className="px-5 py-3 flex gap-4 items-center justify-between border-b">
-            <SidebarTrigger size="icon" />
+            <SidebarTrigger />
 
             <UserButton />
           </header>
