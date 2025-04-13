@@ -1,7 +1,7 @@
 "use client";
 
 import handleRequest from "@/axios/request";
-import { Admin } from "@/features/auth/auth-entity";
+import { Admin } from "@/features/auth/entity";
 import { useQuery } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 import { createContext, useEffect, useMemo, useState } from "react";
