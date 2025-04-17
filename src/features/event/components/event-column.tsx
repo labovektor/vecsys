@@ -8,6 +8,7 @@ export const eventColumn: ColumnDef<Event>[] = [
     id: "no",
     header: "No.",
     cell: ({ row }) => row.index + 1,
+    enableGlobalFilter: false,
   },
   {
     accessorKey: "name",
@@ -17,6 +18,7 @@ export const eventColumn: ColumnDef<Event>[] = [
     id: "action",
     header: "Aksi",
     cell: ({ row }) => <EventAction event={row.original} />,
+    enableGlobalFilter: false,
   },
 ];
 

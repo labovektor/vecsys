@@ -29,6 +29,8 @@ import { Input } from "@/components/ui/input";
 
 const NewEventDialog = () => {
   const queryClient = getQueryClient();
+  const [open, setOpen] = React.useState(false);
+
   const form = useForm<NewEventSchemaType>({
     resolver: zodResolver(newEventSchema),
     defaultValues: {
@@ -48,10 +50,11 @@ const NewEventDialog = () => {
       return;
     }
 
+    setOpen(false);
     queryClient.refetchQueries({ queryKey: ["events"] });
   }
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>
           <Plus /> Buat Event Baru
@@ -77,9 +80,9 @@ const NewEventDialog = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit">
+            <Button type="submit" disabled={form.formState.isSubmitting}>
               <Plus />
-              Tambah Event
+              {form.formState.isSubmitting ? "Menambahkan..." : "Tambah Event"}
             </Button>
           </form>
         </Form>
