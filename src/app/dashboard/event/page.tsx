@@ -10,7 +10,7 @@ import React from "react";
 import { toast } from "sonner";
 
 const EventPage = () => {
-  const { data: events } = useQuery({
+  const { data: events, isLoading } = useQuery({
     queryKey: ["events"],
     queryFn: async () =>
       handleRequest<Event[]>("GET", "/admin/event").then((res) => {
@@ -23,6 +23,7 @@ const EventPage = () => {
   return (
     <DataTable
       data={events || []}
+      loading={isLoading}
       columns={eventColumn}
       actions={<NewEventDialog />}
     />
