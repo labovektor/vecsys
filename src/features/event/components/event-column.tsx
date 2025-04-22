@@ -2,6 +2,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Event } from "../dto";
 import { Button } from "@/components/ui/button";
 import { Edit, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export const eventColumn: ColumnDef<Event>[] = [
   {
@@ -23,9 +24,15 @@ export const eventColumn: ColumnDef<Event>[] = [
 ];
 
 function EventAction({ event }: { event: Event }) {
+
+  const router = useRouter();
+  const handleEdit = () => {
+    router.push(`/dashboard/event/${event.id}`);
+  }
+
   return (
     <div className="flex gap-2">
-      <Button size={"icon"}>
+      <Button size={"icon"} onClick={handleEdit}>
         <Edit />
       </Button>
       <Button size={"icon"} variant={"destructive"}>
