@@ -1,7 +1,8 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Event } from "../dto";
-import { Button } from "@/components/ui/button";
 import { Edit, Trash2 } from "lucide-react";
+import Link from "next/link";
+import { Button, buttonVariants } from "@/components/ui/button";
 
 export const eventColumn: ColumnDef<Event>[] = [
   {
@@ -23,11 +24,12 @@ export const eventColumn: ColumnDef<Event>[] = [
 ];
 
 function EventAction({ event }: { event: Event }) {
+
   return (
     <div className="flex gap-2">
-      <Button size={"icon"}>
+      <Link href={`/dashboard/event/${event.id}?event_name=${event.name}`} className={buttonVariants({ variant: 'default', size: 'icon' })}>
         <Edit />
-      </Button>
+      </Link>
       <Button size={"icon"} variant={"destructive"}>
         <Trash2 />
       </Button>
