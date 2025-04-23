@@ -1,4 +1,3 @@
-// filepath: z:\Projects\1-vecsys\vecsys\src\app\dashboard\event\[id]\tabs\kelola-voucher.tsx
 import { Card } from '@/components/ui/card';
 import React from 'react';
 
