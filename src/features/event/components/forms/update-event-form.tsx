@@ -100,9 +100,9 @@ const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
           control={form.control}
           name="name" render={({ field }) => (
             <FormItem>
-              <FormLabel>Event Name</FormLabel>
+              <FormLabel>Nama Event</FormLabel>
               <FormControl>
-                <Input {...field} value={field.value || ''} />
+                <Input {...field} value={field.value || ''} placeholder='Nama Event'/>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -113,9 +113,9 @@ const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
           control={form.control}
           name="desc" render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel>Deskripsi Event</FormLabel>
               <FormControl>
-                <Input {...field} value={field.value || ''} />
+                <Input {...field} value={field.value || ''} placeholder='Deskripsi Event'/>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -126,9 +126,9 @@ const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
           control={form.control}
           name="group_member_num" render={({ field }) => (
             <FormItem>
-              <FormLabel>Group Member Number</FormLabel>
+              <FormLabel>Jumlah Beregu</FormLabel>
               <FormControl>
-                <Input type="number" {...field} value={field.value || ''} />
+                <Input type="number" {...field} value={field.value || ''} placeholder='Jumlah Beregu'/>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -165,9 +165,9 @@ const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
           control={form.control}
           name="participant_target" render={({ field }) => (
             <FormItem>
-              <FormLabel>Participant Target</FormLabel>
+              <FormLabel>Target Peserta</FormLabel>
               <FormControl>
-                <Input type="number" {...field} value={field.value || ''} />
+                <Input type="number" {...field} value={field.value || ''} placeholder='Target Peserta'/>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -178,22 +178,23 @@ const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
           control={form.control}
           name="period" render={({ field }) => (
             <FormItem>
-              <FormLabel>Period</FormLabel>
+              <FormLabel>Periode Event</FormLabel>
               <FormControl>
-                <Input {...field} value={field.value || ''} />
+                <Input {...field} value={field.value || ''} placeholder='Priode Event'/>
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-
+        <div className='flex justify-end w-full'>
         <Button
           type="submit"
-          className="w-full"
+          className=""
           disabled={isSubmitting}
         >
-          {isSubmitting ? "Updating..." : "Update Event"}
+          {isSubmitting ? "Menyimpan..." : "Simpan Perubahan"}
         </Button>
+        </div>
       </form>
     </Form>
   );
