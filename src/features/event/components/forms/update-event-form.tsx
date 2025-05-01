@@ -29,23 +29,21 @@ interface UpdateEventFormProps {
 const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
   const router = useRouter();
   const queryClient = getQueryClient();
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const form = useForm<UpdateEventSchemaType>({
     resolver: zodResolver(updateEventSchema),
     defaultValues: {
-      name: event.name,
-      desc: event.desc,
-      group_member_num: event.group_member_num,
-      participant_target: event.participant_target,
-      period: event.period,
+      name: event.name || "",
+      desc: event.desc || "",
+      group_member_num: event.group_member_num || 0,
+      participant_target: event.participant_target || 0,
+      period: event.period || "",
     },
   });
 
   async function onSubmit(values: UpdateEventSchemaType) {
     try {
-      setIsSubmitting(true);
 
       const formData = new FormData();
       if (values.name) {
@@ -90,9 +88,7 @@ const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
     } catch (error) {
       console.error(error);
       toast.error("An error occurred while updating the event");
-    } finally {
-      setIsSubmitting(false);
-    }
+    } 
   }
 
   return (
@@ -104,7 +100,7 @@ const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
             <FormItem>
               <FormLabel>Nama Event</FormLabel>
               <FormControl>
-                <Input {...field} value={field.value || ''} placeholder='Nama Event'/>
+                <Input {...field} placeholder='Nama Event'/>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -117,7 +113,7 @@ const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
             <FormItem>
               <FormLabel>Deskripsi Event</FormLabel>
               <FormControl>
-                <Input {...field} value={field.value || ''} placeholder='Deskripsi Event'/>
+                <Input {...field} placeholder='Deskripsi Event'/>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -130,7 +126,7 @@ const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
             <FormItem>
               <FormLabel>Jumlah Beregu</FormLabel>
               <FormControl>
-                <Input type="number" {...field} value={field.value || ''} placeholder='Jumlah Beregu'/>
+                <Input type="number" {...field} placeholder='Jumlah Beregu'/>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -168,7 +164,7 @@ const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
             <FormItem>
               <FormLabel>Target Peserta</FormLabel>
               <FormControl>
-                <Input type="number" {...field} value={field.value || ''} placeholder='Target Peserta'/>
+                <Input type="number" {...field} placeholder='Target Peserta'/>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -181,7 +177,7 @@ const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
             <FormItem>
               <FormLabel>Periode Event</FormLabel>
               <FormControl>
-                <Input {...field} value={field.value || ''} placeholder='Priode Event'/>
+                <Input {...field} placeholder='Priode Event'/>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -191,9 +187,9 @@ const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
         <Button
           type="submit"
           className=""
-          disabled={isSubmitting}
+          disabled={form.formState.isSubmitting}
         >
-          {isSubmitting ? "Menyimpan..." : "Simpan Perubahan"}
+            {form.formState.isSubmitting ? "Menyimpan..." : "Simpan Perubahan"}
         </Button>
         </div>
       </form>
