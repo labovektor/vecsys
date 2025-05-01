@@ -7,22 +7,18 @@ export const newEventSchema = z.object({
 export type NewEventSchemaType = z.infer<typeof newEventSchema>;
 
 export const updateEventSchema = z.object({
-	name: z.string().min(2, "Name must be at least 2 characters").nullable(),
+	name: z.string(),
 	desc: z
-		.string()
-		.min(5, "Description must be at least 5 characters")
-		.nullable(),
+		.string(),
 	group_member_num: z.coerce
 		.number()
 		.int()
-		.positive("Must be a positive number")
-		.nullable(),
+		.positive("Must be a positive number"),
 	participant_target: z.coerce
 		.number()
 		.int()
-		.positive("Must be a positive number")
-		.nullable(),
-	period: z.string().min(2, "Period must be specified").nullable(),
+		.positive("Must be a positive number"),
+	period: z.string(),
 });
 
 export type UpdateEventSchemaType = z.infer<typeof updateEventSchema>;

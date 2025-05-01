@@ -65,7 +65,7 @@ const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
       const iconFile = fileInputRef.current?.files?.[0];
       if (iconFile) {
         formData.append("icon", iconFile);
-      } const { error } = await handleRequest(
+      } const { error } = await handleRequest<unknown>(
         "PATCH",
         `/admin/event/${eventId}`,
         formData
