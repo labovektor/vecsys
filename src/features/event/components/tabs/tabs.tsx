@@ -1,14 +1,18 @@
 "use client";
 
-import React from 'react';
+import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import InformasiUmum from './informasi-umum';
-import KelolaRegion from './kelola-region';
-import KelolaJenjang from './kelola-jenjang';
-import KelolaVoucher from './kelola-voucher';
-import KelolaPembayaran from './kelola-pembayaran';
+import dynamic from "next/dynamic";
 
-const TabsIndex = ({id}: { id: string }) => {
+const InformasiUmum = dynamic(() => import("./informasi-umum"), { ssr: false });
+const KelolaRegion = dynamic(() => import("./kelola-region"), { ssr: false });
+const KelolaJenjang = dynamic(() => import("./kelola-jenjang"), { ssr: false });
+const KelolaVoucher = dynamic(() => import("./kelola-voucher"), { ssr: false });
+const KelolaPembayaran = dynamic(() => import("./kelola-pembayaran"), {
+  ssr: false,
+});
+
+const TabsIndex = ({ id }: { id: string }) => {
   return (
     <div className="w-full">
       <Tabs defaultValue="informasi-umum" className="w-full">
@@ -37,6 +41,6 @@ const TabsIndex = ({id}: { id: string }) => {
       </Tabs>
     </div>
   );
-}
+};
 
 export default TabsIndex;

@@ -104,3 +104,31 @@ export function getUniqueProperties<T extends Record<string, any>>(
     return result;
   }, {} as Partial<T>);
 }
+
+export function createFormData(data: Record<string, any>): FormData {
+  const formData = new FormData();
+
+  Object.keys(data).forEach((key) => {
+    const value = data[key];
+
+    if (!value) {
+      return;
+    }
+
+    if (Array.isArray(value)) {
+      // If the value is an array, append each item individually
+      value.forEach((item) => formData.append(`${key}[]`, item));
+    } else if (value instanceof File) {
+      // If the value is a File, append it directly
+      formData.append(key, value);
+    } else if (value && typeof value === "object") {
+      // If the value is an object, stringify it before appending
+      formData.append(key, JSON.stringify(value));
+    } else {
+      // For other types (string, number, etc.), append as-is
+      formData.append(key, value);
+    }
+  });
+
+  return formData;
+}
