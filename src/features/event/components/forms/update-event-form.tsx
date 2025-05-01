@@ -82,7 +82,11 @@ const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
 
       queryClient.invalidateQueries({ queryKey: ["event"] });
 
+      const newEventName = values.name || event.name;
+      router.push(`/dashboard/event/${eventId}?event_name=${newEventName}`);
+
       router.refresh();
+      
     } catch (error) {
       console.error(error);
       toast.error("An error occurred while updating the event");
@@ -146,7 +150,6 @@ const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
           <div className="mt-2">
             {event.icon ? (
               <div className="flex flex-col items-start gap-2">
-                <p className="text-sm text-gray-500">Current icon:</p>
                 <Image
                   src={`${process.env.NEXT_PUBLIC_API_URL}${event.icon}`} 
                   alt={`${event.name} icon`}

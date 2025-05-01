@@ -17,10 +17,16 @@ async function handleRequest<T>(
   body?: any
 ): Promise<RequestReturn<T>> {
   try {
+    const isFormData = body instanceof FormData;
     const config = {
       method,
       url: endpoint,
-      ...(body ? { data: body } : {}),
+      ...(body ? { 
+        data: body,
+        headers: isFormData ? {
+          'Content-Type': 'multipart/form-data',
+        } : undefined
+      } : {}),
     };
 
     const res = await axiosInstance(config);
