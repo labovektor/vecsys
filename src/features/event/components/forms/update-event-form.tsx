@@ -20,6 +20,7 @@ import { Event } from "../../dto";
 import { UpdateEventSchemaType, updateEventSchema } from "../../schema";
 import { createFormData } from "@/lib/utils";
 import { CircleOff } from "lucide-react";
+import { getQueryClient } from "@/lib/get-query-client";
 
 interface UpdateEventFormProps {
   eventId: string;
@@ -28,6 +29,7 @@ interface UpdateEventFormProps {
 
 const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
   const router = useRouter();
+  const queryClient = getQueryClient();
   const [preview, setPreview] = useState<string | undefined>(
     event.icon && `${process.env.NEXT_PUBLIC_API_URL}${event.icon}`
   );
@@ -58,7 +60,9 @@ const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
       return;
     }
     toast.success("Event updated");
-    router.push(`/dashboard/event/${eventId}?event_name=${values.name}`);
+    queryClient.refetchQueries({ queryKey: ["events"] });
+    queryClient.refetchQueries({ queryKey: [eventId] });
+    router.replace(`/dashboard/event/${eventId}?event_name=${values.name}`);
   }
 
   return (
