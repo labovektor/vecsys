@@ -86,7 +86,7 @@ const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
       router.push(`/dashboard/event/${eventId}?event_name=${newEventName}`);
 
       router.refresh();
-      
+
     } catch (error) {
       console.error(error);
       toast.error("An error occurred while updating the event");
@@ -95,8 +95,6 @@ const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
     }
   }
 
-  // log image url
-  console.log(event.icon);
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
