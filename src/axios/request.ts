@@ -20,7 +20,7 @@ async function handleRequest<T>(
     const config = {
       method,
       url: endpoint,
-      ...(body ? { data: body } : {}),
+      ...(body ? { data: body} : {}),
     };
 
     const res = await axiosInstance(config);

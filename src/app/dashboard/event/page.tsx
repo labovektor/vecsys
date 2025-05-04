@@ -2,8 +2,9 @@
 
 import handleRequest from "@/axios/request";
 import { DataTable } from "@/components/table/data-table";
-import { eventColumns } from "@/features/event/component/table-column";
-import { Event } from "@/features/event/entity";
+import { eventColumn } from "@/features/event/components/event-column";
+import NewEventDialog from "@/features/event/components/new-event";
+import { Event } from "@/features/event/dto";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { toast } from "sonner";
@@ -11,7 +12,7 @@ import { toast } from "sonner";
 const EventPage = () => {
   const { data: events, isLoading } = useQuery({
     queryKey: ["events"],
-    queryFn: () =>
+    queryFn: async () =>
       handleRequest<Event[]>("GET", "/admin/event").then((res) => {
         if (res.error) {
           toast.error(res.error.message);
@@ -20,7 +21,12 @@ const EventPage = () => {
       }),
   });
   return (
-    <DataTable columns={eventColumns} data={events || []} loading={isLoading} />
+    <DataTable
+      data={events || []}
+      loading={isLoading}
+      columns={eventColumn}
+      actions={<NewEventDialog />}
+    />
   );
 };
 
