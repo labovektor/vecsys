@@ -6,6 +6,8 @@ import LMain from "@public/img/logo_main.svg";
 import LNoTitle from "@public/img/logo_notitle.svg";
 import LWhiteNoTitle from "@public/img/logo_white_notitle.svg";
 import LWhite from "@public/img/logo_white.svg";
+import LDarkLabel from "@public/img/logo_dark_label.svg";
+import LMainLabel from "@public/img/logo_main_label.svg";
 
 import notFoundImg from "@public/not-found.svg";
 
@@ -18,6 +20,8 @@ export const VIcons = {
   noTitle: LNoTitle,
   whiteNoTitle: LWhiteNoTitle,
   white: LWhite,
+  darkLabel: LDarkLabel,
+  mainLabel: LMainLabel,
 } as const;
 
 export const NotFoundImg = notFoundImg;

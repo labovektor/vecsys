@@ -22,29 +22,26 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import React from "react";
 import { useForm } from "react-hook-form";
-import {
-  SchemaLoginAdmin as SchemaLogin,
-  schemaLoginAdmin as schemaLogin,
-} from "@/features/auth/schema";
-import { useRouter } from "next/navigation";
 import { VIcons } from "@/lib/asset";
 import handleRequest from "@/axios/request";
 import { toast } from "sonner";
+import {
+  schemaForgotPassword,
+  SchemaForgotPassword,
+} from "@/features/auth/schema";
 
-const LoginScreen = () => {
-  const router = useRouter();
-  const form = useForm<SchemaLogin>({
-    resolver: zodResolver(schemaLogin),
+const ForgotPasswordScreen = () => {
+  const form = useForm<SchemaForgotPassword>({
+    resolver: zodResolver(schemaForgotPassword),
     defaultValues: {
-      username: "",
-      password: "",
+      email: "",
     },
   });
 
-  async function onSubmit(values: SchemaLogin) {
+  async function onSubmit(values: SchemaForgotPassword) {
     const { error } = await handleRequest<unknown>(
       "POST",
-      "/admin/login",
+      "/user/forgot-password",
       values
     );
 
@@ -53,7 +50,7 @@ const LoginScreen = () => {
       return;
     }
 
-    router.replace("/dashboard");
+    toast.success("Link Terkirim ke email Anda (Jika user tersedia)");
   }
   return (
     <div className=" flex justify-center items-center h-svh bg-primary">
@@ -62,24 +59,25 @@ const LoginScreen = () => {
           <Card className="w-[350px]">
             <CardHeader>
               <Image
-                src={VIcons.main}
+                src={VIcons.mainLabel}
                 width={120}
                 height={48}
                 alt="logo"
                 className=" m-auto"
               />
-              <CardTitle>Login</CardTitle>
+              <CardTitle>Lupa Password</CardTitle>
               <CardDescription>
-                Masukkan username & password yang benar
+                Masukkan email saat Anda mendaftar, kami akan mengirimkan link
+                untuk mereset password Anda.
               </CardDescription>
             </CardHeader>
             <CardContent>
               <FormField
                 control={form.control}
-                name="username"
+                name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Username</FormLabel>
+                    <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
@@ -87,27 +85,17 @@ const LoginScreen = () => {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input type="password" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
             </CardContent>
-            <CardFooter>
+
+            <CardFooter className=" flex-col space-y-3">
               <Button
                 disabled={form.formState.isSubmitting}
                 className=" w-full"
                 type="submit"
               >
-                {form.formState.isSubmitting ? "Loging in..." : "Login"}
+                {form.formState.isSubmitting
+                  ? "Mengirim Link..."
+                  : "Kirim Link"}
               </Button>
             </CardFooter>
           </Card>
@@ -117,4 +105,4 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen;
+export default ForgotPasswordScreen;

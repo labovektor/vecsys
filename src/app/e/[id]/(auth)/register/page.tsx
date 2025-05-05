@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -20,40 +20,40 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import React from "react";
+import React, { use } from "react";
 import { useForm } from "react-hook-form";
-import {
-  SchemaLoginAdmin as SchemaLogin,
-  schemaLoginAdmin as schemaLogin,
-} from "@/features/auth/schema";
 import { useRouter } from "next/navigation";
 import { VIcons } from "@/lib/asset";
 import handleRequest from "@/axios/request";
 import { toast } from "sonner";
+import Link from "next/link";
+import { schemaRegister, SchemaRegister } from "@/features/auth/schema";
 
-const LoginScreen = () => {
+const RegisterScreen = ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = use(params);
   const router = useRouter();
-  const form = useForm<SchemaLogin>({
-    resolver: zodResolver(schemaLogin),
+  const form = useForm<SchemaRegister>({
+    resolver: zodResolver(schemaRegister),
     defaultValues: {
-      username: "",
+      email: "",
+      name: "",
       password: "",
+      confirm_password: "",
     },
   });
 
-  async function onSubmit(values: SchemaLogin) {
-    const { error } = await handleRequest<unknown>(
-      "POST",
-      "/admin/login",
-      values
-    );
+  async function onSubmit(values: SchemaRegister) {
+    const { error } = await handleRequest<unknown>("POST", "/user/register", {
+      ...values,
+      event_id: id,
+    });
 
     if (error) {
       toast.error(error.message);
       return;
     }
 
-    router.replace("/dashboard");
+    toast.success("Yeay! Berhasil daftar");
   }
   return (
     <div className=" flex justify-center items-center h-svh bg-primary">
@@ -62,24 +62,35 @@ const LoginScreen = () => {
           <Card className="w-[350px]">
             <CardHeader>
               <Image
-                src={VIcons.main}
+                src={VIcons.mainLabel}
                 width={120}
                 height={48}
                 alt="logo"
                 className=" m-auto"
               />
-              <CardTitle>Login</CardTitle>
-              <CardDescription>
-                Masukkan username & password yang benar
-              </CardDescription>
+              <CardTitle>Daftar</CardTitle>
+              <CardDescription>Masukkan data lengkap Anda.</CardDescription>
             </CardHeader>
             <CardContent>
               <FormField
                 control={form.control}
-                name="username"
+                name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Username</FormLabel>
+                    <FormLabel>Nama</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
@@ -100,15 +111,38 @@ const LoginScreen = () => {
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name="confirm_password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Ulangi Password</FormLabel>
+                    <FormControl>
+                      <Input type="password" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </CardContent>
-            <CardFooter>
+
+            <CardFooter className=" flex-col space-y-3">
               <Button
                 disabled={form.formState.isSubmitting}
                 className=" w-full"
                 type="submit"
               >
-                {form.formState.isSubmitting ? "Loging in..." : "Login"}
+                {form.formState.isSubmitting ? "Daftar..." : "Daftar"}
               </Button>
+              <span className=" text-sm text-center">
+                Sudah punya akun?{" "}
+                <Link
+                  href={`/e/${id}/login`}
+                  className={buttonVariants({ variant: "link" })}
+                >
+                  Masuk.
+                </Link>
+              </span>
             </CardFooter>
           </Card>
         </form>
@@ -117,4 +151,4 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen;
+export default RegisterScreen;
