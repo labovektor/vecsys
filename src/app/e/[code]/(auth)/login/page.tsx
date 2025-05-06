@@ -22,38 +22,41 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import React, { use } from "react";
 import { useForm } from "react-hook-form";
+import {
+  SchemaLoginParticipant as SchemaLogin,
+  schemaLoginParticipant as schemaLogin,
+} from "@/features/auth/schema";
 import { useRouter } from "next/navigation";
 import { VIcons } from "@/lib/asset";
 import handleRequest from "@/axios/request";
 import { toast } from "sonner";
 import Link from "next/link";
-import { schemaRegister, SchemaRegister } from "@/features/auth/schema";
+import { cn } from "@/lib/utils";
 
-const RegisterScreen = ({ params }: { params: Promise<{ id: string }> }) => {
-  const { id } = use(params);
+const LoginScreen = ({ params }: { params: Promise<{ code: string }> }) => {
+  const { code } = use(params);
   const router = useRouter();
-  const form = useForm<SchemaRegister>({
-    resolver: zodResolver(schemaRegister),
+  const form = useForm<SchemaLogin>({
+    resolver: zodResolver(schemaLogin),
     defaultValues: {
       email: "",
-      name: "",
       password: "",
-      confirm_password: "",
     },
   });
 
-  async function onSubmit(values: SchemaRegister) {
-    const { error } = await handleRequest<unknown>("POST", "/user/register", {
-      ...values,
-      event_id: id,
-    });
+  async function onSubmit(values: SchemaLogin) {
+    const { error } = await handleRequest<unknown>(
+      "POST",
+      "/user/login",
+      values
+    );
 
     if (error) {
       toast.error(error.message);
       return;
     }
 
-    toast.success("Yeay! Berhasil daftar");
+    router.replace(`/e/${code}/administration`);
   }
   return (
     <div className=" flex justify-center items-center h-svh bg-primary">
@@ -68,23 +71,12 @@ const RegisterScreen = ({ params }: { params: Promise<{ id: string }> }) => {
                 alt="logo"
                 className=" m-auto"
               />
-              <CardTitle>Daftar</CardTitle>
-              <CardDescription>Masukkan data lengkap Anda.</CardDescription>
+              <CardTitle>Login</CardTitle>
+              <CardDescription>
+                Masukkan email & password yang benar
+              </CardDescription>
             </CardHeader>
             <CardContent>
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Nama</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
               <FormField
                 control={form.control}
                 name="email"
@@ -111,19 +103,16 @@ const RegisterScreen = ({ params }: { params: Promise<{ id: string }> }) => {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="confirm_password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Ulangi Password</FormLabel>
-                    <FormControl>
-                      <Input type="password" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+
+              <Link
+                href={`/e/${code}/forgot-password`}
+                className={cn(
+                  buttonVariants({ variant: "link" }),
+                  "w-full justify-end"
                 )}
-              />
+              >
+                Lupa password?
+              </Link>
             </CardContent>
 
             <CardFooter className=" flex-col space-y-3">
@@ -132,15 +121,15 @@ const RegisterScreen = ({ params }: { params: Promise<{ id: string }> }) => {
                 className=" w-full"
                 type="submit"
               >
-                {form.formState.isSubmitting ? "Daftar..." : "Daftar"}
+                {form.formState.isSubmitting ? "Loging in..." : "Login"}
               </Button>
               <span className=" text-sm text-center">
-                Sudah punya akun?{" "}
+                Belum punya akun?{" "}
                 <Link
-                  href={`/e/${id}/login`}
+                  href={`/e/${code}/register`}
                   className={buttonVariants({ variant: "link" })}
                 >
-                  Masuk.
+                  Daftar di sini.
                 </Link>
               </span>
             </CardFooter>
@@ -151,4 +140,4 @@ const RegisterScreen = ({ params }: { params: Promise<{ id: string }> }) => {
   );
 };
 
-export default RegisterScreen;
+export default LoginScreen;

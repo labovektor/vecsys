@@ -22,41 +22,43 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import React, { use } from "react";
 import { useForm } from "react-hook-form";
-import {
-  SchemaLoginParticipant as SchemaLogin,
-  schemaLoginParticipant as schemaLogin,
-} from "@/features/auth/schema";
 import { useRouter } from "next/navigation";
 import { VIcons } from "@/lib/asset";
 import handleRequest from "@/axios/request";
 import { toast } from "sonner";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+import { schemaRegister, SchemaRegister } from "@/features/auth/schema";
+import { getEventConfigByCode } from "@/lib/event-config";
 
-const LoginScreen = ({ params }: { params: Promise<{ id: string }> }) => {
-  const { id } = use(params);
+const RegisterScreen = ({ params }: { params: Promise<{ code: string }> }) => {
   const router = useRouter();
-  const form = useForm<SchemaLogin>({
-    resolver: zodResolver(schemaLogin),
+
+  const { code } = use(params);
+  const cfg = getEventConfigByCode(code);
+
+  const form = useForm<SchemaRegister>({
+    resolver: zodResolver(schemaRegister),
     defaultValues: {
       email: "",
+      name: "",
       password: "",
+      confirm_password: "",
     },
   });
 
-  async function onSubmit(values: SchemaLogin) {
-    const { error } = await handleRequest<unknown>(
-      "POST",
-      "/user/login",
-      values
-    );
+  async function onSubmit(values: SchemaRegister) {
+    const { error } = await handleRequest<unknown>("POST", "/user/register", {
+      ...values,
+      event_id: cfg.id,
+    });
 
     if (error) {
       toast.error(error.message);
       return;
     }
 
-    router.replace("/dashboard");
+    toast.success("Yeay! Berhasil daftar");
+    router.replace(`/e/${code}/login`);
   }
   return (
     <div className=" flex justify-center items-center h-svh bg-primary">
@@ -71,12 +73,23 @@ const LoginScreen = ({ params }: { params: Promise<{ id: string }> }) => {
                 alt="logo"
                 className=" m-auto"
               />
-              <CardTitle>Login</CardTitle>
-              <CardDescription>
-                Masukkan email & password yang benar
-              </CardDescription>
+              <CardTitle>Daftar</CardTitle>
+              <CardDescription>Masukkan data lengkap Anda.</CardDescription>
             </CardHeader>
             <CardContent>
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Nama</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="email"
@@ -103,16 +116,19 @@ const LoginScreen = ({ params }: { params: Promise<{ id: string }> }) => {
                   </FormItem>
                 )}
               />
-
-              <Link
-                href={`/e/${id}/forgot-password`}
-                className={cn(
-                  buttonVariants({ variant: "link" }),
-                  "w-full justify-end"
+              <FormField
+                control={form.control}
+                name="confirm_password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Ulangi Password</FormLabel>
+                    <FormControl>
+                      <Input type="password" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
                 )}
-              >
-                Lupa password?
-              </Link>
+              />
             </CardContent>
 
             <CardFooter className=" flex-col space-y-3">
@@ -121,15 +137,15 @@ const LoginScreen = ({ params }: { params: Promise<{ id: string }> }) => {
                 className=" w-full"
                 type="submit"
               >
-                {form.formState.isSubmitting ? "Loging in..." : "Login"}
+                {form.formState.isSubmitting ? "Daftar..." : "Daftar"}
               </Button>
               <span className=" text-sm text-center">
-                Belum punya akun?{" "}
+                Sudah punya akun?{" "}
                 <Link
-                  href={`/e/${id}/register`}
+                  href={`/e/${code}/login`}
                   className={buttonVariants({ variant: "link" })}
                 >
-                  Daftar di sini.
+                  Masuk.
                 </Link>
               </span>
             </CardFooter>
@@ -140,4 +156,4 @@ const LoginScreen = ({ params }: { params: Promise<{ id: string }> }) => {
   );
 };
 
-export default LoginScreen;
+export default RegisterScreen;

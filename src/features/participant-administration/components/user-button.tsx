@@ -1,0 +1,21 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { LogOut } from "lucide-react";
+import React from "react";
+import { useParticipant } from "@/hooks/use-participant";
+
+const UserButton = () => {
+  const { user } = useParticipant();
+  return (
+    <div className=" flex gap-2 items-center space-x-4 rounded-md bg-white text-black px-3 py-1">
+      {user?.name}
+      <Button variant="destructive" className=" gap-2">
+        <LogOut />
+        Logout
+      </Button>
+    </div>
+  );
+};
+
+export default UserButton;
