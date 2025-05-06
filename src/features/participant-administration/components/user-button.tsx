@@ -9,7 +9,7 @@ const UserButton = () => {
   const { user } = useParticipant();
   return (
     <div className=" flex gap-2 items-center space-x-4 rounded-md bg-white text-black px-3 py-1">
-      {user?.name}
+      <span className=" line-clamp-1">{user?.name}</span>
       <Button variant="destructive" className=" gap-2">
         <LogOut />
         Logout
