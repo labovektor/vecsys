@@ -18,7 +18,7 @@ export default function DashboardLayout({
           <UserButton />
         </header>
 
-        <div className=" p-4 w-full">{children}</div>
+        <div className="  w-full">{children}</div>
       </main>
     </ParticipantAuthContextProvider>
   );
