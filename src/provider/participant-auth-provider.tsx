@@ -1,7 +1,7 @@
 "use client";
 
 import handleRequest from "@/axios/request";
-import { Participant } from "@/features/participant/dto";
+import { ParticipantData } from "@/features/participant-administration/dto";
 import { useQuery } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 import { createContext, useEffect, useMemo, useState } from "react";
@@ -12,7 +12,7 @@ type ParticipantAuthContextProviderProps = {
 };
 
 interface ParticipantAuthContextType {
-  user?: Participant | null;
+  user?: ParticipantData | null;
   loading: boolean;
   error?: string;
   logout: VoidFunction;
@@ -34,9 +34,9 @@ export default function ParticipantAuthContextProvider({
   }, [pathname]);
 
   const { data: participant, isPending } = useQuery({
-    queryKey: ["profile"],
+    queryKey: ["participant-profile"],
     queryFn: () =>
-      handleRequest<Participant>("GET", "/user").then((res) => {
+      handleRequest<ParticipantData>("GET", "/user/data").then((res) => {
         if (res.error) {
           toast.error(res.error.message);
         }
