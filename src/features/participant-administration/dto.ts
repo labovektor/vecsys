@@ -13,6 +13,6 @@ export type ParticipantData = {
 
 export type ParticipantState = {
   is_locked: boolean;
-  is_verfied: boolean;
+  is_verified: boolean;
   step: ParticipantProgressStep;
 };

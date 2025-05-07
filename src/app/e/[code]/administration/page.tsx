@@ -1,64 +1,44 @@
 "use client";
-
-import { cn } from "@/lib/utils";
-import { CreditCard, ListTodo, Receipt, User2 } from "lucide-react";
+import handleRequest from "@/axios/request";
+import { ParticipantState } from "@/features/participant-administration/dto";
+import AdministrationProfileSection from "@/features/participant-administration/sections/profile";
+import { useQuery } from "@tanstack/react-query";
 import React from "react";
-
-const tabs = [
-  {
-    id: 0,
-    name: "Pilih Kategori",
-    icon: <ListTodo />,
-  },
-  {
-    id: 1,
-    name: "Pilih Pembayaran",
-    icon: <CreditCard />,
-  },
-  {
-    id: 2,
-    name: "Konfirmasi Pembayaran",
-    icon: <Receipt />,
-  },
-];
+import { toast } from "sonner";
 
 const AdministrationPage = () => {
-  const [selectedTab, setSelectedTab] = React.useState(tabs[0].id);
+  const { data: progressState, isLoading } = useQuery({
+    queryKey: ["progress"],
+    queryFn: () =>
+      handleRequest<ParticipantState>("GET", "/user/state").then((res) => {
+        if (res.error) {
+          toast.error(res.error.message);
+        }
+        return res.data;
+      }),
+  });
+
   return (
-    <div className=" w-full bg-vblue-100 p-4 flex flex-col gap-5 items-center">
-      <div className="flex items-center font-semibold gap-2">
-        <User2 /> Data Partisipan
-      </div>
-      <div className=" flex gap-3">
-        {tabs.map((tab, index) => (
-          <div key={tab.id} className=" flex items-center">
-            <div
-              className="flex flex-col items-center gap-2"
-              onClick={() => setSelectedTab(tab.id)}
-            >
-              <div
-                className={cn(
-                  "p-2 bg-white rounded-full",
-                  index <= selectedTab && "bg-vblue-500 text-white"
-                )}
-              >
-                {tab.icon}
-              </div>
-              <span className={selectedTab === tab.id ? "text-vblue-500" : ""}>
-                {tab.name}
-              </span>
-            </div>
-            {index < tabs.length - 1 && (
-              <hr
-                className={cn(
-                  "my-2 border  w-12",
-                  index < selectedTab ? "border-vblue-500" : "border-gray-300"
-                )}
-              />
-            )}
-          </div>
-        ))}
-      </div>
+    <div>
+      {isLoading && (
+        <div className="flex justify-center py-8">Loading event data...</div>
+      )}
+
+      {!progressState?.is_verified && <AdministrationProfileSection />}
+
+      {progressState?.is_verified && (
+        <div className="flex justify-center py-8">
+          Verified Tab: {progressState.step}
+        </div>
+      )}
+
+      {progressState?.is_locked && (
+        <div className="flex justify-center py-8">
+          Locked Tab: {progressState.step}
+        </div>
+      )}
+
+      <div className=" py-4 text-center">©2024 | VecSys by HIMATIKA Vektor</div>
     </div>
   );
 };
