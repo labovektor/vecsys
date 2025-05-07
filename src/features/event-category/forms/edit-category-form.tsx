@@ -66,7 +66,7 @@ const EditCategoryForm = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>
+        <Button size="icon">
           <Pencil />
         </Button>
       </DialogTrigger>

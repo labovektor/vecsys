@@ -1,6 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { EventCategory } from "../dto";
 import EditCategoryForm from "../forms/edit-category-form";
+import DeleteCategoryDialog from "../forms/delete-category-form";
 
 export const eventCategoryColumn: ColumnDef<EventCategory>[] = [
   {
@@ -33,7 +34,8 @@ export const eventCategoryColumn: ColumnDef<EventCategory>[] = [
 
 function EventCategoryAction({ category }: { category: EventCategory }) {
   return (
-    <div>
+    <div className=" flex gap-2">
+      <DeleteCategoryDialog id={category.id} />
       <EditCategoryForm id={category.id} currentVal={category} />
     </div>
   );
