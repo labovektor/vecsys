@@ -12,7 +12,7 @@ import {
 import { Plus } from "lucide-react";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { newEventSchema, NewEventSchemaType } from "../schema";
+import { newEventSchema, NewEventSchemaType } from "../../schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import handleRequest from "@/axios/request";
 import { toast } from "sonner";

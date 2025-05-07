@@ -11,3 +11,13 @@ export type Event = {
   created_at: string;
   updated_at: string;
 };
+
+export type EventCategory = {
+  id: string;
+  event_id: string;
+  name: string;
+  is_group: boolean;
+  visible: boolean;
+  created_at: string;
+  updated_at: string;
+};

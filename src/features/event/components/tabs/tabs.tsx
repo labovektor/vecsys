@@ -3,19 +3,37 @@
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import dynamic from "next/dynamic";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const InformasiUmum = dynamic(() => import("./informasi-umum"), { ssr: false });
 const KelolaRegion = dynamic(() => import("./kelola-region"), { ssr: false });
-const KelolaJenjang = dynamic(() => import("./kelola-jenjang"), { ssr: false });
+const KelolaCategory = dynamic(() => import("./kelola-category"), {
+  ssr: false,
+});
 const KelolaVoucher = dynamic(() => import("./kelola-voucher"), { ssr: false });
 const KelolaPembayaran = dynamic(() => import("./kelola-pembayaran"), {
   ssr: false,
 });
 
 const TabsIndex = ({ id }: { id: string }) => {
+  const searchParams = useSearchParams();
+  const pathName = usePathname();
+  const { replace } = useRouter();
+  const tab = searchParams.get("tab") ?? "informasi-umum";
+
   return (
     <div className="w-full">
-      <Tabs defaultValue="informasi-umum" className="w-full">
+      <Tabs
+        defaultValue={tab}
+        className="w-full"
+        onValueChange={(value) => {
+          const params = new URLSearchParams(searchParams);
+          params.set("tab", value);
+          replace(`${pathName}?${params.toString()}`, {
+            scroll: false,
+          });
+        }}
+      >
         <TabsList>
           <TabsTrigger value="informasi-umum">Informasi Umum</TabsTrigger>
           <TabsTrigger value="kelola-region">Kelola Region</TabsTrigger>
@@ -30,7 +48,7 @@ const TabsIndex = ({ id }: { id: string }) => {
           <KelolaRegion />
         </TabsContent>
         <TabsContent value="kelola-jenjang">
-          <KelolaJenjang />
+          <KelolaCategory id={id} />
         </TabsContent>
         <TabsContent value="kelola-voucher">
           <KelolaVoucher />
