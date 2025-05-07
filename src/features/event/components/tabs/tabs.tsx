@@ -7,9 +7,12 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const InformasiUmum = dynamic(() => import("./informasi-umum"), { ssr: false });
 const KelolaRegion = dynamic(() => import("./kelola-region"), { ssr: false });
-const KelolaCategory = dynamic(() => import("./kelola-category"), {
-  ssr: false,
-});
+const KelolaCategory = dynamic(
+  () => import("../../../event-category/kelola-category"),
+  {
+    ssr: false,
+  }
+);
 const KelolaVoucher = dynamic(() => import("./kelola-voucher"), { ssr: false });
 const KelolaPembayaran = dynamic(() => import("./kelola-pembayaran"), {
   ssr: false,
@@ -37,7 +40,7 @@ const TabsIndex = ({ id }: { id: string }) => {
         <TabsList>
           <TabsTrigger value="informasi-umum">Informasi Umum</TabsTrigger>
           <TabsTrigger value="kelola-region">Kelola Region</TabsTrigger>
-          <TabsTrigger value="kelola-jenjang">Kelola Jenjang</TabsTrigger>
+          <TabsTrigger value="kelola-jenjang">Kelola Kategori</TabsTrigger>
           <TabsTrigger value="kelola-voucher">Kelola Voucher</TabsTrigger>
           <TabsTrigger value="kelola-pembayaran">Kelola Pembayaran</TabsTrigger>
         </TabsList>
