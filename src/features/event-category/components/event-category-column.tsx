@@ -1,5 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { EventCategory } from "../dto";
+import EditCategoryForm from "../forms/edit-category-form";
 
 export const eventCategoryColumn: ColumnDef<EventCategory>[] = [
   {
@@ -25,11 +26,15 @@ export const eventCategoryColumn: ColumnDef<EventCategory>[] = [
   {
     id: "action",
     header: "Aksi",
-    cell: ({ row }) => <EventCategoryAction event={row.original} />,
+    cell: ({ row }) => <EventCategoryAction category={row.original} />,
     enableGlobalFilter: false,
   },
 ];
 
-function EventCategoryAction({ event }: { event: EventCategory }) {
-  return <div>halo</div>;
+function EventCategoryAction({ category }: { category: EventCategory }) {
+  return (
+    <div>
+      <EditCategoryForm id={category.id} currentVal={category} />
+    </div>
+  );
 }

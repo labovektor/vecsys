@@ -8,10 +8,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Plus } from "lucide-react";
+import { Pencil, Plus } from "lucide-react";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { addCategorySchema, AddcategorySchemaType } from "../schema";
+import { editCategorySchema, EditCategorySchemaType } from "../schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import handleRequest from "@/axios/request";
 import { toast } from "sonner";
@@ -26,24 +26,31 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
+import { EventCategory } from "../dto";
 
-const AddEventCategoryDialog = ({ id }: { id: string }) => {
+const EditCategoryForm = ({
+  id,
+  currentVal,
+}: {
+  id: string;
+  currentVal: Partial<EventCategory>;
+}) => {
   const queryClient = getQueryClient();
   const [open, setOpen] = React.useState(false);
 
-  const form = useForm<AddcategorySchemaType>({
-    resolver: zodResolver(addCategorySchema),
+  const form = useForm<EditCategorySchemaType>({
+    resolver: zodResolver(editCategorySchema),
     defaultValues: {
-      name: "",
-      is_group: false,
-      visible: true,
+      name: currentVal.name || "",
+      is_group: currentVal.is_group || false,
+      visible: currentVal.visible || true,
     },
   });
 
-  async function onSubmit(values: AddcategorySchemaType) {
+  async function onSubmit(values: EditCategorySchemaType) {
     const { error } = await handleRequest<unknown>(
-      "POST",
-      `/admin/event/${id}/category`,
+      "PATCH",
+      `/admin/category/${id}`,
       values
     );
 
@@ -53,13 +60,14 @@ const AddEventCategoryDialog = ({ id }: { id: string }) => {
     }
 
     setOpen(false);
+    toast.success("Kategori updated");
     queryClient.refetchQueries({ queryKey: ["categories"] });
   }
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>
-          <Plus /> Tambahkan Kategori Baru
+          <Pencil />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -113,10 +121,7 @@ const AddEventCategoryDialog = ({ id }: { id: string }) => {
               )}
             />
             <Button type="submit" disabled={form.formState.isSubmitting}>
-              <Plus />
-              {form.formState.isSubmitting
-                ? "Menambahkan..."
-                : "Tambah Kategori"}
+              {form.formState.isSubmitting ? "Memperbarui..." : "Ubah Kategori"}
             </Button>
           </form>
         </Form>
@@ -125,4 +130,4 @@ const AddEventCategoryDialog = ({ id }: { id: string }) => {
   );
 };
 
-export default AddEventCategoryDialog;
+export default EditCategoryForm;
