@@ -42,21 +42,6 @@ const steps: Step[] = [
   },
 ];
 
-const tabs = [
-  {
-    id: 0,
-    child: <SelectCategoryRegion />,
-  },
-  {
-    id: 1,
-    child: <div>Pilih Pembayaran</div>,
-  },
-  {
-    id: 2,
-    child: <div>Konfirmasi Pembayaran</div>,
-  },
-];
-
 const AdministrationProfileSection = () => {
   const { data: progressState, isLoading } = useQuery({
     queryKey: ["progress"],
@@ -72,6 +57,21 @@ const AdministrationProfileSection = () => {
   const step = steps.find((step) => step.step === progressState?.step);
   const [selectedTab, setSelectedTab] = React.useState(step?.id ?? steps[0].id);
 
+  const tabs = [
+    {
+      id: 0,
+      child: <SelectCategoryRegion callback={()=>setSelectedTab((prev) => prev + 1)} />,
+    },
+    {
+      id: 1,
+      child: <div>Pilih Pembayaran</div>,
+    },
+    {
+      id: 2,
+      child: <div>Konfirmasi Pembayaran</div>,
+    },
+  ];
+
   return (
     <div>
       <div className=" w-full bg-vblue-100 p-4 flex flex-col gap-5 items-center">
@@ -84,25 +84,6 @@ const AdministrationProfileSection = () => {
       </div>
 
       {tabs[selectedTab].child}
-
-      {/* Next and Back Buttons */}
-      <div className=" w-full flex gap-2 justify-center">
-        <Button
-          onClick={() => setSelectedTab((prev) => prev - 1)}
-          disabled={selectedTab === 0}
-        >
-          <MoveLeft /> Kembali
-        </Button>
-        {selectedTab < steps.length - 1 ? (
-          <Button onClick={() => setSelectedTab((prev) => prev + 1)}>
-            Next <MoveRight />
-          </Button>
-        ) : (
-          <Button variant="success">
-            Konfirmasi <Check />
-          </Button>
-        )}
-      </div>
     </div>
   );
 };
