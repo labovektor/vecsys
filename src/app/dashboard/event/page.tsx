@@ -22,7 +22,7 @@ const EventPage = () => {
   });
   return (
     <DataTable
-      data={events || []}
+      data={events ?? []}
       loading={isLoading}
       columns={eventColumn}
       actions={<NewEventDialog />}
