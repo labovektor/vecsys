@@ -40,7 +40,7 @@ const TabsIndex = ({ id }: { id: string }) => {
         <TabsList>
           <TabsTrigger value="informasi-umum">Informasi Umum</TabsTrigger>
           <TabsTrigger value="kelola-region">Kelola Region</TabsTrigger>
-          <TabsTrigger value="kelola-jenjang">Kelola Kategori</TabsTrigger>
+          <TabsTrigger value="kelola-kategori">Kelola Kategori</TabsTrigger>
           <TabsTrigger value="kelola-voucher">Kelola Voucher</TabsTrigger>
           <TabsTrigger value="kelola-pembayaran">Kelola Pembayaran</TabsTrigger>
         </TabsList>
@@ -50,7 +50,7 @@ const TabsIndex = ({ id }: { id: string }) => {
         <TabsContent value="kelola-region">
           <KelolaRegion />
         </TabsContent>
-        <TabsContent value="kelola-jenjang">
+        <TabsContent value="kelola-kategori">
           <KelolaCategory id={id} />
         </TabsContent>
         <TabsContent value="kelola-voucher">

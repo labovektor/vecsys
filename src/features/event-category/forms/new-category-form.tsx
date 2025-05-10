@@ -74,7 +74,7 @@ const AddEventCategoryDialog = ({ id }: { id: string }) => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nama Event</FormLabel>
+                  <FormLabel>Nama Kategori</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>

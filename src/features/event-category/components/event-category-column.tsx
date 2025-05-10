@@ -21,7 +21,7 @@ export const eventCategoryColumn: ColumnDef<EventCategory>[] = [
   },
   {
     accessorKey: "visible",
-    header: "Tampilkan?",
+    header: "Tampilkan di pendaftaran?",
     cell: ({ row }) => (row.getValue<boolean>("visible") ? "Ya" : "Tidak"),
   },
   {

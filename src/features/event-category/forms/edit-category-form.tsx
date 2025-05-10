@@ -72,7 +72,7 @@ const EditCategoryForm = ({
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Tambahkan Kategori Baru</DialogTitle>
+          <DialogTitle>Ubah Baru</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
@@ -82,7 +82,7 @@ const EditCategoryForm = ({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nama Event</FormLabel>
+                  <FormLabel>Nama Kategori</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
