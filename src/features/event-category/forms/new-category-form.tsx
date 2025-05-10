@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -12,7 +11,7 @@ import {
 import { Plus } from "lucide-react";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { newEventSchema, NewEventSchemaType } from "../schema";
+import { addCategorySchema, AddcategorySchemaType } from "../schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import handleRequest from "@/axios/request";
 import { toast } from "sonner";
@@ -26,22 +25,25 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 
-const NewEventDialog = () => {
+const AddEventCategoryDialog = ({ id }: { id: string }) => {
   const queryClient = getQueryClient();
   const [open, setOpen] = React.useState(false);
 
-  const form = useForm<NewEventSchemaType>({
-    resolver: zodResolver(newEventSchema),
+  const form = useForm<AddcategorySchemaType>({
+    resolver: zodResolver(addCategorySchema),
     defaultValues: {
       name: "",
+      is_group: false,
+      visible: true,
     },
   });
 
-  async function onSubmit(values: NewEventSchemaType) {
+  async function onSubmit(values: AddcategorySchemaType) {
     const { error } = await handleRequest<unknown>(
       "POST",
-      "/admin/event",
+      `/admin/event/${id}/category`,
       values
     );
 
@@ -51,18 +53,18 @@ const NewEventDialog = () => {
     }
 
     setOpen(false);
-    queryClient.refetchQueries({ queryKey: ["events"] });
+    queryClient.refetchQueries({ queryKey: ["categories"] });
   }
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>
-          <Plus /> Buat Event Baru
+          <Plus /> Tambahkan Kategori Baru
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Buat Event Baru</DialogTitle>
+          <DialogTitle>Tambahkan Kategori Baru</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
@@ -72,7 +74,7 @@ const NewEventDialog = () => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nama Event</FormLabel>
+                  <FormLabel>Nama Kategori</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -80,9 +82,41 @@ const NewEventDialog = () => {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="is_group"
+              render={({ field }) => (
+                <FormItem className="flex gap-2">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormLabel>Kategori Beregu?</FormLabel>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="visible"
+              render={({ field }) => (
+                <FormItem className="flex gap-2">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormLabel>Tampilkan di Pendaftaran?</FormLabel>
+                </FormItem>
+              )}
+            />
             <Button type="submit" disabled={form.formState.isSubmitting}>
               <Plus />
-              {form.formState.isSubmitting ? "Menambahkan..." : "Tambah Event"}
+              {form.formState.isSubmitting
+                ? "Menambahkan..."
+                : "Tambah Kategori"}
             </Button>
           </form>
         </Form>
@@ -91,4 +125,4 @@ const NewEventDialog = () => {
   );
 };
 
-export default NewEventDialog;
+export default AddEventCategoryDialog;
