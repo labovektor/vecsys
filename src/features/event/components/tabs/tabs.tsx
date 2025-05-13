@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const InformasiUmum = dynamic(() => import("./informasi-umum"), { ssr: false });
-const KelolaRegion = dynamic(() => import("./kelola-region"), { ssr: false });
+const KelolaRegion = dynamic(() => import("../../../event-region/kelola-region"), { ssr: false });
 const KelolaCategory = dynamic(
   () => import("../../../event-category/kelola-category"),
   {
@@ -48,7 +48,7 @@ const TabsIndex = ({ id }: { id: string }) => {
           <InformasiUmum id={id} />
         </TabsContent>
         <TabsContent value="kelola-region">
-          <KelolaRegion />
+          <KelolaRegion id={id} />
         </TabsContent>
         <TabsContent value="kelola-kategori">
           <KelolaCategory id={id} />
