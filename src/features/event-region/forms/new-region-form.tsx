@@ -8,10 +8,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Pencil, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { editCategorySchema, EditCategorySchemaType } from "../schema";
+import { addRegionSchema, AddRegionSchemaType } from "../schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import handleRequest from "@/axios/request";
 import { toast } from "sonner";
@@ -26,31 +26,25 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-import { EventCategory } from "../dto";
 
-const EditCategoryForm = ({
-  id,
-  currentVal,
-}: {
-  id: string;
-  currentVal: Partial<EventCategory>;
-}) => {
+const AddEventRegionDialog = ({ id }: { id: string }) => {
   const queryClient = getQueryClient();
   const [open, setOpen] = React.useState(false);
 
-  const form = useForm<EditCategorySchemaType>({
-    resolver: zodResolver(editCategorySchema),
+  const form = useForm<AddRegionSchemaType>({
+    resolver: zodResolver(addRegionSchema),
     defaultValues: {
-      name: currentVal.name || "",
-      is_group: currentVal.is_group || false,
-      visible: currentVal.visible || true,
+      name: "",
+      contact_name: "",
+      contact_number: "",
+      visible: true,
     },
   });
 
-  async function onSubmit(values: EditCategorySchemaType) {
+  async function onSubmit(values: AddRegionSchemaType) {
     const { error } = await handleRequest<unknown>(
-      "PATCH",
-      `/admin/category/${id}`,
+      "POST",
+      `/admin/event/${id}/region`,
       values
     );
 
@@ -60,19 +54,18 @@ const EditCategoryForm = ({
     }
 
     setOpen(false);
-    toast.success("Kategori updated");
-    queryClient.refetchQueries({ queryKey: ["categories"] });
+    queryClient.refetchQueries({ queryKey: ["regions"] });
   }
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size="icon">
-          <Pencil />
+        <Button>
+          <Plus /> Tambahkan Region Baru
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Ubah Kategori</DialogTitle>
+          <DialogTitle>Tambahkan Region Baru</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
@@ -82,7 +75,7 @@ const EditCategoryForm = ({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nama Kategori</FormLabel>
+                  <FormLabel>Nama Region</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -90,21 +83,35 @@ const EditCategoryForm = ({
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
-              name="is_group"
+              name="contact_name"
               render={({ field }) => (
-                <FormItem className="flex gap-2">
+                <FormItem>
+                  <FormLabel>Nama Kontak</FormLabel>
                   <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
+                    <Input {...field} />
                   </FormControl>
-                  <FormLabel>Kategori Beregu?</FormLabel>
+                  <FormMessage />
                 </FormItem>
               )}
             />
+
+            <FormField
+              control={form.control}
+              name="contact_number"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>No Telepon Kontak</FormLabel>
+                  <FormControl>
+                    <Input type="number" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+           
             <FormField
               control={form.control}
               name="visible"
@@ -121,7 +128,10 @@ const EditCategoryForm = ({
               )}
             />
             <Button type="submit" disabled={form.formState.isSubmitting}>
-              {form.formState.isSubmitting ? "Memperbarui..." : "Ubah Kategori"}
+              <Plus />
+              {form.formState.isSubmitting
+                ? "Menambahkan..."
+                : "Tambah Region"}
             </Button>
           </form>
         </Form>
@@ -130,4 +140,4 @@ const EditCategoryForm = ({
   );
 };
 
-export default EditCategoryForm;
+export default AddEventRegionDialog;

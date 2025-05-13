@@ -11,7 +11,7 @@ import {
 import { Pencil, Plus } from "lucide-react";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { editCategorySchema, EditCategorySchemaType } from "../schema";
+import { editRegionSchema, EditRegionSchemaType } from "../schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import handleRequest from "@/axios/request";
 import { toast } from "sonner";
@@ -26,31 +26,32 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-import { EventCategory } from "../dto";
+import { EventRegion } from "../dto";
 
-const EditCategoryForm = ({
+const EditRegionForm = ({
   id,
   currentVal,
 }: {
   id: string;
-  currentVal: Partial<EventCategory>;
+  currentVal: Partial<EventRegion>;
 }) => {
   const queryClient = getQueryClient();
   const [open, setOpen] = React.useState(false);
 
-  const form = useForm<EditCategorySchemaType>({
-    resolver: zodResolver(editCategorySchema),
+  const form = useForm<EditRegionSchemaType>({
+    resolver: zodResolver(editRegionSchema),
     defaultValues: {
       name: currentVal.name || "",
-      is_group: currentVal.is_group || false,
+      contact_name: currentVal.contact_name || "",
+      contact_number: currentVal.contact_number || "",
       visible: currentVal.visible || true,
     },
   });
 
-  async function onSubmit(values: EditCategorySchemaType) {
+  async function onSubmit(values: EditRegionSchemaType) {
     const { error } = await handleRequest<unknown>(
       "PATCH",
-      `/admin/category/${id}`,
+      `/admin/region/${id}`,
       values
     );
 
@@ -60,8 +61,8 @@ const EditCategoryForm = ({
     }
 
     setOpen(false);
-    toast.success("Kategori updated");
-    queryClient.refetchQueries({ queryKey: ["categories"] });
+    toast.success("Region updated");
+    queryClient.refetchQueries({ queryKey: ["regions"] });
   }
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -72,17 +73,17 @@ const EditCategoryForm = ({
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Ubah Kategori</DialogTitle>
+          <DialogTitle>Ubah Region</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className=" space-y-3">
-            <FormField
+             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nama Kategori</FormLabel>
+                  <FormLabel>Nama Region</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -90,21 +91,35 @@ const EditCategoryForm = ({
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
-              name="is_group"
+              name="contact_name"
               render={({ field }) => (
-                <FormItem className="flex gap-2">
+                <FormItem>
+                  <FormLabel>Nama Kontak</FormLabel>
                   <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
+                    <Input {...field} />
                   </FormControl>
-                  <FormLabel>Kategori Beregu?</FormLabel>
+                  <FormMessage />
                 </FormItem>
               )}
             />
+
+            <FormField
+              control={form.control}
+              name="contact_number"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>No Telepon Kontak</FormLabel>
+                  <FormControl>
+                    <Input type="number" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+           
             <FormField
               control={form.control}
               name="visible"
@@ -121,7 +136,7 @@ const EditCategoryForm = ({
               )}
             />
             <Button type="submit" disabled={form.formState.isSubmitting}>
-              {form.formState.isSubmitting ? "Memperbarui..." : "Ubah Kategori"}
+              {form.formState.isSubmitting ? "Memperbarui..." : "Ubah Region"}
             </Button>
           </form>
         </Form>
@@ -130,4 +145,4 @@ const EditCategoryForm = ({
   );
 };
 
-export default EditCategoryForm;
+export default EditRegionForm;
