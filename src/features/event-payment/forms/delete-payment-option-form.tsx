@@ -30,7 +30,7 @@ const DeletePaymentOptionForm = ({ payment }: { payment: PaymentOption }) => {
           return;
         }
         toast.success("Metode pembayaran berhasil dihapus");
-        queryClient.invalidateQueries({ queryKey: ["payment-options", payment.event_id] });
+        queryClient.refetchQueries({ queryKey: ["payment-options", payment.event_id] });
       }),
   });
 

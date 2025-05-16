@@ -50,15 +50,14 @@ const EditPaymentOptionForm = ({ payment }: { payment: PaymentOption }) => {
       `/admin/payment-option/${payment.id}`,
       values
     );
-
     if (error) {
       toast.error(error.message);
       return;
     }
 
     setOpen(false);
-    queryClient.invalidateQueries({ queryKey: ["payment-options", payment.event_id] });
     toast.success("Metode pembayaran berhasil diperbarui");
+    queryClient.refetchQueries({ queryKey: ["payment-options", payment.event_id] });
   }
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -157,9 +156,9 @@ const EditPaymentOptionForm = ({ payment }: { payment: PaymentOption }) => {
             />
 
             <div className="flex justify-end gap-2 pt-3">
-            <Button type="submit" disabled={form.formState.isSubmitting}>
-              {form.formState.isSubmitting ? "Memperbarui..." : "Ubah Pembayaran"}
-            </Button>
+              <Button type="submit" disabled={form.formState.isSubmitting}>
+                {form.formState.isSubmitting ? "Memperbarui..." : "Ubah Pembayaran"}
+              </Button>
             </div>
           </form>
         </Form>
