@@ -14,9 +14,12 @@ const KelolaCategory = dynamic(
   }
 );
 const KelolaVoucher = dynamic(() => import("./kelola-voucher"), { ssr: false });
-const KelolaPembayaran = dynamic(() => import("./kelola-pembayaran"), {
-  ssr: false,
-});
+const KelolaPayment = dynamic(
+  () => import("../../../event-payment/kelola-payment"),
+  {
+    ssr: false,
+  }
+);
 
 const TabsIndex = ({ id }: { id: string }) => {
   const searchParams = useSearchParams();
@@ -57,7 +60,7 @@ const TabsIndex = ({ id }: { id: string }) => {
           <KelolaVoucher />
         </TabsContent>
         <TabsContent value="kelola-pembayaran">
-          <KelolaPembayaran />
+          <KelolaPayment id={id} />
         </TabsContent>
       </Tabs>
     </div>
