@@ -21,6 +21,13 @@ const KelolaPayment = dynamic(
   }
 );
 
+const KelolaInstansi = dynamic(
+  () => import("../../../event-instansi/kelola-instansi"),
+  {
+    ssr: false,
+  }
+);
+
 const TabsIndex = ({ id }: { id: string }) => {
   const searchParams = useSearchParams();
   const pathName = usePathname();
@@ -46,6 +53,7 @@ const TabsIndex = ({ id }: { id: string }) => {
           <TabsTrigger value="kelola-kategori">Kelola Kategori</TabsTrigger>
           <TabsTrigger value="kelola-voucher">Kelola Voucher</TabsTrigger>
           <TabsTrigger value="kelola-pembayaran">Kelola Pembayaran</TabsTrigger>
+          <TabsTrigger value="kelola-instansi">Kelola Instansi</TabsTrigger>
         </TabsList>
         <TabsContent value="informasi-umum">
           <InformasiUmum id={id} />
@@ -61,6 +69,9 @@ const TabsIndex = ({ id }: { id: string }) => {
         </TabsContent>
         <TabsContent value="kelola-pembayaran">
           <KelolaPayment id={id} />
+        </TabsContent>
+        <TabsContent value="kelola-instansi">
+          <KelolaInstansi id={id} />
         </TabsContent>
       </Tabs>
     </div>
