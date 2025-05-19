@@ -77,7 +77,7 @@ const EditInstitutionForm = ({ institution }: { institution: Institution }) => {
                 <FormItem>
                   <FormLabel>Nama instansi</FormLabel>
                   <FormControl>
-                    <Input placeholder="Masukkan nama instansi" {...field} />
+                    <Input placeholder="nama instansi" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -89,9 +89,9 @@ const EditInstitutionForm = ({ institution }: { institution: Institution }) => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Email Instansi</FormLabel>
                   <FormControl>
-                    <Input placeholder="Masukkan email" {...field} />
+                    <Input placeholder="email instansi" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -105,7 +105,7 @@ const EditInstitutionForm = ({ institution }: { institution: Institution }) => {
                 <FormItem>
                   <FormLabel>Nama Pendamping</FormLabel>
                   <FormControl>
-                    <Input placeholder="Masukkan nama pendamping" {...field} />
+                    <Input placeholder="nama pendamping" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -119,7 +119,7 @@ const EditInstitutionForm = ({ institution }: { institution: Institution }) => {
                 <FormItem>
                   <FormLabel>Nomor Telepon Pendamping</FormLabel>
                   <FormControl>
-                    <Input placeholder="Masukkan nomor telepon pendamping" {...field} />
+                    <Input placeholder="nomor telepon pendamping" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
