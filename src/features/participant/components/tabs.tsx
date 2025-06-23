@@ -4,10 +4,32 @@ import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useSearchParams } from "next/navigation";
 import EmptyState from "./empty-state";
+import KelolaPeserta from "./kelola-peserta";
+import { useQuery } from "@tanstack/react-query";
+import handleRequest from "@/axios/request";
+import { Participant } from "../dto";
 
 const TabsIndex = () => {
   const searchParams = useSearchParams();
   const selectedEventId = searchParams.get('eventId');
+
+  const { data: paidPart } = useQuery({
+    queryKey: ["part-count", selectedEventId, "paid"],
+    queryFn: async () => 
+      handleRequest<Participant[]>("GET", `/admin/event/${selectedEventId}/participant?status=paid`).then(
+        (res) => res.data || []
+      ),
+    enabled: !!selectedEventId
+  });
+
+  const { data: unpaidPart } = useQuery({
+    queryKey: ["part-count", selectedEventId, "unpaid"],
+    queryFn: async () =>
+      handleRequest<Participant[]>("GET", `admin/event/${selectedEventId}/participant?status=unpaid`).then(
+        (res) => res.data || []
+      ),
+    enabled: !!selectedEventId
+  });
 
   if (!selectedEventId) {
     return <EmptyState />;
@@ -20,18 +42,14 @@ const TabsIndex = () => {
         defaultValue="sudah-bayar"
       >
         <TabsList>
-          <TabsTrigger value="sudah-bayar">Sudah Bayar (100)</TabsTrigger>
-          <TabsTrigger value="belum-bayar">Belum Bayar (88)</TabsTrigger>
+          <TabsTrigger value="sudah-bayar">Sudah Bayar ({paidPart?.length ?? 0})</TabsTrigger>
+          <TabsTrigger value="belum-bayar">Belum Bayar ({unpaidPart?.length ?? 0})</TabsTrigger>
         </TabsList>
         <TabsContent value="sudah-bayar">
-          <div className="mt-4">
-            <p>Sudah bayar {selectedEventId}</p>
-          </div>
+          <KelolaPeserta id={selectedEventId} status="paid"/>
         </TabsContent>
         <TabsContent value="belum-bayar">
-          <div className="mt-4">
-            <p>Belum bayar {selectedEventId}</p>
-          </div>
+          <KelolaPeserta id={selectedEventId} status="unpaid"/>
         </TabsContent>
       </Tabs>
     </div>
