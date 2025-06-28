@@ -1,17 +1,17 @@
 import handleRequest from "@/axios/request";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import { Participant, PaymentStatus } from "../dto";
+import { Participant, PaymentStep } from "./dto";
 import { toast } from "sonner";
 import { Card, CardContent } from "@/components/ui/card";
 import { DataTable } from "@/components/table/data-table";
-import { getParticipantColumn } from "./participant-column";
+import { getParticipantColumn } from "./components/participant-column";
 
-const KelolaPeserta = ({ id, status }: { id: string; status: PaymentStatus; }) => {
+const KelolaPeserta = ({ id, step }: { id: string; step: PaymentStep; }) => {
   const { data: participant, isLoading } = useQuery({
-    queryKey: ["participant", status],
+    queryKey: ["participant", id, step],
     queryFn: async () =>
-      handleRequest<Participant[]>("GET", `/admin/event/${id}/participant?status=${status}`).then(
+      handleRequest<Participant[]>("GET", `/admin/event/${id}/participant?step=${step}`).then(
         (res) => {
           if (res.error) {
             toast.error(res.error.message);
@@ -27,7 +27,7 @@ const KelolaPeserta = ({ id, status }: { id: string; status: PaymentStatus; }) =
         <DataTable
           data={participant || []}
           loading={isLoading}
-          columns={getParticipantColumn(status)}
+          columns={getParticipantColumn(step)}
           // actions={}
           />
       </CardContent>

@@ -4,7 +4,7 @@ import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useSearchParams } from "next/navigation";
 import EmptyState from "./empty-state";
-import KelolaPeserta from "./kelola-peserta";
+import KelolaPeserta from "../kelola-peserta";
 import { useQuery } from "@tanstack/react-query";
 import handleRequest from "@/axios/request";
 import { Participant } from "../dto";
@@ -16,7 +16,7 @@ const TabsIndex = () => {
   const { data: paidPart } = useQuery({
     queryKey: ["part-count", selectedEventId, "paid"],
     queryFn: async () => 
-      handleRequest<Participant[]>("GET", `/admin/event/${selectedEventId}/participant?status=paid`).then(
+      handleRequest<Participant[]>("GET", `/admin/event/${selectedEventId}/participant?step=paid`).then(
         (res) => res.data || []
       ),
     enabled: !!selectedEventId
@@ -25,7 +25,7 @@ const TabsIndex = () => {
   const { data: unpaidPart } = useQuery({
     queryKey: ["part-count", selectedEventId, "unpaid"],
     queryFn: async () =>
-      handleRequest<Participant[]>("GET", `admin/event/${selectedEventId}/participant?status=unpaid`).then(
+      handleRequest<Participant[]>("GET", `admin/event/${selectedEventId}/participant?step=unpaid`).then(
         (res) => res.data || []
       ),
     enabled: !!selectedEventId
@@ -46,10 +46,10 @@ const TabsIndex = () => {
           <TabsTrigger value="belum-bayar">Belum Bayar ({unpaidPart?.length ?? 0})</TabsTrigger>
         </TabsList>
         <TabsContent value="sudah-bayar">
-          <KelolaPeserta id={selectedEventId} status="paid"/>
+          <KelolaPeserta id={selectedEventId} step="paid"/>
         </TabsContent>
         <TabsContent value="belum-bayar">
-          <KelolaPeserta id={selectedEventId} status="unpaid"/>
+          <KelolaPeserta id={selectedEventId} step="unpaid"/>
         </TabsContent>
       </Tabs>
     </div>

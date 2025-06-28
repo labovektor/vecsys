@@ -1,4 +1,4 @@
-export type PaymentStatus = "paid" | "unpaid";
+export type PaymentStep = "all" | "paid" | "unpaid";
 
 export type Participant = {
   id: string;

@@ -36,7 +36,7 @@ const ChooseEvent = () => {
     replace(`${pathname}?${params.toString()}`);
   }, [searchParams, pathname, replace]);
   return (
-    <div className="mb-6 flex items-center gap-4 px-1">
+    <div className="mb-6 flex items-center gap-4">
       <label className="text-sm font-medium whitespace-nowrap">
         Pilih Event
       </label>

@@ -1,10 +1,16 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { Participant, PaymentStatus } from "../dto";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Participant, PaymentStep } from "../dto";
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuTrigger 
+} from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-export function getParticipantColumn(status: PaymentStatus): ColumnDef<Participant>[] {
+export function getParticipantColumn(status: PaymentStep): ColumnDef<Participant>[] {
   const participantColumn: ColumnDef<Participant>[] = [
     {
       accessorKey: "id",
@@ -28,7 +34,18 @@ export function getParticipantColumn(status: PaymentStatus): ColumnDef<Participa
     },
     {
       accessorKey: "verified_at",
-      header: "Verifikasi?"
+      header: "Verifikasi?",
+      cell: ({ row }) => {
+        const isVerified = row.original.verified_at !== null;
+        return (<span className={cn(
+          "px-2 py-1 rounded-full",
+          isVerified
+            ? "bg-green-200 text-green-600"
+            : "bg-red-200 text-red-600" 
+        )}>
+          {isVerified ? "Sudah" : "Belum"}
+        </span>
+      )}
     },
     {
       id: "action",
