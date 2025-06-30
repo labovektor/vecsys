@@ -2,8 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { baseURL } from "@/axios/axios";
-import { getInitial } from "@/lib/utils";
+import { getInitial, getProfileImageUrl } from "@/lib/utils";
 import { LogOut } from "lucide-react";
 import React from "react";
 import { useUser } from "@/hooks/use-user";
@@ -14,7 +13,7 @@ const UserButton = () => {
     <div className=" flex gap-2 items-center space-x-4 rounded-md ">
       <Avatar>
         <AvatarImage
-          src={`${baseURL}${user?.profile_picture}`}
+          src={getProfileImageUrl(user?.profile_picture)}
           alt={user?.display_name}
         />
         <AvatarFallback>{getInitial(user?.display_name ?? "")}</AvatarFallback>
