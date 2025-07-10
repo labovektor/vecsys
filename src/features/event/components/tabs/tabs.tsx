@@ -6,14 +6,20 @@ import dynamic from "next/dynamic";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const InformasiUmum = dynamic(() => import("./informasi-umum"), { ssr: false });
-const KelolaRegion = dynamic(() => import("../../../event-region/kelola-region"), { ssr: false });
+const KelolaRegion = dynamic(
+  () => import("../../../event-region/kelola-region"),
+  { ssr: false }
+);
 const KelolaCategory = dynamic(
   () => import("../../../event-category/kelola-category"),
   {
     ssr: false,
   }
 );
-const KelolaVoucher = dynamic(() => import("./kelola-voucher"), { ssr: false });
+const KelolaVoucher = dynamic(
+  () => import("../../../event-referral/kelola-referral"),
+  { ssr: false }
+);
 const KelolaPayment = dynamic(
   () => import("../../../event-payment/kelola-payment"),
   {
@@ -65,7 +71,7 @@ const TabsIndex = ({ id }: { id: string }) => {
           <KelolaCategory id={id} />
         </TabsContent>
         <TabsContent value="kelola-voucher">
-          <KelolaVoucher />
+          <KelolaVoucher id={id} />
         </TabsContent>
         <TabsContent value="kelola-pembayaran">
           <KelolaPayment id={id} />
