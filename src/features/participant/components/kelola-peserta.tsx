@@ -1,12 +1,15 @@
 import handleRequest from "@/axios/request";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import { Participant, PaymentStep } from "./dto";
+import { Participant, PaymentStep } from "../dto";
 import { toast } from "sonner";
 import { Card, CardContent } from "@/components/ui/card";
 import { DataTable } from "@/components/table/data-table";
-import { getParticipantColumn } from "./components/participant-column";
+import { getParticipantColumn } from "./participant-column";
 import { Button } from "@/components/ui/button";
+import { exportAsExcelFile } from "@/lib/xlsx";
+import { excelParticipantColumn } from "./excel-participant-column";
+import { Cloud, CloudUpload, Save } from "lucide-react";
 
 const KelolaPeserta = ({ id, step }: { id: string; step: PaymentStep }) => {
   const { data: participant, isLoading } = useQuery({
@@ -32,8 +35,23 @@ const KelolaPeserta = ({ id, step }: { id: string; step: PaymentStep }) => {
           columns={getParticipantColumn(step)}
           actions={(data, table) => (
             <div className="flex gap-2">
-              <Button>Import</Button>
-              <Button>Export</Button>
+              <Button>
+                Import dari CSV
+                <CloudUpload />
+              </Button>
+              <Button
+                variant="success"
+                onClick={() =>
+                  exportAsExcelFile(
+                    data,
+                    excelParticipantColumn,
+                    `peserta-${step}`
+                  )
+                }
+              >
+                Export ke Excel
+                <Save />
+              </Button>
             </div>
           )}
         />
