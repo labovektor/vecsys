@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 export function getParticipantColumn(status: PaymentStep): ColumnDef<Participant>[] {
   const participantColumn: ColumnDef<Participant>[] = [
@@ -66,6 +67,9 @@ export function getParticipantColumn(status: PaymentStep): ColumnDef<Participant
 }
 
 function ParticipantAction({ participant }: { participant: Participant }) {
+  const router = useRouter();
+  const toDetailClick = () => router.push(`/dashboard/participant/${participant.id}`);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -74,7 +78,7 @@ function ParticipantAction({ participant }: { participant: Participant }) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-white" align="end">
-        <DropdownMenuItem>Detail peserta</DropdownMenuItem>
+        <DropdownMenuItem onClick={toDetailClick}>Detail peserta</DropdownMenuItem>
         <DropdownMenuItem>Verifikasi</DropdownMenuItem>
         <DropdownMenuItem className="text-red-500 hover:!bg-red-500 hover:!text-white">Tolak</DropdownMenuItem>
         <DropdownMenuItem>Cetak kartu peserta</DropdownMenuItem>
