@@ -1,6 +1,3 @@
-"use client"
-
-import EventDashboardChart from "@/features/dashboard/dashboard-chart";
 import EventDashboardData from "@/features/dashboard/dashboard-data";
 import ChooseEvent from "@/features/participant/components/choose-event";
 import React from "react";
