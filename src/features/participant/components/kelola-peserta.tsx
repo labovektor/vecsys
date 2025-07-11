@@ -9,7 +9,8 @@ import { getParticipantColumn } from "./participant-column";
 import { Button } from "@/components/ui/button";
 import { exportAsExcelFile } from "@/lib/xlsx";
 import { excelParticipantColumn } from "./excel-participant-column";
-import { Cloud, CloudUpload, Save } from "lucide-react";
+import { Save } from "lucide-react";
+import { BulkAddParticipantsForm } from "../form/bulk-add-participant-form";
 
 const KelolaPeserta = ({ id, step }: { id: string; step: PaymentStep }) => {
   const { data: participant, isLoading } = useQuery({
@@ -35,10 +36,7 @@ const KelolaPeserta = ({ id, step }: { id: string; step: PaymentStep }) => {
           columns={getParticipantColumn(step)}
           actions={(data, table) => (
             <div className="flex gap-2">
-              <Button>
-                Import dari CSV
-                <CloudUpload />
-              </Button>
+              <BulkAddParticipantsForm eventId={id} />
               <Button
                 variant="success"
                 onClick={() =>
