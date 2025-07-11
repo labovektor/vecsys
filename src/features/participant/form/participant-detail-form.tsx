@@ -1,19 +1,27 @@
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { getQueryClient } from "@/lib/get-query-client";
 import { useForm } from "react-hook-form";
-import { participantDetailSchema, ParticipantDetailSchemaType } from "../schema";
+import {
+  participantDetailSchema,
+  ParticipantDetailSchemaType,
+} from "../schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Participant } from "../dto";
-import handleRequest from "@/axios/request";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 
 const ParticipantDetailForm = ({
-  id, 
-  // currentVal 
-}: {
+  id,
+}: // currentVal
+{
   id: string;
   // currentVal: Partial<Participant>;
 }) => {
@@ -22,7 +30,7 @@ const ParticipantDetailForm = ({
     resolver: zodResolver(participantDetailSchema),
     defaultValues: {
       name: "",
-    }
+    },
   });
 
   return (
@@ -43,7 +51,7 @@ const ParticipantDetailForm = ({
             )}
           />
 
-          <FormField 
+          <FormField
             control={form.control}
             name="is_verified"
             render={({ field }) => (
@@ -52,11 +60,11 @@ const ParticipantDetailForm = ({
                 <FormControl className="flex-1">
                   <RadioGroup className="flex gap-2">
                     <div className="flex items-center gap-3">
-                      <RadioGroupItem value="verified"/>
+                      <RadioGroupItem value="verified" />
                       <Label>Sudah</Label>
                     </div>
                     <div className="flex items-center gap-3">
-                      <RadioGroupItem value="not-verified"/>
+                      <RadioGroupItem value="not-verified" />
                       <Label>Belum</Label>
                     </div>
                   </RadioGroup>
@@ -143,7 +151,7 @@ const ParticipantDetailForm = ({
         </div>
       </form>
     </Form>
-  )
-}
+  );
+};
 
 export default ParticipantDetailForm;
