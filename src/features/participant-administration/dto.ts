@@ -1,4 +1,5 @@
 import { EventCategory } from "../event-category/dto";
+import { PaymentOption } from "../event-payment/dto";
 import { EventRegion } from "../event-region/dto";
 import { Event } from "../event/dto";
 import { Participant, ParticipantProgressStep } from "../participant/dto";
@@ -26,3 +27,5 @@ export type EventCategoriesNRegions = {
   categories: EventCategory[];
   regions: EventRegion[];
 };
+
+export type EventPaymentOptions = PaymentOption[];
