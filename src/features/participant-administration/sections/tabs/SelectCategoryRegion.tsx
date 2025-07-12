@@ -31,7 +31,7 @@ const SelectCategoryRegion = () => {
         <PickCategoryRegionForm choices={categorynregions} />
       ) : (
         <div className="flex justify-center py-8">
-          Failed to load event data
+          Failed to load category & region data
         </div>
       )}
     </div>

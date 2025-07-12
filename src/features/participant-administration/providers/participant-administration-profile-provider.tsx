@@ -14,6 +14,10 @@ const SelectCategoryRegion = dynamic(
   { ssr: false }
 );
 
+const SelectPayment = dynamic(() => import("../sections/tabs/SelectPayment"), {
+  ssr: false,
+});
+
 type ParticipantAdministrationProfileProviderProps = {
   children: React.ReactNode;
 };
@@ -39,7 +43,7 @@ const steps: Step[] = [
     step: "categorized",
     name: "Pilih Pembayaran",
     icon: <CreditCard />,
-    child: <></>,
+    child: <SelectPayment />,
   },
   {
     id: 2,
@@ -84,13 +88,13 @@ export function ParticipantAdministrationProfileProvider({
 
   const [selectedTab, setSelectedTab] = React.useState(steps[0]);
 
-  // useEffect(() => {
-  //   const step = steps.find((step) => step.step === progressState?.step);
+  useEffect(() => {
+    const step = steps.find((step) => step.step === progressState?.step);
 
-  //   if (step) {
-  //     setSelectedTab(step);
-  //   }
-  // }, [progressState]);
+    if (step) {
+      setSelectedTab(step);
+    }
+  }, [progressState]);
 
   const toNextStep = () => {
     setSelectedTab((prev) => {

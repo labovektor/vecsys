@@ -4,6 +4,7 @@ import React from "react";
 
 interface BottomNavigatorButtonProps {
   onLeftClick?: VoidFunction;
+  onRightClick?: VoidFunction;
   leftDisabled?: boolean;
   rightButtonType?: "next" | "confirm";
   rightDisabled?: boolean;
@@ -11,6 +12,7 @@ interface BottomNavigatorButtonProps {
 
 const BottomNavigatorButton = ({
   onLeftClick,
+  onRightClick,
   leftDisabled,
   rightDisabled,
   rightButtonType = "next",
@@ -21,11 +23,16 @@ const BottomNavigatorButton = ({
         <MoveLeft /> Kembali
       </Button>
       {rightButtonType === "next" ? (
-        <Button type="submit" disabled={rightDisabled}>
+        <Button type="submit" disabled={rightDisabled} onClick={onRightClick}>
           Simpan & Lanjut <MoveRight />
         </Button>
       ) : (
-        <Button type="submit" variant="success" disabled={rightDisabled}>
+        <Button
+          type="submit"
+          variant="success"
+          disabled={rightDisabled}
+          onClick={onRightClick}
+        >
           Konfirmasi <Check />
         </Button>
       )}
