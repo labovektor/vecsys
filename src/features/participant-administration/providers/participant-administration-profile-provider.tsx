@@ -2,7 +2,7 @@
 
 import handleRequest from "@/axios/request";
 import { ParticipantProgressStep } from "@/features/participant/dto";
-import { CreditCard, ListTodo, Receipt } from "lucide-react";
+import { CreditCard, ListTodo, Loader, Receipt } from "lucide-react";
 import React, { useContext, useEffect, useMemo } from "react";
 import { toast } from "sonner";
 import { ParticipantState } from "../dto";
@@ -130,7 +130,7 @@ export function ParticipantAdministrationProfileProvider({
 
   return (
     <ParticipantAdministrationProfileContext.Provider value={memoedValue}>
-      {children}
+      {isLoading ? <Loader className="animate-spin mx-auto" /> : children}
     </ParticipantAdministrationProfileContext.Provider>
   );
 }

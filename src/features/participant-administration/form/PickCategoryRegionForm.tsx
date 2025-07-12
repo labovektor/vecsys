@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { pickCategoryRegionSchema, PickCategoryRegionType } from "../schema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,7 +23,6 @@ import {
 } from "@/components/ui/select";
 import handleRequest from "@/axios/request";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
 import BottomNavigatorButton from "../components/bottom-navigator-button";
 import { useParticipantAdministrationProfile } from "../providers/participant-administration-profile-provider";
 
