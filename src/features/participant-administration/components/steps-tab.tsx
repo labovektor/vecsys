@@ -1,13 +1,6 @@
-import { ParticipantProgressStep } from "@/features/participant/dto";
 import { cn } from "@/lib/utils";
+import { Step } from "@/features/participant-administration/providers/participant-administration-profile-provider";
 import React from "react";
-
-export interface Step {
-  id: number;
-  step: ParticipantProgressStep;
-  name: string;
-  icon: React.ReactNode;
-}
 
 const StepsTab = ({
   steps,

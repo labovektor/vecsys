@@ -10,7 +10,10 @@ export type ParticipantAdmistration = Participant & {
 export type ParticipantData = {
   is_locked: boolean;
   is_verfied: boolean;
-  participant: ParticipantAdmistration & {};
+  participant: ParticipantAdmistration & {
+    category: EventCategory;
+    region: EventRegion;
+  };
 };
 
 export type ParticipantState = {

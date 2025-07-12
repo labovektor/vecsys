@@ -1,6 +1,7 @@
 "use client";
 import handleRequest from "@/axios/request";
 import { ParticipantState } from "@/features/participant-administration/dto";
+import { ParticipantAdministrationProfileProvider } from "@/features/participant-administration/providers/participant-administration-profile-provider";
 import AdministrationProfileSection from "@/features/participant-administration/sections/profile";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
@@ -24,7 +25,11 @@ const AdministrationPage = () => {
         <div className="flex justify-center py-8">Loading event data...</div>
       )}
 
-      {!progressState?.is_verified && <AdministrationProfileSection />}
+      {!progressState?.is_verified && (
+        <ParticipantAdministrationProfileProvider>
+          <AdministrationProfileSection />
+        </ParticipantAdministrationProfileProvider>
+      )}
 
       {progressState?.is_verified && (
         <div className="flex justify-center py-8">
