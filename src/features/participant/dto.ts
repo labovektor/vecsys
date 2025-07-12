@@ -1,21 +1,21 @@
-export type ParticipantProgressStep =
-  | "registered"
-  | "categorized"
-  | "paid"
-  | "verified"
-  | "select_institution"
-  | "fill_biodatas"
-  | "locked";
+import { EventCategory } from "../event-category/dto";
+import { EventRegion } from "../event-region/dto";
+
+export type PaymentStep = "all" | "paid" | "unpaid";
 
 export type Participant = {
   id: string;
   event_id: string;
   region_id: string;
+  region: EventRegion | null;
   category_id: string;
+  category: EventCategory | null;
   name: string;
   institution_id: string;
   email: string;
-  progress_step: ParticipantProgressStep;
-  created_at: "2025-04-29T20:48:13.96622+07:00";
-  updated_at: "2025-04-29T20:48:13.978481+07:00";
+  progress_step: string;
+  verified_at: string;
+  locked_at: string;
+  created_at: string;
+  updated_at: string;
 };

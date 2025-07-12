@@ -3,7 +3,7 @@
 import handleRequest from "@/axios/request";
 import { DataTable } from "@/components/table/data-table";
 import { eventColumn } from "@/features/event/components/event-column";
-import NewEventDialog from "@/features/event/components/new-event";
+import NewEventDialog from "@/features/event/components/forms/new-event-form";
 import { Event } from "@/features/event/dto";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
@@ -22,7 +22,7 @@ const EventPage = () => {
   });
   return (
     <DataTable
-      data={events || []}
+      data={events ?? []}
       loading={isLoading}
       columns={eventColumn}
       actions={<NewEventDialog />}

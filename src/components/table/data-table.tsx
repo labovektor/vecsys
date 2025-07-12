@@ -7,6 +7,7 @@ import {
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
+  Table as TableType,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -28,7 +29,9 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
   loading?: boolean;
   message?: string;
-  actions?: React.ReactNode;
+  actions?:
+    | React.ReactNode
+    | ((data: TData[], table: TableType<TData>) => React.ReactNode);
 }
 
 export function DataTable<TData, TValue>({
@@ -64,7 +67,9 @@ export function DataTable<TData, TValue>({
           />
         </div>
 
-        {actions}
+        {actions && actions instanceof Function
+          ? actions(data, table)
+          : actions}
       </div>
       <div className="rounded-md border">
         <Table>

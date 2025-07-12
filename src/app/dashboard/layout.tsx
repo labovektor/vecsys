@@ -2,6 +2,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/features/dashboard/components/app-sidebar";
 import UserButton from "@/features/dashboard/components/user-button";
 import AuthContextProvider from "@/provider/auth-provider";
+import { Suspense } from "react";
 
 export default function DashboardLayout({
   children,
@@ -19,7 +20,9 @@ export default function DashboardLayout({
             <UserButton />
           </header>
 
-          <div className=" p-4 w-full">{children}</div>
+          <div className=" p-4 w-full">
+            <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+          </div>
         </main>
       </SidebarProvider>
     </AuthContextProvider>
