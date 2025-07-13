@@ -2,7 +2,7 @@
 
 import React from "react";
 import BiodataAnggotaForm from "../form/detail/biodata-anggota-form";
-import { BiodataAnggotaSchemaType, UpdateBiodatasSchemaType } from "../schema";
+import { UpdateBiodatasSchemaType } from "../schema";
 import { Button } from "@/components/ui/button";
 import { TrashIcon } from "lucide-react";
 import { getQueryClient } from "@/lib/get-query-client";
@@ -119,7 +119,6 @@ const BiodataPeserta = ({ participantId, participant }: BiodataPesertaProps) => 
             <BiodataAnggotaForm
               key={member.id || index}
               anggotaNumber={index + 1}
-              participantId={participantId}
               initialData={{
                 id: member.id,
                 name: member.name,

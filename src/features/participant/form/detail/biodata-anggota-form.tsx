@@ -19,7 +19,6 @@ import { useEffect } from "react";
 
 interface BiodataAnggotaFormProps {
   anggotaNumber: number;
-  participantId: string;
   initialData: BiodataAnggotaSchemaType;
   onSubmit?: (data: BiodataAnggotaSchemaType) => void;
   onFormRef?: (form: any) => void;
@@ -27,7 +26,6 @@ interface BiodataAnggotaFormProps {
 
 const BiodataAnggotaForm = ({
   anggotaNumber,
-  participantId,
   initialData,
   onSubmit,
   onFormRef
@@ -54,7 +52,6 @@ const BiodataAnggotaForm = ({
     if (onSubmit) {
       onSubmit(data);
     }
-    console.log(`Anggota ${anggotaNumber} data:`, data);
   };
 
   return (
