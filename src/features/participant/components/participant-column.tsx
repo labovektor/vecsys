@@ -9,7 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export function getParticipantColumn(
   status: PaymentStep
@@ -78,16 +78,19 @@ export function getParticipantColumn(
   return status === "paid"
     ? participantColumn
     : [
-        ...participantColumn.slice(0, -3),
-        unpaidExtraColumn,
-        ...participantColumn.slice(-3),
-      ];
+      ...participantColumn.slice(0, -3),
+      unpaidExtraColumn,
+      ...participantColumn.slice(-3),
+    ];
 }
 
 function ParticipantAction({ participant }: { participant: Participant }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const eventId = searchParams.get("eventId");
+  
   const toDetailClick = () =>
-    router.push(`/dashboard/participant/${participant.id}`);
+    router.push(`/dashboard/participant/${participant.id}?eventId=${eventId}`);
 
   return (
     <DropdownMenu>

@@ -5,7 +5,11 @@ import BiodataAnggotaForm from "../form/detail/biodata-anggota-form";
 import { BiodataAnggotaSchemaType } from "../schema";
 import { Button } from "@/components/ui/button";
 import { TrashIcon } from "lucide-react";
-
+import { getQueryClient } from "@/lib/get-query-client";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
+import handleRequest from "@/axios/request";
+import { useRouter, useSearchParams } from "next/navigation";
 interface BiodataPesertaProps {
   participantId: string;
   initialData?: {
@@ -16,6 +20,10 @@ interface BiodataPesertaProps {
 }
 
 const BiodataPeserta = ({ participantId, initialData }: BiodataPesertaProps) => {
+  const queryClient = getQueryClient();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const eventId = searchParams.get("eventId");
   const [formData, setFormData] = React.useState<{
     anggota1?: BiodataAnggotaSchemaType;
     anggota2?: BiodataAnggotaSchemaType;
@@ -29,9 +37,24 @@ const BiodataPeserta = ({ participantId, initialData }: BiodataPesertaProps) => 
     }));
   };
 
-  const handleHapusPeserta = () => {
-    console.log("Hapus peserta clicked for participant:", participantId);
-  };
+  const handleHapusPeserta = useMutation({
+    mutationKey: ["deleteParticipant", participantId],
+    mutationFn: () => {
+      return handleRequest("DELETE", `/admin/participant/${participantId}`).then(res => {
+        if (res.error) {
+          throw new Error(res.error.message);
+        }
+        queryClient.refetchQueries({ queryKey: ["participant", participantId] });
+      });
+    },
+    onSuccess: () => {
+      toast.success("Peserta berhasil dihapus");
+      router.push(`/dashboard/participant?eventId=${eventId}`);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    }
+  });
 
   const handleSimpanPerubahan = () => {
     console.log("Save all changes for participant:", participantId);
@@ -70,7 +93,7 @@ const BiodataPeserta = ({ participantId, initialData }: BiodataPesertaProps) => 
       <div className="flex justify-between items-center pt-4">
         <Button
           variant="destructive"
-          onClick={handleHapusPeserta}
+          onClick={() => handleHapusPeserta.mutate()}
         >
           <TrashIcon className="mr-1" />
           Hapus Peserta
