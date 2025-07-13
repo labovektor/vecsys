@@ -15,30 +15,40 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { biodataAnggotaSchema, BiodataAnggotaSchemaType } from "../../schema";
+import { useEffect } from "react";
 
 interface BiodataAnggotaFormProps {
   anggotaNumber: number;
   participantId: string;
-  initialData?: Partial<BiodataAnggotaSchemaType>;
+  initialData: BiodataAnggotaSchemaType;
   onSubmit?: (data: BiodataAnggotaSchemaType) => void;
+  onFormRef?: (form: any) => void;
 }
 
 const BiodataAnggotaForm = ({
   anggotaNumber,
   participantId,
   initialData,
-  onSubmit
+  onSubmit,
+  onFormRef
 }: BiodataAnggotaFormProps) => {
   const form = useForm<BiodataAnggotaSchemaType>({
     resolver: zodResolver(biodataAnggotaSchema),
     defaultValues: {
-      nama: initialData?.nama || "",
-      gender: initialData?.gender || "laki-laki",
-      no_telepon: initialData?.no_telepon || "",
-      nis_nisn: initialData?.nis_nisn || "",
-      email: initialData?.email || "",
+      id: initialData.id,
+      name: initialData.name,
+      gender: initialData.gender,
+      phone: initialData.phone,
+      id_number: initialData.id_number,
+      email: initialData.email,
     },
   });
+
+  useEffect(() => {
+    if (onFormRef) {
+      onFormRef(form);
+    }
+  }, [form, onFormRef]);
 
   const handleSubmit = (data: BiodataAnggotaSchemaType) => {
     if (onSubmit) {
@@ -53,9 +63,18 @@ const BiodataAnggotaForm = ({
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+          {/* Hidden field for ID */}
           <FormField
             control={form.control}
-            name="nama"
+            name="id"
+            render={({ field }) => (
+              <input type="hidden" {...field} />
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="name"
             render={({ field }) => (
               <FormItem className="flex items-center justify-between gap-4">
                 <FormLabel className="w-32">Nama</FormLabel>
@@ -80,12 +99,12 @@ const BiodataAnggotaForm = ({
                     className="flex gap-6"
                   >
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="laki-laki" id={`laki-${anggotaNumber}`} />
-                      <Label htmlFor={`laki-${anggotaNumber}`}>Laki-Laki</Label>
+                      <RadioGroupItem value="male" id={`male-${anggotaNumber}`} />
+                      <Label htmlFor={`male-${anggotaNumber}`}>Laki-Laki</Label>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="perempuan" id={`perempuan-${anggotaNumber}`} />
-                      <Label htmlFor={`perempuan-${anggotaNumber}`}>Perempuan</Label>
+                      <RadioGroupItem value="female" id={`female-${anggotaNumber}`} />
+                      <Label htmlFor={`female-${anggotaNumber}`}>Perempuan</Label>
                     </div>
                   </RadioGroup>
                 </FormControl>
@@ -96,7 +115,7 @@ const BiodataAnggotaForm = ({
 
           <FormField
             control={form.control}
-            name="no_telepon"
+            name="phone"
             render={({ field }) => (
               <FormItem className="flex items-center justify-between gap-4">
                 <FormLabel className="w-32">No Telepon</FormLabel>
@@ -110,7 +129,7 @@ const BiodataAnggotaForm = ({
 
           <FormField
             control={form.control}
-            name="nis_nisn"
+            name="id_number"
             render={({ field }) => (
               <FormItem className="flex items-center justify-between gap-4">
                 <FormLabel className="w-32">NIS/NISN</FormLabel>
