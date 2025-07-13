@@ -14,7 +14,17 @@ export type ParticipantData = {
   participant: ParticipantAdmistration & {
     category: EventCategory;
     region: EventRegion;
+    payment: ParticipantPayment | null;
   };
+};
+
+export type ParticipantPayment = {
+  bank_name: string;
+  bank_account: string;
+  referal_id: string;
+  date: string;
+  invoice: string;
+  payment_option_id: string;
 };
 
 export type ParticipantState = {

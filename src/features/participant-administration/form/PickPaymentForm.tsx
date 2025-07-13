@@ -29,11 +29,10 @@ import QRCode from "react-qr-code";
 import { formatCurrency } from "@/lib/utils";
 
 const PickPaymentForm = ({ options }: { options: EventPaymentOptions }) => {
-  const { toPreviousStep, toNextStep } = useParticipantAdministrationProfile();
-  const [selectedPayment, setSelectedPayment] =
-    React.useState<PaymentOption | null>(null);
-  const [referal, setReferal] = React.useState<string>("");
+  const { toPreviousStep, toNextStep, selectedPayment, setSelectedPayment } =
+    useParticipantAdministrationProfile();
 
+  const [referal, setReferal] = React.useState<string>("");
   const [validatedReferal, setValidatedReferal] =
     React.useState<EventReferral | null>(null);
   const validateReferal = useMutation({

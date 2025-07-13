@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { ParticipantState } from "../dto";
 import { useQuery } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
+import { PaymentOption } from "@/features/event-payment/dto";
 
 const SelectCategoryRegion = dynamic(
   () => import("../sections/tabs/SelectCategoryRegion"),
@@ -15,6 +16,10 @@ const SelectCategoryRegion = dynamic(
 );
 
 const SelectPayment = dynamic(() => import("../sections/tabs/SelectPayment"), {
+  ssr: false,
+});
+
+const SubmitPayment = dynamic(() => import("../sections/tabs/SubmitPayment"), {
   ssr: false,
 });
 
@@ -50,7 +55,7 @@ const steps: Step[] = [
     step: "paid",
     name: "Konfirmasi Pembayaran",
     icon: <Receipt />,
-    child: <></>,
+    child: <SubmitPayment />,
   },
 ];
 
@@ -61,6 +66,10 @@ interface ParticipantAdministrationProfileContextType {
   toPreviousStep: VoidFunction;
   toNextStep: VoidFunction;
   reloadData: VoidFunction;
+  selectedPayment: PaymentOption | null;
+  setSelectedPayment: React.Dispatch<
+    React.SetStateAction<PaymentOption | null>
+  >;
 }
 
 export const ParticipantAdministrationProfileContext =
@@ -71,6 +80,10 @@ export const ParticipantAdministrationProfileContext =
 export function ParticipantAdministrationProfileProvider({
   children,
 }: ParticipantAdministrationProfileProviderProps) {
+  const [selectedPayment, setSelectedPayment] =
+    React.useState<PaymentOption | null>(null);
+  const [selectedTab, setSelectedTab] = React.useState(steps[0]);
+
   const {
     data: progressState,
     isLoading,
@@ -85,8 +98,6 @@ export function ParticipantAdministrationProfileProvider({
         return res.data;
       }),
   });
-
-  const [selectedTab, setSelectedTab] = React.useState(steps[0]);
 
   useEffect(() => {
     const step = steps.find((step) => step.step === progressState?.step);
@@ -128,8 +139,10 @@ export function ParticipantAdministrationProfileProvider({
       toPreviousStep,
       toNextStep,
       reloadData,
+      selectedPayment,
+      setSelectedPayment,
     }),
-    [selectedTab, isLoading]
+    [selectedTab, isLoading, selectedPayment, progressState, isLoading]
   );
 
   return (
