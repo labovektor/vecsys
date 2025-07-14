@@ -5,7 +5,7 @@ import { Event } from "../event/dto";
 import { Participant, ParticipantProgressStep } from "../participant/dto";
 
 export type ParticipantAdmistration = Participant & {
-  event: Event | null;
+  event: Event;
 };
 
 export type ParticipantData = {
@@ -15,7 +15,18 @@ export type ParticipantData = {
     category: EventCategory;
     region: EventRegion;
     payment: ParticipantPayment | null;
+    biodata: ParticipantBiodata[] | null;
   };
+};
+
+export type ParticipantBiodata = {
+  id: string;
+  name: string;
+  gender: "male" | "female";
+  phone: string;
+  email: string;
+  id_number: string;
+  id_card_picture: string;
 };
 
 export type ParticipantPayment = {
