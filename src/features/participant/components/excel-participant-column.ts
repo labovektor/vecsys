@@ -23,7 +23,10 @@ export const excelParticipantColumn: IColumn[] = [
     label: "Verifikasi",
     value: (row) =>
       row.verified_at
-        ? beautifyDate((row.verified_at as Date).toISOString(), "FULL")
+        ? beautifyDate(
+            new Date(row.verified_at as string).toISOString(),
+            "FULL"
+          )
         : "-",
   },
 ];
