@@ -56,7 +56,6 @@ interface ParticipantAdministrationDataContextType {
   isLoading: boolean;
   toPreviousStep: VoidFunction;
   toNextStep: VoidFunction;
-  reloadData: VoidFunction;
 }
 
 export const ParticipantAdministrationDataContext =
@@ -69,11 +68,7 @@ export function ParticipantAdministrationDataProvider({
 }: ParticipantAdministrationDataProviderProps) {
   const [selectedTab, setSelectedTab] = React.useState(steps[0]);
 
-  const {
-    data: progressState,
-    isLoading,
-    refetch,
-  } = useQuery({
+  const { data: progressState, isLoading } = useQuery({
     queryKey: ["progress"],
     queryFn: () =>
       handleRequest<ParticipantState>("GET", "/user/state").then((res) => {
@@ -84,13 +79,13 @@ export function ParticipantAdministrationDataProvider({
       }),
   });
 
-  // useEffect(() => {
-  //   const step = steps.find((step) => step.step === progressState?.step);
+  useEffect(() => {
+    const step = steps.find((step) => step.step === progressState?.step);
 
-  //   if (step) {
-  //     setSelectedTab(step);
-  //   }
-  // }, [progressState]);
+    if (step) {
+      setSelectedTab(step);
+    }
+  }, [progressState]);
 
   const toNextStep = () => {
     setSelectedTab((prev) => {
@@ -100,10 +95,6 @@ export function ParticipantAdministrationDataProvider({
       }
       return steps[currentStep + 1];
     });
-  };
-
-  const reloadData = () => {
-    refetch();
   };
 
   const toPreviousStep = () => {
@@ -123,7 +114,6 @@ export function ParticipantAdministrationDataProvider({
       isLoading,
       toPreviousStep,
       toNextStep,
-      reloadData,
     }),
     [selectedTab, isLoading, progressState, isLoading]
   );

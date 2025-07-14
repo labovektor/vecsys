@@ -31,8 +31,8 @@ import handleRequest from "@/axios/request";
 import { toast } from "sonner";
 
 const SubmitPaymentForm = () => {
-  const { user } = useParticipant();
-  const { toPreviousStep, selectedPayment, reloadData } =
+  const { user, refetchData } = useParticipant();
+  const { toPreviousStep, selectedPayment } =
     useParticipantAdministrationProfile();
   const form = useForm<SubmitPaymentType>({
     resolver: zodResolver(submitPaymentSchema),
@@ -73,7 +73,7 @@ const SubmitPaymentForm = () => {
 
     toast.success("Data pembayaran berhasil disimpan");
 
-    reloadData();
+    refetchData();
     setPreview(user?.participant?.payment?.invoice ?? null);
   };
   return (

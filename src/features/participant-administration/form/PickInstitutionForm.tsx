@@ -32,20 +32,14 @@ import {
 import BottomNavigatorButton from "../components/bottom-navigator-button";
 import AddInstitutionForm from "./AddInstitutionForm";
 import { useParticipant } from "@/hooks/use-participant";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { useParticipantAdministrationData } from "../providers/participant-administration-data-provider";
 import handleRequest from "@/axios/request";
 import { toast } from "sonner";
+import InstitutionCard from "../components/institution-card";
 
 const PickInstitutionForm = ({ choices }: { choices: Institution[] }) => {
-  const { user } = useParticipant();
-  const { toNextStep, reloadData } = useParticipantAdministrationData();
+  const { user, refetchData } = useParticipant();
+  const { toNextStep } = useParticipantAdministrationData();
   const [selectedInstitution, setSelectedInstitution] =
     React.useState<Institution | null>(
       user?.participant.institution_id
@@ -77,7 +71,7 @@ const PickInstitutionForm = ({ choices }: { choices: Institution[] }) => {
     toast.success("Institusi berhasil dipilih");
     form.reset();
     toNextStep();
-    reloadData();
+    refetchData();
   };
   return (
     <>
@@ -158,19 +152,7 @@ const PickInstitutionForm = ({ choices }: { choices: Institution[] }) => {
           />
 
           {selectedInstitution && (
-            <Card className=" max-w-md mx-auto border-primary bg-vblue-100">
-              <CardHeader className=" text-center">
-                <CardTitle>{selectedInstitution.name}</CardTitle>
-                <CardDescription>{selectedInstitution.email}</CardDescription>
-              </CardHeader>
-              <CardContent className=" text-center">
-                <span>Pendamping:</span>
-                <CardDescription>
-                  {selectedInstitution.pendamping_phone} (
-                  {selectedInstitution.pendamping_name})
-                </CardDescription>
-              </CardContent>
-            </Card>
+            <InstitutionCard institution={selectedInstitution} />
           )}
 
           <BottomNavigatorButton
@@ -185,7 +167,7 @@ const PickInstitutionForm = ({ choices }: { choices: Institution[] }) => {
           <AddInstitutionForm
             callback={() => {
               toNextStep();
-              reloadData();
+              refetchData();
             }}
           />
         </span>

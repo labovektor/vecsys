@@ -31,8 +31,8 @@ const PickCategoryRegionForm = ({
 }: {
   choices: EventCategoriesNRegions;
 }) => {
-  const { user } = useParticipant();
-  const { toNextStep, reloadData } = useParticipantAdministrationProfile();
+  const { user, refetchData } = useParticipant();
+  const { toNextStep } = useParticipantAdministrationProfile();
   const form = useForm<PickCategoryRegionType>({
     resolver: zodResolver(pickCategoryRegionSchema),
     defaultValues: {
@@ -54,7 +54,7 @@ const PickCategoryRegionForm = ({
     }
     toast.success("Data berhasil disimpan");
     toNextStep();
-    reloadData();
+    refetchData();
   };
 
   return (

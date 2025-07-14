@@ -13,6 +13,7 @@ type ParticipantAuthContextProviderProps = {
 
 interface ParticipantAuthContextType {
   user?: ParticipantData | null;
+  refetchData: VoidFunction;
   loading: boolean;
   error?: string;
   logout: VoidFunction;
@@ -33,7 +34,11 @@ export default function ParticipantAuthContextProvider({
     if (error) setError(undefined);
   }, [pathname]);
 
-  const { data: participant, isPending } = useQuery({
+  const {
+    data: participant,
+    isPending,
+    refetch,
+  } = useQuery({
     queryKey: ["participant-profile"],
     queryFn: () =>
       handleRequest<ParticipantData>("GET", "/user/data").then((res) => {
@@ -46,10 +51,15 @@ export default function ParticipantAuthContextProvider({
 
   function logout() {}
 
+  function refetchData() {
+    refetch();
+  }
+
   const memoedValue = useMemo(
     () => ({
       user: participant,
       loading: isPending,
+      refetchData,
       error,
       logout,
     }),

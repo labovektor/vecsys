@@ -65,7 +65,6 @@ interface ParticipantAdministrationProfileContextType {
   isLoading: boolean;
   toPreviousStep: VoidFunction;
   toNextStep: VoidFunction;
-  reloadData: VoidFunction;
   selectedPayment: PaymentOption | null;
   setSelectedPayment: React.Dispatch<
     React.SetStateAction<PaymentOption | null>
@@ -84,11 +83,7 @@ export function ParticipantAdministrationProfileProvider({
     React.useState<PaymentOption | null>(null);
   const [selectedTab, setSelectedTab] = React.useState(steps[0]);
 
-  const {
-    data: progressState,
-    isLoading,
-    refetch,
-  } = useQuery({
+  const { data: progressState, isLoading } = useQuery({
     queryKey: ["progress"],
     queryFn: () =>
       handleRequest<ParticipantState>("GET", "/user/state").then((res) => {
@@ -117,10 +112,6 @@ export function ParticipantAdministrationProfileProvider({
     });
   };
 
-  const reloadData = () => {
-    refetch();
-  };
-
   const toPreviousStep = () => {
     setSelectedTab((prev) => {
       const currentStep = steps.findIndex((step) => step.id === prev.id);
@@ -138,7 +129,6 @@ export function ParticipantAdministrationProfileProvider({
       isLoading,
       toPreviousStep,
       toNextStep,
-      reloadData,
       selectedPayment,
       setSelectedPayment,
     }),
