@@ -1,4 +1,4 @@
-import { isAxiosError } from "axios";
+import { isAxiosError, ResponseType } from "axios";
 import axiosInstance from "./axios";
 
 export type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
@@ -14,17 +14,23 @@ export type RequestReturn<T> = {
 async function handleRequest<T>(
   method: HttpMethod,
   endpoint: string,
-  body?: any
+  body?: any,
+  responseType?: ResponseType
 ): Promise<RequestReturn<T>> {
   try {
     const config = {
       method,
       url: endpoint,
+      responseType,
       ...(body ? { data: body } : {}),
     };
 
     const res = await axiosInstance(config);
-    return { data: res.data.data };
+    const isBinary = responseType === "blob" || responseType === "arraybuffer";
+
+    return {
+      data: isBinary ? (res.data as T) : res.data.data,
+    };
   } catch (error) {
     return {
       data: null,

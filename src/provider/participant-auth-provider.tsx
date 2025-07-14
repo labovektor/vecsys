@@ -50,7 +50,7 @@ export default function ParticipantAuthContextProvider({
   });
 
   function logout() {
-    handleRequest<unknown>("POST", "/user/logout");
+    handleRequest<unknown>("GET", "/user/logout");
     router.replace(`/e/${participant?.participant.event_id}/login`);
   }
 

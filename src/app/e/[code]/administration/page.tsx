@@ -5,6 +5,7 @@ import { ParticipantAdministrationDataProvider } from "@/features/participant-ad
 import { ParticipantAdministrationProfileProvider } from "@/features/participant-administration/providers/participant-administration-profile-provider";
 import AdministrationDataSection from "@/features/participant-administration/sections/data";
 import AdministrationProfileSection from "@/features/participant-administration/sections/profile";
+import SuccessPage from "@/features/participant-administration/sections/success-page";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { toast } from "sonner";
@@ -39,11 +40,7 @@ const AdministrationPage = () => {
         </ParticipantAdministrationDataProvider>
       )}
 
-      {progressState?.is_locked && (
-        <div className="flex justify-center py-8">
-          Locked Tab: {progressState.step}
-        </div>
-      )}
+      {progressState?.is_locked && <SuccessPage />}
 
       <div className=" py-4 text-center">©2024 | VecSys by HIMATIKA Vektor</div>
     </div>
