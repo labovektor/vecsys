@@ -1,3 +1,11 @@
+export type ParticipantProgressStep =
+  | "registered"
+  | "categorized"
+  | "paid"
+  | "verified"
+  | "select_institution"
+  | "fill_biodatas"
+  | "locked";
 import { EventCategory } from "../event-category/dto";
 import { EventRegion } from "../event-region/dto";
 
@@ -13,7 +21,7 @@ export type Participant = {
   name: string;
   institution_id: string;
   email: string;
-  progress_step: string;
+  progress_step: ParticipantProgressStep;
   verified_at: string;
   locked_at: string;
   created_at: string;
