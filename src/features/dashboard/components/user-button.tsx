@@ -8,7 +8,7 @@ import React from "react";
 import { useUser } from "@/hooks/use-user";
 
 const UserButton = () => {
-  const { user } = useUser();
+  const { user, logout } = useUser();
   return (
     <div className=" flex gap-2 items-center space-x-4 rounded-md ">
       <Avatar>
@@ -19,7 +19,7 @@ const UserButton = () => {
         <AvatarFallback>{getInitial(user?.display_name ?? "")}</AvatarFallback>
       </Avatar>
       {user?.display_name}
-      <Button variant="destructive" className=" gap-2">
+      <Button variant="destructive" className=" gap-2" onClick={logout}>
         <LogOut />
         Logout
       </Button>
