@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 export const pickCategoryRegionSchema = z.object({
-  category_id: z.string().uuid(),
-  region_id: z.string().uuid(),
+  category_id: z.string().uuid("Pilihanmu tidak valid"),
+  region_id: z.string().uuid("Pilihanmu tidak valid"),
 });
 
 export const submitPaymentSchema = z.object({
@@ -19,5 +19,18 @@ export const submitPaymentSchema = z.object({
     }, "File size must be less than 5MB"),
 });
 
+export const pickInstitutionSchema = z.object({
+  institution_id: z.string().uuid("Pilihanmu tidak valid"),
+});
+
+export const addInstitutionSchema = z.object({
+  name: z.string().min(2),
+  email: z.string().email(),
+  pendamping_name: z.string().min(2),
+  pendamping_phone: z.string().min(2),
+});
+
 export type PickCategoryRegionType = z.infer<typeof pickCategoryRegionSchema>;
 export type SubmitPaymentType = z.infer<typeof submitPaymentSchema>;
+export type PickInstitutionType = z.infer<typeof pickInstitutionSchema>;
+export type AddInstitutionType = z.infer<typeof addInstitutionSchema>;
