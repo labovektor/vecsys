@@ -37,6 +37,7 @@ const ManageMember = () => {
         <>
           {user.participant.biodata?.map((biodata, index) => (
             <MemberCard
+              key={biodata.id}
               biodata={biodata}
               index={index + 1}
               callBack={refetchData}
