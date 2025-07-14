@@ -3,7 +3,7 @@
 import handleRequest from "@/axios/request";
 import { ParticipantData } from "@/features/participant-administration/dto";
 import { useQuery } from "@tanstack/react-query";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { createContext, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
@@ -27,7 +27,7 @@ export default function ParticipantAuthContextProvider({
   children,
 }: ParticipantAuthContextProviderProps) {
   const [error, setError] = useState<string>();
-
+  const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
@@ -49,7 +49,10 @@ export default function ParticipantAuthContextProvider({
       }),
   });
 
-  function logout() {}
+  function logout() {
+    handleRequest<unknown>("POST", "/user/logout");
+    router.replace(`/e/${participant?.participant.event_id}/login`);
+  }
 
   function refetchData() {
     refetch();

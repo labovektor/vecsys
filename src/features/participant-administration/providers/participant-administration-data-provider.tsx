@@ -18,6 +18,10 @@ const ManageMember = dynamic(() => import("../sections/tabs/ManageMember"), {
   ssr: false,
 });
 
+const LockData = dynamic(() => import("../sections/tabs/LockData"), {
+  ssr: false,
+});
+
 type ParticipantAdministrationDataProviderProps = {
   children: React.ReactNode;
 };
@@ -40,17 +44,17 @@ const steps: Step[] = [
   },
   {
     id: 1,
-    step: "fill_biodatas",
+    step: "select_institution",
     name: "Isi Biodata Peserta",
     icon: <SquareUserRound />,
     child: <ManageMember />,
   },
   {
     id: 2,
-    step: "locked",
+    step: "fill_biodatas",
     name: "Kunci Data",
     icon: <Lock />,
-    child: <>Kunci Data</>,
+    child: <LockData />,
   },
 ];
 

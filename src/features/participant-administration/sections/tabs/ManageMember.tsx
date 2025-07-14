@@ -12,7 +12,7 @@ const ManageMember = () => {
   const { toNextStep, toPreviousStep } = useParticipantAdministrationData();
 
   const canAddMember = () => {
-    if (user) {
+    if (user && user.participant.category) {
       if (!user.participant.category.is_group) {
         if (user.participant.biodata && user.participant.biodata.length >= 1) {
           return false;

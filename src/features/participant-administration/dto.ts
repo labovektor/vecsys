@@ -1,4 +1,5 @@
 import { EventCategory } from "../event-category/dto";
+import { Institution } from "../event-instansi/dto";
 import { PaymentOption } from "../event-payment/dto";
 import { EventRegion } from "../event-region/dto";
 import { Event } from "../event/dto";
@@ -12,8 +13,9 @@ export type ParticipantData = {
   is_locked: boolean;
   is_verfied: boolean;
   participant: ParticipantAdmistration & {
-    category: EventCategory;
-    region: EventRegion;
+    category: EventCategory | null;
+    region: EventRegion | null;
+    institution: Institution | null;
     payment: ParticipantPayment | null;
     biodata: ParticipantBiodata[] | null;
   };
