@@ -84,13 +84,13 @@ export function ParticipantAdministrationDataProvider({
       }),
   });
 
-  useEffect(() => {
-    const step = steps.find((step) => step.step === progressState?.step);
+  // useEffect(() => {
+  //   const step = steps.find((step) => step.step === progressState?.step);
 
-    if (step) {
-      setSelectedTab(step);
-    }
-  }, [progressState]);
+  //   if (step) {
+  //     setSelectedTab(step);
+  //   }
+  // }, [progressState]);
 
   const toNextStep = () => {
     setSelectedTab((prev) => {

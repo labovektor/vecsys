@@ -56,7 +56,9 @@ const AddInstitutionForm = ({ callback }: { callback: VoidFunction }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="link">Tambahkan di sini.</Button>
+        <Button type="button" variant="link">
+          Tambahkan di sini.
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
