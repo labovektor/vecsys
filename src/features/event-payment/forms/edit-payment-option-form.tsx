@@ -41,6 +41,7 @@ const EditPaymentOptionForm = ({ payment }: { payment: PaymentOption }) => {
       account: payment.account,
       name: payment.name,
       as_qr: payment.as_qr,
+      amount: payment.amount,
     },
   });
 
@@ -57,7 +58,9 @@ const EditPaymentOptionForm = ({ payment }: { payment: PaymentOption }) => {
 
     setOpen(false);
     toast.success("Metode pembayaran berhasil diperbarui");
-    queryClient.refetchQueries({ queryKey: ["payment-options", payment.event_id] });
+    queryClient.refetchQueries({
+      queryKey: ["payment-options", payment.event_id],
+    });
   }
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -94,7 +97,10 @@ const EditPaymentOptionForm = ({ payment }: { payment: PaymentOption }) => {
                 <FormItem>
                   <FormLabel>Nama Pemilik Akun</FormLabel>
                   <FormControl>
-                    <Input placeholder="Masukkan nama pemilik akun" {...field} />
+                    <Input
+                      placeholder="Masukkan nama pemilik akun"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -155,9 +161,29 @@ const EditPaymentOptionForm = ({ payment }: { payment: PaymentOption }) => {
               )}
             />
 
+            <FormField
+              control={form.control}
+              name="amount"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nominal (IDR)</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      placeholder="Masukkan nominal"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <div className="flex justify-end gap-2 pt-3">
               <Button type="submit" disabled={form.formState.isSubmitting}>
-                {form.formState.isSubmitting ? "Memperbarui..." : "Ubah Pembayaran"}
+                {form.formState.isSubmitting
+                  ? "Memperbarui..."
+                  : "Ubah Pembayaran"}
               </Button>
             </div>
           </form>
