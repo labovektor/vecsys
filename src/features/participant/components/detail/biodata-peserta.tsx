@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import BiodataAnggotaForm from "../form/detail/biodata-anggota-form";
-import { UpdateBiodatasSchemaType } from "../schema";
+import BiodataAnggotaForm from "../../form/detail/biodata-anggota-form";
+import { UpdateBiodatasSchemaType } from "../../schema";
 import { Button } from "@/components/ui/button";
 import { TrashIcon } from "lucide-react";
 import { getQueryClient } from "@/lib/get-query-client";
@@ -10,7 +10,7 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import handleRequest from "@/axios/request";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ParticipantDetail } from "../dto";
+import { ParticipantDetail } from "../../dto";
 
 interface BiodataPesertaProps {
   participantId: string;

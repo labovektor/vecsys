@@ -54,6 +54,18 @@ const BiodataAnggotaForm = ({
     }
   };
 
+
+  const downloadIDCard = (participantId: string) => {
+    const url = process.env.NEXT_PUBLIC_API_URL + `/admin/participant/${participantId}/card`;
+    const link = document.createElement("a");
+    link.href = url;
+    link.target = "_blank";
+    link.download = `kartu-identitas-${participantId}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
   return (
     <div className="border rounded-lg p-4 bg-white">
       <h3 className="text-lg font-semibold mb-4">Anggota {anggotaNumber}</h3>
@@ -157,6 +169,7 @@ const BiodataAnggotaForm = ({
               type="button"
               variant="outline"
               className="text-blue-600 border-blue-600"
+              onClick={() => downloadIDCard(initialData.id)}
             >
               Lihat Kartu Identitas
             </Button>
