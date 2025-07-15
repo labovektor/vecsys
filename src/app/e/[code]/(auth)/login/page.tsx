@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -20,23 +20,26 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import React from "react";
+import React, { use } from "react";
 import { useForm } from "react-hook-form";
 import {
-  SchemaLoginAdmin as SchemaLogin,
-  schemaLoginAdmin as schemaLogin,
+  SchemaLoginParticipant as SchemaLogin,
+  schemaLoginParticipant as schemaLogin,
 } from "@/features/auth/schema";
 import { useRouter } from "next/navigation";
 import { VIcons } from "@/lib/asset";
 import handleRequest from "@/axios/request";
 import { toast } from "sonner";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
-const LoginScreen = () => {
+const LoginScreen = ({ params }: { params: Promise<{ code: string }> }) => {
+  const { code } = use(params);
   const router = useRouter();
   const form = useForm<SchemaLogin>({
     resolver: zodResolver(schemaLogin),
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   });
@@ -44,7 +47,7 @@ const LoginScreen = () => {
   async function onSubmit(values: SchemaLogin) {
     const { error } = await handleRequest<unknown>(
       "POST",
-      "/admin/login",
+      "/user/login",
       values
     );
 
@@ -53,7 +56,7 @@ const LoginScreen = () => {
       return;
     }
 
-    router.replace("/dashboard");
+    router.replace(`/e/${code}/administration`);
   }
   return (
     <div className=" flex justify-center items-center h-svh bg-primary">
@@ -62,7 +65,7 @@ const LoginScreen = () => {
           <Card className="w-[350px]">
             <CardHeader>
               <Image
-                src={VIcons.main}
+                src={VIcons.mainLabel}
                 width={120}
                 height={48}
                 alt="logo"
@@ -70,16 +73,16 @@ const LoginScreen = () => {
               />
               <CardTitle>Login</CardTitle>
               <CardDescription>
-                Masukkan username & password yang benar
+                Masukkan email & password yang benar
               </CardDescription>
             </CardHeader>
             <CardContent>
               <FormField
                 control={form.control}
-                name="username"
+                name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Username</FormLabel>
+                    <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
@@ -100,8 +103,19 @@ const LoginScreen = () => {
                   </FormItem>
                 )}
               />
+
+              <Link
+                href={`/e/${code}/forgot-password`}
+                className={cn(
+                  buttonVariants({ variant: "link" }),
+                  "w-full justify-end"
+                )}
+              >
+                Lupa password?
+              </Link>
             </CardContent>
-            <CardFooter>
+
+            <CardFooter className=" flex-col space-y-3">
               <Button
                 disabled={form.formState.isSubmitting}
                 className=" w-full"
@@ -109,6 +123,15 @@ const LoginScreen = () => {
               >
                 {form.formState.isSubmitting ? "Loging in..." : "Login"}
               </Button>
+              <span className=" text-sm text-center">
+                Belum punya akun?{" "}
+                <Link
+                  href={`/e/${code}/register`}
+                  className={buttonVariants({ variant: "link" })}
+                >
+                  Daftar di sini.
+                </Link>
+              </span>
             </CardFooter>
           </Card>
         </form>

@@ -3,7 +3,7 @@
 import handleRequest from "@/axios/request";
 import { Admin } from "@/features/auth/entity";
 import { useQuery } from "@tanstack/react-query";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { createContext, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
@@ -26,7 +26,7 @@ export default function AuthContextProvider({
   children,
 }: AuthContextProviderProps) {
   const [error, setError] = useState<string>();
-
+  const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
@@ -44,7 +44,10 @@ export default function AuthContextProvider({
       }),
   });
 
-  function logout() {}
+  function logout() {
+    handleRequest<unknown>("GET", "/admin/logout");
+    router.replace("/login");
+  }
 
   const memoedValue = useMemo(
     () => ({
