@@ -22,6 +22,7 @@ export const biodataAnggotaSchema = z.object({
 	phone: z.string().min(10, "Nomor telepon minimal 10 digit"),
 	id_number: z.string().min(8, "NIS/NISN minimal 8 karakter"),
 	email: z.string().email("Format email tidak valid"),
+	id_card_picture: z.string().nullable().optional(),
 });
 
 export type BiodataAnggotaSchemaType = z.infer<typeof biodataAnggotaSchema>;

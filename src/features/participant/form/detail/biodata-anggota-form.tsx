@@ -13,9 +13,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { biodataAnggotaSchema, BiodataAnggotaSchemaType } from "../../schema";
 import { useEffect } from "react";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 interface BiodataAnggotaFormProps {
   anggotaNumber: number;
@@ -39,9 +41,11 @@ const BiodataAnggotaForm = ({
       phone: initialData.phone,
       id_number: initialData.id_number,
       email: initialData.email,
+      id_card_picture: initialData.id_card_picture
     },
   });
 
+  
   useEffect(() => {
     if (onFormRef) {
       onFormRef(form);
@@ -53,18 +57,6 @@ const BiodataAnggotaForm = ({
       onSubmit(data);
     }
   };
-
-
-  const downloadIDCard = (participantId: string) => {
-    const url = process.env.NEXT_PUBLIC_API_URL + `/admin/participant/${participantId}/card`;
-    const link = document.createElement("a");
-    link.href = url;
-    link.target = "_blank";
-    link.download = `kartu-identitas-${participantId}.pdf`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
 
   return (
     <div className="border rounded-lg p-4 bg-white">
@@ -165,14 +157,17 @@ const BiodataAnggotaForm = ({
           />
 
           <div className="flex justify-end gap-2 pt-4">
-            <Button
-              type="button"
-              variant="outline"
-              className="text-blue-600 border-blue-600"
-              onClick={() => downloadIDCard(initialData.id)}
-            >
-              Lihat Kartu Identitas
-            </Button>
+            {initialData.id_card_picture && (
+              <Link
+                href={process.env.NEXT_PUBLIC_API_URL + initialData.id_card_picture}
+                className={cn(
+                  buttonVariants({ variant: "default" }),
+                  "bg-transparent text-blue-600 border border-blue-600 hover:bg-blue-600 hover:text-white"
+                )}
+              >
+                Lihat Kartu Identitas
+              </Link>
+            )}
           </div>
         </form>
       </Form>

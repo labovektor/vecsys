@@ -32,6 +32,7 @@ export type BiodataMember = {
 	email: string;
 	phone: string;
 	id_number: string; // NIS/NISN
+	id_card_picture?: string; 
 };
 
 export type Participant = {

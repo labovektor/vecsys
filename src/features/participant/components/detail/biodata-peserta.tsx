@@ -61,11 +61,8 @@ const BiodataPeserta = ({ participantId, participant }: BiodataPesertaProps) => 
         const anggotaNumber = index + 1;
         const formRef = formRefs.current[`anggota${anggotaNumber}`];
 
-        console.log(`Processing anggota ${anggotaNumber}:`, { formRef: !!formRef, existingMember: !!existingMember });
-
         if (formRef) {
           const formValues = formRef.getValues();
-          console.log(`Anggota ${anggotaNumber} form values:`, formValues);
 
           biodataArray.push({
             ...formValues,
@@ -80,6 +77,7 @@ const BiodataPeserta = ({ participantId, participant }: BiodataPesertaProps) => 
             email: existingMember.email,
             phone: existingMember.phone,
             id_number: existingMember.id_number,
+            id_card_picture: existingMember.id_card_picture
           });
         }
       });
@@ -126,6 +124,7 @@ const BiodataPeserta = ({ participantId, participant }: BiodataPesertaProps) => 
                 email: member.email,
                 phone: member.phone,
                 id_number: member.id_number,
+                id_card_picture: member.id_card_picture
               }}
               onFormRef={(formRef) => handleFormRef(index + 1, formRef)}
             />
