@@ -5,8 +5,9 @@ import { EventRegion } from "../event-region/dto";
 import { Event } from "../event/dto";
 import { Participant, ParticipantProgressStep } from "../participant/dto";
 
-export type ParticipantAdmistration = Participant & {
-  event: Event;
+export type ParticipantAdmistration = Omit<Participant, "biodata"> & {
+	event: Event;
+	biodata: ParticipantBiodata[];
 };
 
 export type ParticipantData = {

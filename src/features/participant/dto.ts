@@ -11,19 +11,47 @@ import { EventRegion } from "../event-region/dto";
 
 export type PaymentStep = "all" | "paid" | "unpaid";
 
-export type Participant = {
-  id: string;
-  event_id: string;
-  region_id: string;
-  region: EventRegion | null;
-  category_id: string;
-  category: EventCategory | null;
-  name: string;
-  institution_id: string;
-  email: string;
-  progress_step: ParticipantProgressStep;
-  verified_at: string;
-  locked_at: string;
-  created_at: string;
-  updated_at: string;
+export type Event = {
+	id: string;
+	admin_id: string;
+	name: string;
+	desc: string;
+	group_member_num: number;
+	icon: string;
+	participant_target: number;
+	period: string;
+	active: boolean;
+	created_at: string;
+	updated_at: string;
 };
+
+export type BiodataMember = {
+	id: string; 
+	name: string;
+	gender: "male" | "female";
+	email: string;
+	phone: string;
+	id_number: string; // NIS/NISN
+	id_card_picture?: string; 
+};
+
+export type Participant = {
+	id: string;
+	event_id: string;
+	event: Event;
+	region_id: string | null;
+	region: EventRegion | null;
+	category_id: string | null;
+	category: EventCategory | null;
+	name: string;
+	institution_id: string | null;
+	email: string;
+	biodata: BiodataMember[];
+	progress_step: ParticipantProgressStep;
+	verified_at?: string;
+	locked_at?: string;
+	created_at: string;
+	updated_at: string;
+};
+
+export type ParticipantDetail = Participant;

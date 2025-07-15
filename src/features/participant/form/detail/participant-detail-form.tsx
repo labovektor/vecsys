@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 import {
   participantDetailSchema,
   ParticipantDetailSchemaType,
-} from "../schema";
+} from "../../schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -21,10 +21,10 @@ import { Button } from "@/components/ui/button";
 const ParticipantDetailForm = ({
   id,
 }: // currentVal
-{
-  id: string;
-  // currentVal: Partial<Participant>;
-}) => {
+  {
+    id: string;
+    // currentVal: Partial<Participant>;
+  }) => {
   const queryClient = getQueryClient();
   const form = useForm<ParticipantDetailSchemaType>({
     resolver: zodResolver(participantDetailSchema),
