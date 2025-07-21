@@ -1,42 +1,99 @@
-import { 
-  Card, 
-  CardContent, 
-  CardHeader, 
-  CardTitle 
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle
 } from "@/components/ui/card";
-import { 
-  ChartConfig, 
-  ChartContainer, 
-  ChartLegend, 
-  ChartLegendContent, 
-  ChartTooltip, 
-  ChartTooltipContent 
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent
 } from "@/components/ui/chart";
 import React from "react";
-import { 
-  CartesianGrid, Line, 
-  LineChart, Pie, 
-  PieChart, XAxis 
+import {
+  CartesianGrid, Line,
+  LineChart, Pie,
+  PieChart, XAxis
 } from "recharts";
+import { Participant } from "../participant/dto";
 
-const EventDashboardChart = () => {
-  // TEMP DATA
-  const lineChartData = [
-    { month: "Januari", registrants: 186 },
-    { month: "Februari", registrants: 305 },
-    { month: "Maret", registrants: 237 },
-    { month: "April", registrants: 73 },
-    { month: "Mei", registrants: 209 },
-    { month: "Juni", registrants: 214 },
-  ]
+interface EventDashboardChartProps {
+  eventId: string | null;
+  participants?: Participant[];
+}
 
-  const pieChartData = [
-    { category: "SD Perorangan", participants: 275, fill: "hsl(var(--chart-1))" },
-    { category: "SMP Perorangan", participants: 200, fill: "hsl(var(--chart-2))" },
-    { category: "SMP Beregu", participants: 187, fill: "hsl(var(--chart-3))" },
-    { category: "SMA Perorangan", participants: 173, fill: "hsl(var(--chart-4))" },
-    { category: "SMA Beregu", participants: 90, fill: "hsl(var(--chart-5))" },
-  ]
+const EventDashboardChart = ({ eventId, participants }: EventDashboardChartProps) => {
+  const generateLineChartData = () => {
+    if (!participants || participants.length === 0) {
+      return [
+        { month: "Januari", registrants: 0 },
+        { month: "Februari", registrants: 0 },
+        { month: "Maret", registrants: 0 },
+        { month: "April", registrants: 0 },
+        { month: "Mei", registrants: 0 },
+        { month: "Juni", registrants: 0 },
+      ];
+    }
+
+    // Group participants by month
+    const monthlyData: { [key: string]: number } = {};
+    const monthNames = [
+      "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+      "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+    ];
+
+    participants.forEach(participant => {
+      const date = new Date(participant.created_at);
+      const monthIndex = date.getMonth();
+      const monthName = monthNames[monthIndex];
+      monthlyData[monthName] = (monthlyData[monthName] || 0) + 1;
+    });
+
+    // Convert to chart format
+    return monthNames.map(month => ({
+      month,
+      registrants: monthlyData[month] || 0
+    }));
+  };
+
+  // Generate pie chart data from participants' categories
+  const generatePieChartData = () => {
+    if (!participants || participants.length === 0) {
+      return [
+        {
+          category: "tidak-ada-data",
+          categoryName: "Tidak Ada Data",
+          participants: 0,
+          fill: "var(--color-tidak-ada-data)"
+        }
+      ];
+    }
+
+    // Group participants by category
+    const categoryData: { [key: string]: number } = {};
+
+    participants.forEach(participant => {
+      const categoryName = participant.category?.name || "Tidak Berkategori";
+      categoryData[categoryName] = (categoryData[categoryName] || 0) + 1;
+    });
+
+    // Convert to chart format with proper keys and chart variable prefixes
+    return Object.entries(categoryData).map(([categoryName, count]) => {
+      const categoryKey = categoryName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+      return {
+        category: categoryKey,
+        categoryName: categoryName,
+        participants: count,
+        fill: `var(--color-${categoryKey})`
+      };
+    });
+  };
+
+  const lineChartData = generateLineChartData();
+  const pieChartData = generatePieChartData();
 
   const lineChartConfig = {
     registrants: {
@@ -45,28 +102,19 @@ const EventDashboardChart = () => {
     },
   } satisfies ChartConfig
 
-  const pieChartConfig = {
-    "SD Perorangan": {
-      label: "SD Perorangan",
-      color: "hsl(var(--chart-1))",
-    },
-    "SMP Perorangan": {
-      label: "SMP Perorangan",
-      color: "hsl(var(--chart-2))",
-    },
-    "SMP Beregu": {
-      label: "SMP Beregu",
-      color: "hsl(var(--chart-3))",
-    },
-    "SMA Perorangan": {
-      label: "SMA Perorangan",
-      color: "hsl(var(--chart-4))",
-    },
-    "SMA Beregu": {
-      label: "SMA Beregu",
-      color: "hsl(var(--chart-5))",
-    },
-  } satisfies ChartConfig
+  // Generate pie chart config dynamically based on categories
+  const pieChartConfig = pieChartData.reduce((config, item, index) => {
+    const colors = [
+      "hsl(var(--chart-1))", "hsl(var(--chart-2))", "hsl(var(--chart-3))",
+      "hsl(var(--chart-4))", "hsl(var(--chart-5))"
+    ];
+
+    config[item.category] = {
+      label: item.categoryName,
+      color: colors[index % colors.length],
+    };
+    return config;
+  }, {} as Record<string, { label: string; color: string }>) satisfies ChartConfig;
 
   return (
     <>
@@ -81,16 +129,16 @@ const EventDashboardChart = () => {
               <LineChart
                 accessibilityLayer
                 data={lineChartData}
-                margin={{left: 12, right: 12}}
+                margin={{ left: 12, right: 12 }}
               >
                 <CartesianGrid />
-                <XAxis 
+                <XAxis
                   dataKey="month"
                   tickLine={false}
                   axisLine={false}
                   tickMargin={8}
                 />
-                <ChartTooltip 
+                <ChartTooltip
                   content={<ChartTooltipContent />}
                 />
                 <Line
@@ -110,10 +158,14 @@ const EventDashboardChart = () => {
           <CardContent>
             <ChartContainer config={pieChartConfig} className="aspect-auto h-[250px] w-full">
               <PieChart>
-                <ChartTooltip content={<ChartTooltipContent className="w-[170px]"/>}/>
-                <Pie data={pieChartData} nameKey="category" dataKey="participants" />
+                <ChartTooltip content={<ChartTooltipContent className="w-[170px]" />} />
+                <Pie
+                  data={pieChartData}
+                  nameKey="category"
+                  dataKey="participants"
+                />
                 <ChartLegend
-                  content={<ChartLegendContent nameKey="category" payload={undefined} />}
+                  content={<ChartLegendContent nameKey="category" />}
                   className="flex-wrap gap-2 justify-center"
                 />
               </PieChart>
