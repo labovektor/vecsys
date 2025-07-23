@@ -55,7 +55,22 @@ const EventDashboardData = () => {
     enabled: !!selectedEventId,
   });
 
-  if (isLoadingEvent || isLoadingParticipants || !selectedEventId) {
+  // Fetch paid participants for category breakdown
+  const { data: participantsPaidData, isLoading: isLoadingPaid } = useQuery({
+    queryKey: ["participantsPaid", selectedEventId],
+    queryFn: async () => {
+      if (!selectedEventId) return [];
+      return handleRequest<Participant[]>("GET", `/admin/event/${selectedEventId}/participant?step=paid`).then((res) => {
+        if (res.error) {
+          toast.error(res.error.message);
+        }
+        return res.data || [];
+      });
+    },
+    enabled: !!selectedEventId,
+  });
+
+  if (isLoadingEvent || isLoadingParticipants || isLoadingPaid || !selectedEventId) {
     return <div className="text-center">Loading...</div>;
   }
 
@@ -194,7 +209,11 @@ const EventDashboardData = () => {
           </div>
         </Card>
       </div>
-      <EventDashboardChart eventId={selectedEventId} participants={participantsData} />
+      <EventDashboardChart
+        eventId={selectedEventId}
+        participantsAll={participantsData}
+        participantsPaid={participantsPaidData}
+      />
     </>
   );
 };

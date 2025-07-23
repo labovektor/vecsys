@@ -22,12 +22,13 @@ import { Participant } from "../participant/dto";
 
 interface EventDashboardChartProps {
   eventId: string | null;
-  participants?: Participant[];
+  participantsAll?: Participant[];
+  participantsPaid?: Participant[];
 }
 
-const EventDashboardChart = ({ eventId, participants }: EventDashboardChartProps) => {
+const EventDashboardChart = ({ eventId, participantsAll, participantsPaid }: EventDashboardChartProps) => {
   const generateLineChartData = () => {
-    if (!participants || participants.length === 0) {
+    if (!participantsAll || participantsAll.length === 0) {
       return [
         { month: "Januari", registrants: 0 },
         { month: "Februari", registrants: 0 },
@@ -45,7 +46,7 @@ const EventDashboardChart = ({ eventId, participants }: EventDashboardChartProps
       "Juli", "Agustus", "September", "Oktober", "November", "Desember"
     ];
 
-    participants.forEach(participant => {
+    participantsAll.forEach(participant => {
       const date = new Date(participant.created_at);
       const monthIndex = date.getMonth();
       const monthName = monthNames[monthIndex];
@@ -61,7 +62,7 @@ const EventDashboardChart = ({ eventId, participants }: EventDashboardChartProps
 
   // Generate pie chart data from participants' categories
   const generatePieChartData = () => {
-    if (!participants || participants.length === 0) {
+    if (!participantsPaid || participantsPaid.length === 0) {
       return [
         {
           category: "tidak-ada-data",
@@ -75,7 +76,7 @@ const EventDashboardChart = ({ eventId, participants }: EventDashboardChartProps
     // Group participants by category
     const categoryData: { [key: string]: number } = {};
 
-    participants.forEach(participant => {
+    participantsPaid.forEach(participant => {
       const categoryName = participant.category?.name || "Tidak Berkategori";
       categoryData[categoryName] = (categoryData[categoryName] || 0) + 1;
     });
