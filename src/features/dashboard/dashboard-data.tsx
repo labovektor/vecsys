@@ -7,7 +7,6 @@ import {
   CardDescription,
   CardHeader,
 } from "@/components/ui/card";
-import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import {
   ChevronRight,
@@ -18,26 +17,89 @@ import {
   Users2,
 } from "lucide-react";
 import EventDashboardChart from "./dashboard-chart";
+import { useQuery } from "@tanstack/react-query";
+import handleRequest from "@/axios/request";
+import { toast } from "sonner";
+import { Event } from "@/features/event/dto";
+import { Participant } from "@/features/participant/dto";
 
 const EventDashboardData = () => {
   const searchParams = useSearchParams();
   const selectedEventId = searchParams.get("eventId");
 
-  // HARDCODE (Temp data)
-  const currentTarget = 1257;
-  const finalTarget = 5000;
-  const sudahBayarMas = 410;
-  let progress = (currentTarget / finalTarget) * 100;
+  const { data: eventData, isLoading: isLoadingEvent } = useQuery({
+    queryKey: ["event", selectedEventId],
+    queryFn: async () => {
+      if (!selectedEventId) return null;
+      return handleRequest<Event>("GET", `/event/${selectedEventId}`).then((res) => {
+        if (res.error) {
+          toast.error(res.error.message);
+        }
+        return res.data;
+      });
+    },
+    enabled: !!selectedEventId,
+  });
+
+  const { data: participantsData, isLoading: isLoadingParticipants } = useQuery({
+    queryKey: ["participants", selectedEventId],
+    queryFn: async () => {
+      if (!selectedEventId) return [];
+      return handleRequest<Participant[]>("GET", `/admin/event/${selectedEventId}/participant?step=all`).then((res) => {
+        if (res.error) {
+          toast.error(res.error.message);
+        }
+        return res.data || [];
+      });
+    },
+    enabled: !!selectedEventId,
+  });
+
+  // Fetch paid participants for category breakdown
+  const { data: participantsPaidData, isLoading: isLoadingPaid } = useQuery({
+    queryKey: ["participantsPaid", selectedEventId],
+    queryFn: async () => {
+      if (!selectedEventId) return [];
+      return handleRequest<Participant[]>("GET", `/admin/event/${selectedEventId}/participant?step=paid`).then((res) => {
+        if (res.error) {
+          toast.error(res.error.message);
+        }
+        return res.data || [];
+      });
+    },
+    enabled: !!selectedEventId,
+  });
+
+  if (isLoadingEvent || isLoadingParticipants || isLoadingPaid || !selectedEventId) {
+    return <div className="text-center">Loading...</div>;
+  }
+
+  // Calculate statistics from participants data
+  const totalParticipants = participantsData?.length || 0;
+  const finalTarget = eventData?.participant_target || 0;
+  const progress = finalTarget > 0 ? (totalParticipants / finalTarget) * 100 : 0;
+
+  // Calculate participant statistics by progress_step
+  const paidParticipants = participantsData?.filter(p => p.progress_step === "paid" || p.progress_step === "verified" || p.progress_step === "locked").length || 0;
+  const unpaidParticipants = totalParticipants - paidParticipants;
+  const waitingConfirmation = participantsData?.filter(p => p.progress_step === "registered" || p.progress_step === "categorized").length || 0;
+  const lockedParticipants = participantsData?.filter(p => p.progress_step === "locked").length || 0;
+
+  const currentTarget = selectedEventId ? totalParticipants : 0;
+  const sudahBayar = selectedEventId ? paidParticipants : 0;
+  const belumBayar = selectedEventId ? unpaidParticipants : 0;
+  const menungguKonfirmasi = selectedEventId ? waitingConfirmation : 0;
+
+
 
   return (
     <>
       <div className="space-y-1.5">
         <div className="flex gap-1">
           <p className="text-sm">Target Peserta: </p>
-          <p className="text-sm font-bold">{`${currentTarget}/${finalTarget}`}</p>{" "}
-          {/*hardcode*/}
+          <p className="text-sm font-bold">{`${currentTarget}/${finalTarget}`}</p>
         </div>
-        <Progress value={progress} className="h-[10]" />
+        <Progress key={selectedEventId} value={progress} className="h-[10]" />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-center">
@@ -67,7 +129,7 @@ const EventDashboardData = () => {
               <CardDescription>Menunggu Konfirmasi</CardDescription>
             </CardHeader>
             <CardContent className="p-0 pb-2 ">
-              <h1 className="text-2xl font-bold">58</h1>
+              <h1 className="text-2xl font-bold">{menungguKonfirmasi}</h1>
             </CardContent>
           </div>
           <div>
@@ -84,6 +146,7 @@ const EventDashboardData = () => {
               <CardDescription>Ujian Aktif</CardDescription>
             </CardHeader>
             <CardContent className="p-0 pb-2">
+              {/* Using dummy 0 as no exam data available yet */}
               <h1 className="text-2xl font-bold">0</h1>
             </CardContent>
           </div>
@@ -102,7 +165,7 @@ const EventDashboardData = () => {
             </CardHeader>
             <CardContent className="p-0 pb-2">
               <h1 className="text-2xl font-bold">
-                {currentTarget - sudahBayarMas}
+                {belumBayar}
               </h1>
             </CardContent>
           </div>
@@ -120,7 +183,7 @@ const EventDashboardData = () => {
               <CardDescription>Sudah Membayar</CardDescription>
             </CardHeader>
             <CardContent className="p-0 pb-2">
-              <h1 className="text-2xl font-bold">{sudahBayarMas}</h1>
+              <h1 className="text-2xl font-bold">{sudahBayar}</h1>
             </CardContent>
           </div>
           <div>
@@ -137,7 +200,8 @@ const EventDashboardData = () => {
               <CardDescription>Total Ujian</CardDescription>
             </CardHeader>
             <CardContent className="p-0 pb-2 ">
-              <h1 className="text-2xl font-bold">3</h1>
+              {/* Using dummy 0 as no exam data available yet */}
+              <h1 className="text-2xl font-bold">0</h1>
             </CardContent>
           </div>
           <div>
@@ -145,7 +209,11 @@ const EventDashboardData = () => {
           </div>
         </Card>
       </div>
-      <EventDashboardChart />
+      <EventDashboardChart
+        eventId={selectedEventId}
+        participantsAll={participantsData}
+        participantsPaid={participantsPaidData}
+      />
     </>
   );
 };
