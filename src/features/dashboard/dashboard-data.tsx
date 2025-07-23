@@ -99,7 +99,7 @@ const EventDashboardData = () => {
           <p className="text-sm">Target Peserta: </p>
           <p className="text-sm font-bold">{`${currentTarget}/${finalTarget}`}</p>
         </div>
-        <Progress value={progress} className="h-[10]" />
+        <Progress key={selectedEventId} value={progress} className="h-[10]" />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-center">
