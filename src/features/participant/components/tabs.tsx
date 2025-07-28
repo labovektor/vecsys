@@ -4,7 +4,7 @@ import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useSearchParams } from "next/navigation";
 import EmptyState from "./empty-state";
-import KelolaPeserta from "./kelola-peserta";
+import KelolaPeserta from "../kelola-peserta";
 import { useQuery } from "@tanstack/react-query";
 import handleRequest from "@/axios/request";
 import { Participant } from "../dto";
