@@ -1,10 +1,16 @@
+export type ParticipantProgressStep =
+  | "registered"
+  | "categorized"
+  | "paid"
+  | "verified"
+  | "select_institution"
+  | "fill_biodatas"
+  | "locked";
 import { EventCategory } from "../event-category/dto";
 import { Institution } from "../event-instansi/dto";
 import { PaymentOption } from "../event-payment/dto";
-import { PaymentOptionSchemaType } from "../event-payment/schema";
 import { EventReferral } from "../event-referral/dto";
 import { EventRegion } from "../event-region/dto";
-import { Event } from "../event/dto";
 
 export type PaymentStep = "all" | "paid" | "unpaid";
 
@@ -42,3 +48,15 @@ export type PaymentData = {
   created_at: string;
   updated_at: string;
 };
+
+export type BiodataMember = {
+  id: string;
+  name: string;
+  gender: "male" | "female";
+  email: string;
+  phone: string;
+  id_number: string; // NIS/NISN
+  id_card_picture?: string;
+};
+
+export type ParticipantDetail = Participant;

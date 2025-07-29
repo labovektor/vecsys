@@ -40,6 +40,7 @@ const NewPaymentOptionForm = ({ id }: { id: string }) => {
       name: "",
       account: "",
       as_qr: false,
+      amount: 0,
     },
   });
 
@@ -55,6 +56,7 @@ const NewPaymentOptionForm = ({ id }: { id: string }) => {
       return;
     }
 
+    form.reset();
     setOpen(false);
     queryClient.refetchQueries({ queryKey: ["payment-options", id] });
   }
@@ -94,7 +96,10 @@ const NewPaymentOptionForm = ({ id }: { id: string }) => {
                 <FormItem>
                   <FormLabel>Nama Pemilik Akun</FormLabel>
                   <FormControl>
-                    <Input placeholder="Masukkan nama pemilik akun" {...field} />
+                    <Input
+                      placeholder="Masukkan nama pemilik akun"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -147,6 +152,24 @@ const NewPaymentOptionForm = ({ id }: { id: string }) => {
                           ? "Masukkan URL gambar QR Code"
                           : "Masukkan nomor rekening"
                       }
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="amount"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nominal (IDR)</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      placeholder="Masukkan nominal"
                       {...field}
                     />
                   </FormControl>
