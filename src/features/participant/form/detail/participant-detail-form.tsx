@@ -122,6 +122,7 @@ const ParticipantDetailForm = ({
                 <FormLabel className="w-40">Terverifikasi?</FormLabel>
                 <FormControl className="flex-1">
                   <RadioGroup
+                    disabled
                     className="flex gap-8"
                     value={field.value}
                     onValueChange={field.onChange}
@@ -199,7 +200,7 @@ const ParticipantDetailForm = ({
               <FormItem className="flex items-center justify-between">
                 <FormLabel className="w-40">Nama Sekolah</FormLabel>
                 <FormControl className="flex-1">
-                  <Input {...field} readOnly />
+                  <Input disabled {...field} readOnly />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -213,7 +214,7 @@ const ParticipantDetailForm = ({
               <FormItem className="flex items-center justify-between">
                 <FormLabel className="w-40">Nama Pendamping</FormLabel>
                 <FormControl className="flex-1">
-                  <Input {...field} readOnly />
+                  <Input disabled {...field} readOnly />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -227,7 +228,7 @@ const ParticipantDetailForm = ({
               <FormItem className="flex items-center justify-between">
                 <FormLabel className="w-40">Nomor Telepon Pendamping</FormLabel>
                 <FormControl className="flex-1">
-                  <Input {...field} readOnly />
+                  <Input disabled {...field} readOnly />
                 </FormControl>
                 <FormMessage />
               </FormItem>
