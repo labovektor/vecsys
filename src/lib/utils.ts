@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { baseURL } from "@/axios/axios";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -132,3 +133,24 @@ export function createFormData(data: Record<string, any>): FormData {
 
   return formData;
 }
+
+export function getProfileImageUrl(
+  profilePicture?: string | null
+): string | undefined {
+  if (!profilePicture) return undefined;
+  return `${baseURL}${profilePicture}`;
+}
+
+export const csvToText = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    if (file.type !== "text/csv") {
+      reject(new Error("File bukan CSV"));
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = reject;
+    reader.readAsText(file); // ini penting untuk CSV
+  });
+};

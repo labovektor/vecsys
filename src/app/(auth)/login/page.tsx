@@ -22,7 +22,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { SchemaLogin, schemaLogin } from "@/features/auth/schema";
+import {
+  SchemaLoginAdmin as SchemaLogin,
+  schemaLoginAdmin as schemaLogin,
+} from "@/features/auth/schema";
 import { useRouter } from "next/navigation";
 import { VIcons } from "@/lib/asset";
 import handleRequest from "@/axios/request";
