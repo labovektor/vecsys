@@ -1,26 +1,13 @@
-import handleRequest from "@/axios/request";
 import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
-import { EventCategory } from "./dto";
-import { toast } from "sonner";
-import { useQuery } from "@tanstack/react-query";
 import { DataTable } from "@/components/table/data-table";
 import { eventCategoryColumn } from "./components/event-category-column";
 import AddEventCategoryDialog from "./forms/new-category-form";
+import { useCategory } from "./hooks/useCategory";
 
 const KelolaCategory = ({ id }: { id: string }) => {
-  const { data: categories, isLoading } = useQuery({
-    queryKey: ["categories"],
-    queryFn: async () =>
-      handleRequest<EventCategory[]>("GET", `/admin/event/${id}/category`).then(
-        (res) => {
-          if (res.error) {
-            toast.error(res.error.message);
-          }
-          return res.data;
-        }
-      ),
-  });
+  const { data: categories, isLoading } = useCategory(id);
+
   return (
     <Card className="w-full h-full bg-white ">
       <CardContent>
