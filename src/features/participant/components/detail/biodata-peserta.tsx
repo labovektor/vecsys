@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import BiodataAnggotaForm from "../../form/detail/biodata-anggota-form";
 import { UpdateBiodatasSchemaType } from "../../schema";
 import { Button } from "@/components/ui/button";
 import { TrashIcon } from "lucide-react";
@@ -11,13 +10,17 @@ import { toast } from "sonner";
 import handleRequest from "@/axios/request";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ParticipantDetail } from "../../dto";
+import BiodataAnggotaForm from "../../form/detail/biodata-anggota-form";
 
 interface BiodataPesertaProps {
   participantId: string;
   participant?: ParticipantDetail;
 }
 
-const BiodataPeserta = ({ participantId, participant }: BiodataPesertaProps) => {
+const BiodataPeserta = ({
+  participantId,
+  participant,
+}: BiodataPesertaProps) => {
   const queryClient = getQueryClient();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -35,21 +38,22 @@ const BiodataPeserta = ({ participantId, participant }: BiodataPesertaProps) => 
 
   const handleHapusPeserta = useMutation({
     mutationKey: ["deleteParticipant", participantId],
-    mutationFn: () => {
-      return handleRequest("DELETE", `/admin/participant/${participantId}`).then(res => {
-        if (res.error) {
-          throw new Error(res.error.message);
+    mutationFn: () =>
+      handleRequest("DELETE", `/admin/participant/${participantId}`).then(
+        (res) => {
+          if (res.error) {
+            throw new Error(res.error.message);
+          }
+          return res.data;
         }
-        return res.data;
-      });
-    },
+      ),
     onSuccess: () => {
       toast.success("Peserta berhasil dihapus");
       router.push(`/dashboard/participant?eventId=${eventId}`);
     },
     onError: (error) => {
       toast.error(error.message);
-    }
+    },
   });
 
   const handleSimpanPerubahan = useMutation({
@@ -77,7 +81,7 @@ const BiodataPeserta = ({ participantId, participant }: BiodataPesertaProps) => 
             email: existingMember.email,
             phone: existingMember.phone,
             id_number: existingMember.id_number,
-            id_card_picture: existingMember.id_card_picture
+            id_card_picture: existingMember.id_card_picture,
           });
         }
       });
@@ -86,7 +90,11 @@ const BiodataPeserta = ({ participantId, participant }: BiodataPesertaProps) => 
         throw new Error("No biodata to save. No existing biodata found.");
       }
 
-      return handleRequest<any>("PATCH", `/admin/participant/${participantId}/biodatas`, biodataArray).then(res => {
+      return handleRequest<any>(
+        "PATCH",
+        `/admin/participant/${participantId}/biodatas`,
+        biodataArray
+      ).then((res) => {
         if (res.error) {
           throw new Error(res.error.message);
         }
@@ -99,7 +107,7 @@ const BiodataPeserta = ({ participantId, participant }: BiodataPesertaProps) => 
     },
     onError: (error) => {
       toast.error(error.message);
-    }
+    },
   });
 
   return (
@@ -108,10 +116,15 @@ const BiodataPeserta = ({ participantId, participant }: BiodataPesertaProps) => 
         <h2 className="text-xl font-bold">Biodata Anggota</h2>
       </div>
 
-      <div className={`grid gap-6 ${biodataMembers.length === 1 ? 'grid-cols-1 max-w-md' :
-        biodataMembers.length === 2 ? 'grid-cols-1 lg:grid-cols-2' :
-          'grid-cols-1 lg:grid-cols-3'
-        }`}>
+      <div
+        className={`grid gap-6 ${
+          biodataMembers.length === 1
+            ? "grid-cols-1 max-w-md"
+            : biodataMembers.length === 2
+            ? "grid-cols-1 lg:grid-cols-2"
+            : "grid-cols-1 lg:grid-cols-3"
+        }`}
+      >
         {biodataMembers.length > 0 ? (
           biodataMembers.map((member, index) => (
             <BiodataAnggotaForm
@@ -124,14 +137,16 @@ const BiodataPeserta = ({ participantId, participant }: BiodataPesertaProps) => 
                 email: member.email,
                 phone: member.phone,
                 id_number: member.id_number,
-                id_card_picture: member.id_card_picture
+                id_card_picture: member.id_card_picture,
               }}
               onFormRef={(formRef) => handleFormRef(index + 1, formRef)}
             />
           ))
         ) : (
           <div className="col-span-full text-center py-8">
-            <p className="text-gray-500">Tidak ada biodata ditemukan untuk peserta ini.</p>
+            <p className="text-gray-500">
+              Tidak ada biodata ditemukan untuk peserta ini.
+            </p>
           </div>
         )}
       </div>
@@ -151,7 +166,9 @@ const BiodataPeserta = ({ participantId, participant }: BiodataPesertaProps) => 
           className="bg-blue-600 hover:bg-blue-700"
           disabled={handleSimpanPerubahan.isPending}
         >
-          {handleSimpanPerubahan.isPending ? "Menyimpan..." : "Simpan Perubahan"}
+          {handleSimpanPerubahan.isPending
+            ? "Menyimpan..."
+            : "Simpan Perubahan"}
         </Button>
       </div>
     </div>

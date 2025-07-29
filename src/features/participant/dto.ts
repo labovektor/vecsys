@@ -32,6 +32,7 @@ export type Participant = {
   created_at: string;
   updated_at: string;
   payment: PaymentData | null;
+  biodata: BiodataMember[] | null;
 };
 
 export type PaymentData = {
