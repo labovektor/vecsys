@@ -3,8 +3,8 @@
 import handleRequest from "@/axios/request";
 import { Admin } from "@/features/auth/entity";
 import { useQuery } from "@tanstack/react-query";
-import { usePathname, useRouter } from "next/navigation";
-import { createContext, useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import { createContext, useMemo } from "react";
 import { toast } from "sonner";
 
 type AuthContextProviderProps = {
@@ -14,7 +14,6 @@ type AuthContextProviderProps = {
 interface AuthContextType {
   user?: Admin | null;
   loading: boolean;
-  error?: string;
   logout: VoidFunction;
 }
 
@@ -25,13 +24,7 @@ export const AuthContext = createContext<AuthContextType>(
 export default function AuthContextProvider({
   children,
 }: AuthContextProviderProps) {
-  const [error, setError] = useState<string>();
   const router = useRouter();
-  const pathname = usePathname();
-
-  useEffect(() => {
-    if (error) setError(undefined);
-  }, [pathname]);
 
   const { data: admin, isPending } = useQuery({
     queryKey: ["profile"],
@@ -44,19 +37,16 @@ export default function AuthContextProvider({
       }),
   });
 
-  function logout() {
-    handleRequest<unknown>("GET", "/admin/logout");
-    router.replace("/login");
-  }
-
   const memoedValue = useMemo(
     () => ({
       user: admin,
       loading: isPending,
-      error,
-      logout,
+      logout: () => {
+        handleRequest<unknown>("GET", "/admin/logout");
+        router.replace("/login");
+      },
     }),
-    [admin, error],
+    [admin, isPending, router],
   );
 
   return (

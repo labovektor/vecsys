@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Pencil, Plus } from "lucide-react";
+import { Pencil } from "lucide-react";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { editCategorySchema, EditCategorySchemaType } from "../schema";

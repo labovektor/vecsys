@@ -113,34 +113,38 @@ const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
           <FormField
             control={form.control}
             name="icon"
-            render={({ field: { value, ...fieldValues } }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    accept="image/*"
-                    type="file"
-                    {...fieldValues}
-                    onChange={async (e) => {
-                      if (!e.target.files) {
-                        return;
-                      }
-                      const file = e.target.files[0];
+            render={({ field }) => {
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+              const { value, ...fieldValues } = field;
+              return (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      accept="image/*"
+                      type="file"
+                      {...fieldValues}
+                      onChange={async (e) => {
+                        if (!e.target.files) {
+                          return;
+                        }
+                        const file = e.target.files[0];
 
-                      fieldValues.onChange(file);
-                      setPreview(URL.createObjectURL(file));
-                    }}
-                  />
-                </FormControl>
+                        fieldValues.onChange(file);
+                        setPreview(URL.createObjectURL(file));
+                      }}
+                    />
+                  </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            )}
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
           />
 
           <div>
             {preview ? (
               <div className=" w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
-                <img src={preview} className=" object-contain" />
+                <img src={preview} alt="Preview" className=" object-contain" />
               </div>
             ) : (
               <CircleOff className=" text-muted-foreground" />

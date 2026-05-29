@@ -34,7 +34,7 @@ const KelolaPeserta = ({ id, step }: { id: string; step: PaymentStep }) => {
           data={participant || []}
           loading={isLoading}
           columns={getParticipantColumn(step)}
-          actions={(data, table) => (
+          actions={(data) => (
             <div className="flex gap-2">
               <BulkAddParticipantsForm eventId={id} />
               <Button

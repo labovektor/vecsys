@@ -70,7 +70,7 @@ export function beautifyDate(val: string | number, format: DateFormat): string {
   }
 }
 
-export function getUniqueProperties<T extends Record<string, any>>(
+export function getUniqueProperties<T extends Record<string, unknown>>(
   a: T,
   b: Partial<T>,
 ): Partial<T> {
@@ -90,7 +90,10 @@ export function getUniqueProperties<T extends Record<string, any>>(
       typeof bValue === "object" &&
       bValue !== null
     ) {
-      const nestedDiff = getUniqueProperties(aValue, bValue);
+      const nestedDiff = getUniqueProperties(
+        aValue as Record<string, unknown>,
+        bValue as Partial<Record<string, unknown>>,
+      );
       if (Object.keys(nestedDiff).length > 0) {
         return { ...result, [key]: nestedDiff };
       }
@@ -106,7 +109,7 @@ export function getUniqueProperties<T extends Record<string, any>>(
   }, {} as Partial<T>);
 }
 
-export function createFormData(data: Record<string, any>): FormData {
+export function createFormData(data: Record<string, unknown>): FormData {
   const formData = new FormData();
 
   Object.keys(data).forEach((key) => {
@@ -118,7 +121,7 @@ export function createFormData(data: Record<string, any>): FormData {
 
     if (Array.isArray(value)) {
       // If the value is an array, append each item individually
-      value.forEach((item) => formData.append(`${key}[]`, item));
+      value.forEach((item: unknown) => formData.append(`${key}[]`, item as string));
     } else if (value instanceof File) {
       // If the value is a File, append it directly
       formData.append(key, value);
@@ -127,7 +130,7 @@ export function createFormData(data: Record<string, any>): FormData {
       formData.append(key, JSON.stringify(value));
     } else {
       // For other types (string, number, etc.), append as-is
-      formData.append(key, value);
+      formData.append(key, value as string);
     }
   });
 

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { UpdateBiodatasSchemaType } from "../../schema";
+import { UpdateBiodatasSchemaType, BiodataAnggotaSchemaType } from "../../schema";
 import { Button } from "@/components/ui/button";
 import { TrashIcon } from "lucide-react";
 import { getQueryClient } from "@/lib/get-query-client";
@@ -11,6 +11,7 @@ import handleRequest from "@/axios/request";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ParticipantDetail } from "../../dto";
 import BiodataAnggotaForm from "../../form/detail/biodata-anggota-form";
+import type { UseFormReturn } from "react-hook-form";
 
 interface BiodataPesertaProps {
   participantId: string;
@@ -26,13 +27,13 @@ const BiodataPeserta = ({
   const searchParams = useSearchParams();
   const eventId = searchParams.get("eventId");
 
-  const formRefs = React.useRef<{ [key: string]: any }>({});
+  const formRefs = React.useRef<{ [key: string]: UseFormReturn<BiodataAnggotaSchemaType> }>({});
 
   const biodataMembers = React.useMemo(() => {
     return participant?.biodata || [];
   }, [participant?.biodata]);
 
-  const handleFormRef = (anggotaNumber: number, formRef: any) => {
+  const handleFormRef = (anggotaNumber: number, formRef: UseFormReturn<BiodataAnggotaSchemaType>) => {
     formRefs.current[`anggota${anggotaNumber}`] = formRef;
   };
 
@@ -90,7 +91,7 @@ const BiodataPeserta = ({
         throw new Error("No biodata to save. No existing biodata found.");
       }
 
-      return handleRequest<any>(
+      return handleRequest<unknown>(
         "PATCH",
         `/admin/participant/${participantId}/biodatas`,
         biodataArray,

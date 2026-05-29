@@ -20,15 +20,15 @@ const SuccessPage = () => {
   const [loading, setLoading] = React.useState(false);
   const getParticipantCard = async () => {
     setLoading(true);
-    const { error, data } = await handleRequest<any>(
+    const { error, data } = await handleRequest<ArrayBuffer>(
       "GET",
       "/user/data/card",
       undefined,
       "arraybuffer",
     );
     setLoading(false);
-    if (error) {
-      toast.error(error.message);
+    if (error || !data) {
+      if (error) toast.error(error.message);
       return;
     }
 

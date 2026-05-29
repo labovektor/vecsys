@@ -3,7 +3,7 @@
 import handleRequest from "@/axios/request";
 import { ParticipantProgressStep } from "@/features/participant/dto";
 import { CreditCard, ListTodo, Loader, Receipt } from "lucide-react";
-import React, { useContext, useEffect, useMemo } from "react";
+import React, { useContext, useMemo } from "react";
 import { toast } from "sonner";
 import { ParticipantState } from "../dto";
 import { useQuery } from "@tanstack/react-query";
@@ -81,7 +81,7 @@ export function ParticipantAdministrationProfileProvider({
 }: ParticipantAdministrationProfileProviderProps) {
   const [selectedPayment, setSelectedPayment] =
     React.useState<PaymentOption | null>(null);
-  const [selectedTab, setSelectedTab] = React.useState(steps[0]);
+  const [stepIndexOverride, setStepIndexOverride] = React.useState<number | null>(null);
 
   const { data: progressState, isLoading } = useQuery({
     queryKey: ["progress"],
@@ -94,45 +94,37 @@ export function ParticipantAdministrationProfileProvider({
       }),
   });
 
-  useEffect(() => {
-    const step = steps.find((step) => step.step === progressState?.step);
+  const stepIndex = useMemo(() => {
+    if (stepIndexOverride !== null) return stepIndexOverride;
+    const idx = steps.findIndex((s) => s.step === progressState?.step);
+    return idx >= 0 ? idx : 0;
+  }, [stepIndexOverride, progressState]);
 
-    if (step) {
-      setSelectedTab(step);
-    }
-  }, [progressState]);
-
-  const toNextStep = () => {
-    setSelectedTab((prev) => {
-      const currentStep = steps.findIndex((step) => step.id === prev.id);
-      if (currentStep === steps.length - 1) {
-        return prev;
-      }
-      return steps[currentStep + 1];
-    });
-  };
-
-  const toPreviousStep = () => {
-    setSelectedTab((prev) => {
-      const currentStep = steps.findIndex((step) => step.id === prev.id);
-      if (currentStep === 0) {
-        return prev;
-      }
-      return steps[currentStep - 1];
-    });
-  };
+  const selectedTab = steps[stepIndex];
 
   const memoedValue = useMemo(
     () => ({
       steps,
       focusedStep: selectedTab,
       isLoading,
-      toPreviousStep,
-      toNextStep,
+      toNextStep: () => {
+        setStepIndexOverride((prev) => {
+          const currentIdx = prev ?? steps.findIndex((s) => s.step === progressState?.step);
+          if (currentIdx < 0 || currentIdx >= steps.length - 1) return prev;
+          return currentIdx + 1;
+        });
+      },
+      toPreviousStep: () => {
+        setStepIndexOverride((prev) => {
+          const currentIdx = prev ?? steps.findIndex((s) => s.step === progressState?.step);
+          if (currentIdx <= 0) return prev;
+          return currentIdx - 1;
+        });
+      },
       selectedPayment,
       setSelectedPayment,
     }),
-    [selectedTab, isLoading, selectedPayment, progressState, isLoading],
+    [selectedTab, isLoading, progressState, selectedPayment, setSelectedPayment],
   );
 
   return (

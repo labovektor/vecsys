@@ -1,5 +1,14 @@
 import { beautifyDate } from "@/lib/utils";
-import { IColumn } from "json-as-xlsx";
+import type { IColumn } from "json-as-xlsx";
+
+interface ExcelParticipantRow {
+  no?: string;
+  name?: string;
+  region?: { name: string } | null;
+  category?: { name: string } | null;
+  progress_step?: string;
+  verified_at?: string | null;
+}
 
 export const excelParticipantColumn: IColumn[] = [
   {
@@ -12,19 +21,21 @@ export const excelParticipantColumn: IColumn[] = [
   },
   {
     label: "Region",
-    value: (row) => (row.region ? (row.region as any).name : "-"),
+    value: (row: ExcelParticipantRow) =>
+      row.region ? row.region.name : "-",
   },
   {
     label: "Jenjang",
-    value: (row) => (row.category ? (row.category as any).name : "-"),
+    value: (row: ExcelParticipantRow) =>
+      row.category ? row.category.name : "-",
   },
   { label: "Status", value: "progress_step" },
   {
     label: "Verifikasi",
-    value: (row) =>
+    value: (row: ExcelParticipantRow) =>
       row.verified_at
         ? beautifyDate(
-            new Date(row.verified_at as string).toISOString(),
+            new Date(row.verified_at).toISOString(),
             "FULL",
           )
         : "-",

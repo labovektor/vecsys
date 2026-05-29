@@ -173,34 +173,38 @@ const AddMemberForm = ({
             <FormField
               control={form.control}
               name="id_card"
-              render={({ field: { value, ...fieldValues } }) => (
-                <FormItem>
-                  <FormLabel>Foto Kartu Identitas</FormLabel>
-                  <FormControl>
-                    <Input
-                      accept="image/*"
-                      type="file"
-                      {...fieldValues}
-                      onChange={async (e) => {
-                        if (!e.target.files) {
-                          return;
-                        }
-                        const file = e.target.files[0];
+              render={({ field }) => {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const { value, ...fieldValues } = field;
+                return (
+                  <FormItem>
+                    <FormLabel>Foto Kartu Identitas</FormLabel>
+                    <FormControl>
+                      <Input
+                        accept="image/*"
+                        type="file"
+                        {...fieldValues}
+                        onChange={async (e) => {
+                          if (!e.target.files) {
+                            return;
+                          }
+                          const file = e.target.files[0];
 
-                        fieldValues.onChange(file);
-                        setPreview(URL.createObjectURL(file));
-                      }}
-                    />
-                  </FormControl>
-                  <FormDescription>Biasanya berupa NISN/NIM</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
+                          fieldValues.onChange(file);
+                          setPreview(URL.createObjectURL(file));
+                        }}
+                      />
+                    </FormControl>
+                    <FormDescription>Biasanya berupa NISN/NIM</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
             />
 
             <div>
               {preview && (
-                <img src={preview} className=" max-h-24 object-contain" />
+                <img src={preview} alt="Preview" className=" max-h-24 object-contain" />
               )}
             </div>
 

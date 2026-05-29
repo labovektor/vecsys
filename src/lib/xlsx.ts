@@ -4,8 +4,8 @@ import xlsx, {
   type ISettings,
 } from "json-as-xlsx";
 
-export function exportAsExcelFile(
-  data: any[],
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function exportAsExcelFile(data: any[],
   columns: IColumn[],
   sheetName: string,
   callback?: () => void,

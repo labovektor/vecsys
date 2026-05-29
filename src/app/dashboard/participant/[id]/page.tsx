@@ -21,7 +21,6 @@ const ParticipantDetailPage = ({
   const {
     data: participant,
     isLoading,
-    error,
   } = useQuery({
     queryKey: ["participant", id],
     queryFn: async () =>

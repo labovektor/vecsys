@@ -1,6 +1,5 @@
 import React from "react";
 import { EventPaymentOptions } from "../dto";
-import { PaymentOption } from "@/features/event-payment/dto";
 import { Label } from "@/components/ui/label";
 import {
   Select,

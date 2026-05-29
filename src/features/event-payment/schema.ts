@@ -1,4 +1,4 @@
-import { coerce, z } from "zod";
+import { z } from "zod";
 
 export const paymentOptionSchema = z.object({
   provider: z.string().min(1, { message: "Provider tidak boleh kosong" }),

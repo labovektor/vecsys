@@ -3,8 +3,8 @@
 import handleRequest from "@/axios/request";
 import { ParticipantData } from "@/features/participant-administration/dto";
 import { useQuery } from "@tanstack/react-query";
-import { usePathname, useRouter } from "next/navigation";
-import { createContext, useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import { createContext, useMemo } from "react";
 import { toast } from "sonner";
 
 type ParticipantAuthContextProviderProps = {
@@ -15,7 +15,6 @@ interface ParticipantAuthContextType {
   user?: ParticipantData | null;
   refetchData: VoidFunction;
   loading: boolean;
-  error?: string;
   logout: VoidFunction;
 }
 
@@ -26,13 +25,7 @@ export const ParticipantAuthContext = createContext<ParticipantAuthContextType>(
 export default function ParticipantAuthContextProvider({
   children,
 }: ParticipantAuthContextProviderProps) {
-  const [error, setError] = useState<string>();
   const router = useRouter();
-  const pathname = usePathname();
-
-  useEffect(() => {
-    if (error) setError(undefined);
-  }, [pathname]);
 
   const {
     data: participant,
@@ -49,24 +42,19 @@ export default function ParticipantAuthContextProvider({
       }),
   });
 
-  function logout() {
-    handleRequest<unknown>("GET", "/user/logout");
-    router.replace(`/e/${participant?.participant.event_id}/login`);
-  }
-
-  function refetchData() {
-    refetch();
-  }
+  const eventId = participant?.participant.event_id;
 
   const memoedValue = useMemo(
     () => ({
       user: participant,
       loading: isPending,
-      refetchData,
-      error,
-      logout,
+      refetchData: () => refetch(),
+      logout: () => {
+        handleRequest<unknown>("GET", "/user/logout");
+        router.replace(`/e/${eventId}/login`);
+      },
     }),
-    [participant, error],
+    [participant, isPending, refetch, eventId, router],
   );
 
   return (

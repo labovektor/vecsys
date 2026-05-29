@@ -163,33 +163,37 @@ const SubmitPaymentForm = () => {
         <FormField
           control={form.control}
           name="invoice"
-          render={({ field: { value, ...fieldValues } }) => (
-            <FormItem>
-              <FormLabel>Bukti Pembayaran</FormLabel>
-              <FormControl>
-                <Input
-                  accept="image/*"
-                  type="file"
-                  {...fieldValues}
-                  onChange={async (e) => {
-                    if (!e.target.files) {
-                      return;
-                    }
-                    const file = e.target.files[0];
+          render={({ field }) => {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { value, ...fieldValues } = field;
+            return (
+              <FormItem>
+                <FormLabel>Bukti Pembayaran</FormLabel>
+                <FormControl>
+                  <Input
+                    accept="image/*"
+                    type="file"
+                    {...fieldValues}
+                    onChange={async (e) => {
+                      if (!e.target.files) {
+                        return;
+                      }
+                      const file = e.target.files[0];
 
-                    fieldValues.onChange(file);
-                    setPreview(URL.createObjectURL(file));
-                  }}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+                      fieldValues.onChange(file);
+                      setPreview(URL.createObjectURL(file));
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            );
+          }}
         />
 
         <div>
           {preview && (
-            <img src={preview} className=" max-h-32 object-contain" />
+            <img src={preview} alt="Preview" className=" max-h-32 object-contain" />
           )}
         </div>
 

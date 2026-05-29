@@ -14,7 +14,7 @@ export type RequestReturn<T> = {
 async function handleRequest<T>(
   method: HttpMethod,
   endpoint: string,
-  body?: any,
+  body?: unknown,
   responseType?: ResponseType,
 ): Promise<RequestReturn<T>> {
   try {

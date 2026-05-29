@@ -13,17 +13,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { biodataAnggotaSchema, BiodataAnggotaSchemaType } from "../../schema";
 import { useEffect } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import type { UseFormReturn } from "react-hook-form";
 
 interface BiodataAnggotaFormProps {
   anggotaNumber: number;
   initialData: BiodataAnggotaSchemaType;
   onSubmit?: (data: BiodataAnggotaSchemaType) => void;
-  onFormRef?: (form: any) => void;
+  onFormRef?: (form: UseFormReturn<BiodataAnggotaSchemaType>) => void;
 }
 
 const BiodataAnggotaForm = ({

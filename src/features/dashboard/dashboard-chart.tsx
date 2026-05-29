@@ -18,7 +18,6 @@ interface EventDashboardChartProps {
 }
 
 const EventDashboardChart = ({
-  eventId,
   participantsAll,
   participantsPaid,
 }: EventDashboardChartProps) => {

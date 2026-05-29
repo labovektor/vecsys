@@ -109,9 +109,6 @@ const EventDashboardData = () => {
       (p) =>
         p.progress_step === "registered" || p.progress_step === "categorized",
     ).length || 0;
-  const lockedParticipants =
-    participantsData?.filter((p) => p.progress_step === "locked").length || 0;
-
   const currentTarget = selectedEventId ? totalParticipants : 0;
   const sudahBayar = selectedEventId ? paidParticipants : 0;
   const belumBayar = selectedEventId ? unpaidParticipants : 0;
