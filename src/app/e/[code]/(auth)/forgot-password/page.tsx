@@ -42,7 +42,7 @@ const ForgotPasswordScreen = () => {
     const { error } = await handleRequest<unknown>(
       "POST",
       "/user/forgot-password",
-      values
+      values,
     );
 
     if (error) {

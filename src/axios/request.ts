@@ -15,7 +15,7 @@ async function handleRequest<T>(
   method: HttpMethod,
   endpoint: string,
   body?: any,
-  responseType?: ResponseType
+  responseType?: ResponseType,
 ): Promise<RequestReturn<T>> {
   try {
     const config = {

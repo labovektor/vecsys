@@ -15,7 +15,7 @@ const SelectInstitution = () => {
             toast.error(res.error.message);
           }
           return res.data;
-        }
+        },
       ),
     staleTime: Infinity,
   });

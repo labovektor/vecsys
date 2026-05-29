@@ -45,7 +45,7 @@ const LoginScreen = () => {
     const { error } = await handleRequest<unknown>(
       "POST",
       "/admin/login",
-      values
+      values,
     );
 
     if (error) {

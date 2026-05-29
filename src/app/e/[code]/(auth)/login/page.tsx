@@ -48,7 +48,7 @@ const LoginScreen = ({ params }: { params: Promise<{ code: string }> }) => {
     const { error } = await handleRequest<unknown>(
       "POST",
       "/user/login",
-      values
+      values,
     );
 
     if (error) {
@@ -108,7 +108,7 @@ const LoginScreen = ({ params }: { params: Promise<{ code: string }> }) => {
                 href={`/e/${code}/forgot-password`}
                 className={cn(
                   buttonVariants({ variant: "link" }),
-                  "w-full justify-end"
+                  "w-full justify-end",
                 )}
               >
                 Lupa password?

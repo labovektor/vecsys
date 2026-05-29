@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const Skeleton = () => {
   return (
@@ -14,6 +14,6 @@ const Skeleton = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Skeleton;

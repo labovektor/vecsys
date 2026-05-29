@@ -13,7 +13,7 @@ const SelectPayment = () => {
     queryFn: () =>
       handleRequest<EventPaymentOptions>(
         "GET",
-        "/user/administration/payment"
+        "/user/administration/payment",
       ).then((res) => {
         if (res.error) {
           toast.error(res.error.message);

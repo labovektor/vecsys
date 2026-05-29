@@ -24,7 +24,7 @@ const MemberCard = ({
     setDeleting(true);
     const { error } = await handleRequest<unknown>(
       "DELETE",
-      `/user/data/member/${biodata.id}`
+      `/user/data/member/${biodata.id}`,
     );
 
     setDeleting(false);

@@ -51,7 +51,7 @@ const EditCategoryForm = ({
     const { error } = await handleRequest<unknown>(
       "PATCH",
       `/admin/category/${id}`,
-      values
+      values,
     );
 
     if (error) {

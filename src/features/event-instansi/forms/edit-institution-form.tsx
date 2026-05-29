@@ -45,7 +45,7 @@ const EditInstitutionForm = ({ institution }: { institution: Institution }) => {
     const { error } = await handleRequest<unknown>(
       "PATCH",
       `/admin/institution/${institution.id}`,
-      values
+      values,
     );
     if (error) {
       toast.error(error.message);
@@ -54,7 +54,9 @@ const EditInstitutionForm = ({ institution }: { institution: Institution }) => {
 
     setOpen(false);
     toast.success("Informasi instansi berhasil diperbarui");
-    queryClient.refetchQueries({ queryKey: ["institutions", institution.event_id] });
+    queryClient.refetchQueries({
+      queryKey: ["institutions", institution.event_id],
+    });
   }
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -128,7 +130,9 @@ const EditInstitutionForm = ({ institution }: { institution: Institution }) => {
 
             <div className="flex justify-end gap-2 pt-3">
               <Button type="submit" disabled={form.formState.isSubmitting}>
-                {form.formState.isSubmitting ? "Memperbarui..." : "Ubah instansi"}
+                {form.formState.isSubmitting
+                  ? "Memperbarui..."
+                  : "Ubah instansi"}
               </Button>
             </div>
           </form>

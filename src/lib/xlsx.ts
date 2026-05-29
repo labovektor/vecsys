@@ -8,7 +8,7 @@ export function exportAsExcelFile(
   data: any[],
   columns: IColumn[],
   sheetName: string,
-  callback?: () => void
+  callback?: () => void,
 ): void {
   const column: IJsonSheet[] = [
     {

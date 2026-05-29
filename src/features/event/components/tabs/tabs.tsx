@@ -8,30 +8,30 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 const InformasiUmum = dynamic(() => import("./informasi-umum"), { ssr: false });
 const KelolaRegion = dynamic(
   () => import("../../../event-region/kelola-region"),
-  { ssr: false }
+  { ssr: false },
 );
 const KelolaCategory = dynamic(
   () => import("../../../event-category/kelola-category"),
   {
     ssr: false,
-  }
+  },
 );
 const KelolaVoucher = dynamic(
   () => import("../../../event-referral/kelola-referral"),
-  { ssr: false }
+  { ssr: false },
 );
 const KelolaPayment = dynamic(
   () => import("../../../event-payment/kelola-payment"),
   {
     ssr: false,
-  }
+  },
 );
 
 const KelolaInstansi = dynamic(
   () => import("../../../event-instansi/kelola-instansi"),
   {
     ssr: false,
-  }
+  },
 );
 
 const TabsIndex = ({ id }: { id: string }) => {

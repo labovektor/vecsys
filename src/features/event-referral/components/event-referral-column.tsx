@@ -15,7 +15,7 @@ export const eventReferralColumn: ColumnDef<EventReferral>[] = [
   },
   {
     accessorKey: "desc",
-    header: "Deskripsi"
+    header: "Deskripsi",
   },
   {
     accessorKey: "discount",
@@ -28,15 +28,15 @@ export const eventReferralColumn: ColumnDef<EventReferral>[] = [
   {
     id: "action",
     header: "Aksi",
-    cell: ({ row }) => <EventReferralAction referral={row.original}/>,
-    enableGlobalFilter: false
-  }
+    cell: ({ row }) => <EventReferralAction referral={row.original} />,
+    enableGlobalFilter: false,
+  },
 ];
 
-function EventReferralAction({ referral }: {referral: EventReferral}) {
+function EventReferralAction({ referral }: { referral: EventReferral }) {
   return (
     <div className="flex gap-2">
-      <DeleteReferralDialog id={referral.id}/>
+      <DeleteReferralDialog id={referral.id} />
     </div>
   );
 }

@@ -45,7 +45,7 @@ const AddEventRegionDialog = ({ id }: { id: string }) => {
     const { error } = await handleRequest<unknown>(
       "POST",
       `/admin/event/${id}/region`,
-      values
+      values,
     );
 
     if (error) {
@@ -111,7 +111,7 @@ const AddEventRegionDialog = ({ id }: { id: string }) => {
                 </FormItem>
               )}
             />
-           
+
             <FormField
               control={form.control}
               name="visible"
@@ -129,9 +129,7 @@ const AddEventRegionDialog = ({ id }: { id: string }) => {
             />
             <Button type="submit" disabled={form.formState.isSubmitting}>
               <Plus />
-              {form.formState.isSubmitting
-                ? "Menambahkan..."
-                : "Tambah Region"}
+              {form.formState.isSubmitting ? "Menambahkan..." : "Tambah Region"}
             </Button>
           </form>
         </Form>

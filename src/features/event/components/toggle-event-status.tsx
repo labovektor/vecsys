@@ -17,7 +17,7 @@ const ToggleEventStatus = ({
   const [status, setStatus] = React.useState(isActive);
   const [optimisticStatus, setOptimisticStatus] = React.useOptimistic(
     status,
-    (_, newStatus: boolean) => newStatus
+    (_, newStatus: boolean) => newStatus,
   );
   const toggleEventStatus = useMutation({
     mutationFn: () =>
@@ -31,7 +31,7 @@ const ToggleEventStatus = ({
             toast.success("Event status updated");
           }
           return res.data;
-        }
+        },
       ),
   });
   return (

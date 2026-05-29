@@ -72,7 +72,7 @@ export function beautifyDate(val: string | number, format: DateFormat): string {
 
 export function getUniqueProperties<T extends Record<string, any>>(
   a: T,
-  b: Partial<T>
+  b: Partial<T>,
 ): Partial<T> {
   return Object.keys(a).reduce((result, key) => {
     const aValue = a[key];
@@ -135,7 +135,7 @@ export function createFormData(data: Record<string, any>): FormData {
 }
 
 export function getProfileImageUrl(
-  profilePicture?: string | null
+  profilePicture?: string | null,
 ): string | undefined {
   if (!profilePicture) return undefined;
   return `${baseURL}${profilePicture}`;

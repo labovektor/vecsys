@@ -55,10 +55,7 @@ const ProfileCard = () => {
       <div className="flex flex-col items-center lg:w-[30%]">
         <div className="relative">
           <Avatar className="w-48 h-48">
-            <AvatarImage
-              src={imageUrl || undefined}
-              alt={user.display_name}
-            />
+            <AvatarImage src={imageUrl || undefined} alt={user.display_name} />
             <AvatarFallback className="text-4xl">
               {getInitial(user.display_name || "")}
             </AvatarFallback>

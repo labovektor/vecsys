@@ -18,17 +18,17 @@ const KelolaReferral = ({ id }: { id: string }) => {
             toast.error(res.error.message);
           }
           return res.data;
-        }
-      )
+        },
+      ),
   });
   return (
     <Card className="w-full h-full bg-white">
       <CardContent>
-        <DataTable 
-          data={referral || []}  
-          loading={isLoading}        
-          columns={eventReferralColumn} 
-          actions={<AddEventReferralDialog id={id}/>}
+        <DataTable
+          data={referral || []}
+          loading={isLoading}
+          columns={eventReferralColumn}
+          actions={<AddEventReferralDialog id={id} />}
         />
       </CardContent>
     </Card>

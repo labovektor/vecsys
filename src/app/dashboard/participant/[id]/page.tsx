@@ -32,7 +32,7 @@ const ParticipantDetailPage = ({
             throw new Error(res.error.message);
           }
           return res.data;
-        }
+        },
       ),
   });
 

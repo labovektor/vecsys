@@ -31,36 +31,46 @@ const EventDashboardData = () => {
     queryKey: ["event", selectedEventId],
     queryFn: async () => {
       if (!selectedEventId) return null;
-      return handleRequest<Event>("GET", `/event/${selectedEventId}`).then((res) => {
-        if (res.error) {
-          toast.error(res.error.message);
-        }
-        return res.data;
-      });
+      return handleRequest<Event>("GET", `/event/${selectedEventId}`).then(
+        (res) => {
+          if (res.error) {
+            toast.error(res.error.message);
+          }
+          return res.data;
+        },
+      );
     },
     enabled: !!selectedEventId,
   });
 
-  const { data: participantsData, isLoading: isLoadingParticipants } = useQuery({
-    queryKey: ["participants", selectedEventId],
-    queryFn: async () => {
-      if (!selectedEventId) return [];
-      return handleRequest<Participant[]>("GET", `/admin/event/${selectedEventId}/participant?step=all`).then((res) => {
-        if (res.error) {
-          toast.error(res.error.message);
-        }
-        return res.data || [];
-      });
+  const { data: participantsData, isLoading: isLoadingParticipants } = useQuery(
+    {
+      queryKey: ["participants", selectedEventId],
+      queryFn: async () => {
+        if (!selectedEventId) return [];
+        return handleRequest<Participant[]>(
+          "GET",
+          `/admin/event/${selectedEventId}/participant?step=all`,
+        ).then((res) => {
+          if (res.error) {
+            toast.error(res.error.message);
+          }
+          return res.data || [];
+        });
+      },
+      enabled: !!selectedEventId,
     },
-    enabled: !!selectedEventId,
-  });
+  );
 
   // Fetch paid participants for category breakdown
   const { data: participantsPaidData, isLoading: isLoadingPaid } = useQuery({
     queryKey: ["participantsPaid", selectedEventId],
     queryFn: async () => {
       if (!selectedEventId) return [];
-      return handleRequest<Participant[]>("GET", `/admin/event/${selectedEventId}/participant?step=paid`).then((res) => {
+      return handleRequest<Participant[]>(
+        "GET",
+        `/admin/event/${selectedEventId}/participant?step=paid`,
+      ).then((res) => {
         if (res.error) {
           toast.error(res.error.message);
         }
@@ -70,27 +80,42 @@ const EventDashboardData = () => {
     enabled: !!selectedEventId,
   });
 
-  if (isLoadingEvent || isLoadingParticipants || isLoadingPaid || !selectedEventId) {
+  if (
+    isLoadingEvent ||
+    isLoadingParticipants ||
+    isLoadingPaid ||
+    !selectedEventId
+  ) {
     return <div className="text-center">Loading...</div>;
   }
 
   // Calculate statistics from participants data
   const totalParticipants = participantsData?.length || 0;
   const finalTarget = eventData?.participant_target || 0;
-  const progress = finalTarget > 0 ? (totalParticipants / finalTarget) * 100 : 0;
+  const progress =
+    finalTarget > 0 ? (totalParticipants / finalTarget) * 100 : 0;
 
   // Calculate participant statistics by progress_step
-  const paidParticipants = participantsData?.filter(p => p.progress_step === "paid" || p.progress_step === "verified" || p.progress_step === "locked").length || 0;
+  const paidParticipants =
+    participantsData?.filter(
+      (p) =>
+        p.progress_step === "paid" ||
+        p.progress_step === "verified" ||
+        p.progress_step === "locked",
+    ).length || 0;
   const unpaidParticipants = totalParticipants - paidParticipants;
-  const waitingConfirmation = participantsData?.filter(p => p.progress_step === "registered" || p.progress_step === "categorized").length || 0;
-  const lockedParticipants = participantsData?.filter(p => p.progress_step === "locked").length || 0;
+  const waitingConfirmation =
+    participantsData?.filter(
+      (p) =>
+        p.progress_step === "registered" || p.progress_step === "categorized",
+    ).length || 0;
+  const lockedParticipants =
+    participantsData?.filter((p) => p.progress_step === "locked").length || 0;
 
   const currentTarget = selectedEventId ? totalParticipants : 0;
   const sudahBayar = selectedEventId ? paidParticipants : 0;
   const belumBayar = selectedEventId ? unpaidParticipants : 0;
   const menungguKonfirmasi = selectedEventId ? waitingConfirmation : 0;
-
-
 
   return (
     <>
@@ -164,9 +189,7 @@ const EventDashboardData = () => {
               <CardDescription>Belum Membayar</CardDescription>
             </CardHeader>
             <CardContent className="p-0 pb-2">
-              <h1 className="text-2xl font-bold">
-                {belumBayar}
-              </h1>
+              <h1 className="text-2xl font-bold">{belumBayar}</h1>
             </CardContent>
           </div>
           <div>

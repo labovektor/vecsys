@@ -1,7 +1,13 @@
 "use client";
 
 import handleRequest from "@/axios/request";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Event } from "@/features/event/dto";
@@ -13,7 +19,7 @@ const ChooseEvent = () => {
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  const selectedEventId = searchParams.get('eventId');
+  const selectedEventId = searchParams.get("eventId");
 
   const { data: events, isLoading } = useQuery({
     queryKey: ["events"],
@@ -26,15 +32,18 @@ const ChooseEvent = () => {
       }),
   });
 
-  const handleEventChange = useCallback((eventId: string) => {
-    const params = new URLSearchParams(searchParams);
-    if (eventId) {
-      params.set('eventId', eventId);
-    } else {
-      params.delete('eventId');
-    }
-    replace(`${pathname}?${params.toString()}`);
-  }, [searchParams, pathname, replace]);
+  const handleEventChange = useCallback(
+    (eventId: string) => {
+      const params = new URLSearchParams(searchParams);
+      if (eventId) {
+        params.set("eventId", eventId);
+      } else {
+        params.delete("eventId");
+      }
+      replace(`${pathname}?${params.toString()}`);
+    },
+    [searchParams, pathname, replace],
+  );
   return (
     <div className="mb-6 flex items-center gap-4">
       <label className="text-sm font-medium whitespace-nowrap">

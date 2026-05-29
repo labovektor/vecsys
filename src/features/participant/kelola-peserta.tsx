@@ -18,7 +18,7 @@ const KelolaPeserta = ({ id, step }: { id: string; step: PaymentStep }) => {
     queryFn: async () =>
       handleRequest<Participant[]>(
         "GET",
-        `/admin/event/${id}/participant?step=${step}`
+        `/admin/event/${id}/participant?step=${step}`,
       ).then((res) => {
         if (res.error) {
           toast.error(res.error.message);
@@ -43,7 +43,7 @@ const KelolaPeserta = ({ id, step }: { id: string; step: PaymentStep }) => {
                   exportAsExcelFile(
                     data,
                     excelParticipantColumn,
-                    `peserta-${step}`
+                    `peserta-${step}`,
                   )
                 }
               >

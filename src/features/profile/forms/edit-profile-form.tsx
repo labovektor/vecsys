@@ -25,7 +25,11 @@ interface EditProfileFormProps {
   onSubmitSuccess?: () => void;
 }
 
-const EditProfileForm = ({ user, selectedImage, onSubmitSuccess }: EditProfileFormProps) => {
+const EditProfileForm = ({
+  user,
+  selectedImage,
+  onSubmitSuccess,
+}: EditProfileFormProps) => {
   const queryClient = getQueryClient();
 
   const form = useForm<UpdateProfileSchemaType>({
@@ -60,11 +64,7 @@ const EditProfileForm = ({ user, selectedImage, onSubmitSuccess }: EditProfileFo
       formData.append("profile_picture", values.profile_picture);
     }
 
-    const { error } = await handleRequest<Profile>(
-      "PATCH",
-      "/admin",
-      formData
-    );
+    const { error } = await handleRequest<Profile>("PATCH", "/admin", formData);
 
     if (error) {
       toast.error(error.message);
@@ -86,10 +86,16 @@ const EditProfileForm = ({ user, selectedImage, onSubmitSuccess }: EditProfileFo
           render={({ field }) => (
             <FormItem>
               <div className="flex items-center gap-4">
-                <FormLabel className="w-20 text-md text-black font-bold">Nama</FormLabel>
+                <FormLabel className="w-20 text-md text-black font-bold">
+                  Nama
+                </FormLabel>
                 <div className="flex-1">
                   <FormControl>
-                    <Input {...field} placeholder="Enter your display name" className="text-base" />
+                    <Input
+                      {...field}
+                      placeholder="Enter your display name"
+                      className="text-base"
+                    />
                   </FormControl>
                   <FormMessage />
                 </div>
@@ -104,10 +110,17 @@ const EditProfileForm = ({ user, selectedImage, onSubmitSuccess }: EditProfileFo
           render={({ field }) => (
             <FormItem>
               <div className="flex items-center gap-4">
-                <FormLabel className="w-20 text-md text-black font-bold">Email</FormLabel>
+                <FormLabel className="w-20 text-md text-black font-bold">
+                  Email
+                </FormLabel>
                 <div className="flex-1">
                   <FormControl>
-                    <Input {...field} type="email" placeholder="Enter your email" className="text-base" />
+                    <Input
+                      {...field}
+                      type="email"
+                      placeholder="Enter your email"
+                      className="text-base"
+                    />
                   </FormControl>
                   <FormMessage />
                 </div>

@@ -42,7 +42,7 @@ const NewEventDialog = () => {
     const { error } = await handleRequest<unknown>(
       "POST",
       "/admin/event",
-      values
+      values,
     );
 
     if (error) {

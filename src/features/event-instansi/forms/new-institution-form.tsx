@@ -44,7 +44,7 @@ const NewInstitutionForm = ({ id }: { id: string }) => {
     const { error } = await handleRequest<unknown>(
       "POST",
       `/admin/event/${id}/institution`,
-      values
+      values,
     );
 
     if (error) {

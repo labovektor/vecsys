@@ -49,7 +49,7 @@ const SubmitPaymentForm = () => {
   const [preview, setPreview] = React.useState<string | null>(
     user?.participant?.payment?.invoice
       ? `${process.env.NEXT_PUBLIC_API_URL}${user?.participant?.payment?.invoice}`
-      : null
+      : null,
   );
 
   const onSubmit = async (data: SubmitPaymentType) => {
@@ -64,7 +64,7 @@ const SubmitPaymentForm = () => {
     const { error } = await handleRequest<unknown>(
       "PATCH",
       `/user/administration/payment`,
-      formData
+      formData,
     );
     if (error) {
       toast.error(error.message);
@@ -131,7 +131,7 @@ const SubmitPaymentForm = () => {
                       variant={"outline"}
                       className={cn(
                         "w-[240px] pl-3 text-left font-normal",
-                        !field.value && "text-muted-foreground"
+                        !field.value && "text-muted-foreground",
                       )}
                     >
                       {field.value ? (

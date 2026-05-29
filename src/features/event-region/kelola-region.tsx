@@ -7,7 +7,7 @@ import { useRegion } from "./hooks/useRegion";
 
 const KeloaRegion = ({ id }: { id: string }) => {
   const { data: regions, isLoading } = useRegion(id);
-  
+
   return (
     <Card className="w-full h-full bg-white ">
       <CardContent>

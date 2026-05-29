@@ -1,7 +1,16 @@
 "use client";
 
 import handleRequest from "@/axios/request";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { getQueryClient } from "@/lib/get-query-client";
 import { useMutation } from "@tanstack/react-query";
@@ -13,14 +22,15 @@ const DeleteReferralDialog = ({ id }: { id: string }) => {
   const queryClient = getQueryClient();
   const deleteReferral = useMutation({
     mutationKey: [id],
-    mutationFn: () => handleRequest("DELETE", `/admin/referal/${id}`).then((res) => {
-      if (res.error) {
-        toast.error(res.error.message);
-        return;
-      }
-      toast.success("Berhasil menghapus kode referral");
-      queryClient.refetchQueries({ queryKey: ["referral"] });
-    })
+    mutationFn: () =>
+      handleRequest("DELETE", `/admin/referal/${id}`).then((res) => {
+        if (res.error) {
+          toast.error(res.error.message);
+          return;
+        }
+        toast.success("Berhasil menghapus kode referral");
+        queryClient.refetchQueries({ queryKey: ["referral"] });
+      }),
   });
 
   return (
@@ -31,7 +41,7 @@ const DeleteReferralDialog = ({ id }: { id: string }) => {
           variant={"destructive"}
           disabled={deleteReferral.isPending}
         >
-          <Trash2/>
+          <Trash2 />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -43,7 +53,7 @@ const DeleteReferralDialog = ({ id }: { id: string }) => {
         <AlertDialogFooter>
           <AlertDialogCancel>Batal</AlertDialogCancel>
           <AlertDialogAction
-            className={buttonVariants({ variant: "destructive"})}
+            className={buttonVariants({ variant: "destructive" })}
             onClick={() => deleteReferral.mutate()}
           >
             Hapus
@@ -51,7 +61,7 @@ const DeleteReferralDialog = ({ id }: { id: string }) => {
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  )
+  );
 };
 
 export default DeleteReferralDialog;

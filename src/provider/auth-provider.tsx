@@ -19,7 +19,7 @@ interface AuthContextType {
 }
 
 export const AuthContext = createContext<AuthContextType>(
-  {} as AuthContextType
+  {} as AuthContextType,
 );
 
 export default function AuthContextProvider({
@@ -56,7 +56,7 @@ export default function AuthContextProvider({
       error,
       logout,
     }),
-    [admin, error]
+    [admin, error],
   );
 
   return (

@@ -35,7 +35,7 @@ export function Nav({ links, isCollapsed }: NavProps) {
                     buttonVariants({ variant: "default", size: "icon" }),
                     link.active
                       ? " bg-white text-black hover:bg-white hover:text-black"
-                      : " hover:bg-vblue-200 hover:text-vblue-900"
+                      : " hover:bg-vblue-200 hover:text-vblue-900",
                   )}
                 >
                   <link.icon className="h-4 w-4" />
@@ -60,7 +60,7 @@ export function Nav({ links, isCollapsed }: NavProps) {
                 link.active
                   ? " bg-white text-black hover:bg-white hover:text-black"
                   : " hover:bg-vblue-200 hover:text-vblue-900",
-                "justify-start"
+                "justify-start",
               )}
             >
               <link.icon className="mr-2 h-4 w-4" />
@@ -69,7 +69,7 @@ export function Nav({ links, isCollapsed }: NavProps) {
                 <span className={cn("ml-auto")}>{link.label}</span>
               )}
             </Link>
-          )
+          ),
         )}
       </nav>
     </div>

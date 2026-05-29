@@ -46,7 +46,7 @@ export const BulkAddParticipantsForm = ({ eventId }: { eventId: string }) => {
     const { error } = await handleRequest<unknown>(
       "POST",
       `/admin/event/${eventId}/participant/bulk`,
-      data
+      data,
     );
 
     if (error) {

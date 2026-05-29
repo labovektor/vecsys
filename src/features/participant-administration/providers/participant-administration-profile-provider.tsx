@@ -12,7 +12,7 @@ import { PaymentOption } from "@/features/event-payment/dto";
 
 const SelectCategoryRegion = dynamic(
   () => import("../sections/tabs/SelectCategoryRegion"),
-  { ssr: false }
+  { ssr: false },
 );
 
 const SelectPayment = dynamic(() => import("../sections/tabs/SelectPayment"), {
@@ -73,7 +73,7 @@ interface ParticipantAdministrationProfileContextType {
 
 export const ParticipantAdministrationProfileContext =
   React.createContext<ParticipantAdministrationProfileContextType>(
-    {} as ParticipantAdministrationProfileContextType
+    {} as ParticipantAdministrationProfileContextType,
   );
 
 export function ParticipantAdministrationProfileProvider({
@@ -132,7 +132,7 @@ export function ParticipantAdministrationProfileProvider({
       selectedPayment,
       setSelectedPayment,
     }),
-    [selectedTab, isLoading, selectedPayment, progressState, isLoading]
+    [selectedTab, isLoading, selectedPayment, progressState, isLoading],
   );
 
   return (
@@ -147,7 +147,7 @@ export function useParticipantAdministrationProfile() {
 
   if (!context) {
     throw new Error(
-      "The App Context must be used within an ParticipantAdministrationProfileContext"
+      "The App Context must be used within an ParticipantAdministrationProfileContext",
     );
   }
 

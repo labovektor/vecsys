@@ -58,7 +58,7 @@ const ParticipantDetailForm = ({
     queryFn: async () => {
       const res = await handleRequest<ParticipantDetail>(
         "GET",
-        `/admin/participant/${id}`
+        `/admin/participant/${id}`,
       );
       if (res.error) {
         toast.error(res.error.message);
@@ -78,7 +78,7 @@ const ParticipantDetailForm = ({
     const { error } = await handleRequest<ParticipantDetail>(
       "PATCH",
       `/admin/participant/${id}`,
-      payload
+      payload,
     );
 
     if (error) {

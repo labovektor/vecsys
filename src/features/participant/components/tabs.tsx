@@ -18,7 +18,7 @@ const TabsIndex = () => {
     queryFn: async () =>
       handleRequest<Participant[]>(
         "GET",
-        `/admin/event/${selectedEventId}/participant?step=paid`
+        `/admin/event/${selectedEventId}/participant?step=paid`,
       ).then((res) => res.data || []),
     enabled: !!selectedEventId,
   });
@@ -28,7 +28,7 @@ const TabsIndex = () => {
     queryFn: async () =>
       handleRequest<Participant[]>(
         "GET",
-        `admin/event/${selectedEventId}/participant?step=unpaid`
+        `admin/event/${selectedEventId}/participant?step=unpaid`,
       ).then((res) => res.data || []),
     enabled: !!selectedEventId,
   });

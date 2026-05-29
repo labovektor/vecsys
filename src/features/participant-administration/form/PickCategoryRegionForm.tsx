@@ -45,7 +45,7 @@ const PickCategoryRegionForm = ({
     const { error } = await handleRequest<unknown>(
       "PATCH",
       "/user/administration/category",
-      data
+      data,
     );
 
     if (error) {

@@ -52,7 +52,7 @@ const EditRegionForm = ({
     const { error } = await handleRequest<unknown>(
       "PATCH",
       `/admin/region/${id}`,
-      values
+      values,
     );
 
     if (error) {
@@ -78,7 +78,7 @@ const EditRegionForm = ({
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className=" space-y-3">
-             <FormField
+            <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
@@ -119,7 +119,7 @@ const EditRegionForm = ({
                 </FormItem>
               )}
             />
-           
+
             <FormField
               control={form.control}
               name="visible"

@@ -6,7 +6,7 @@ export function useParticipant() {
 
   if (!context) {
     throw new Error(
-      "The App Context must be used within an AuthContextProvider"
+      "The App Context must be used within an AuthContextProvider",
     );
   }
 

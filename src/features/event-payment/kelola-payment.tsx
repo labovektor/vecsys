@@ -12,14 +12,15 @@ const KelolaPayment = ({ id }: { id: string }) => {
   const { data: paymentOptions, isLoading } = useQuery({
     queryKey: ["payment-options", id],
     queryFn: async () =>
-      handleRequest<PaymentOption[]>("GET", `/admin/event/${id}/payment-option`).then(
-        (res) => {
-          if (res.error) {
-            toast.error(res.error.message);
-          }
-          return res.data;
+      handleRequest<PaymentOption[]>(
+        "GET",
+        `/admin/event/${id}/payment-option`,
+      ).then((res) => {
+        if (res.error) {
+          toast.error(res.error.message);
         }
-      ),
+        return res.data;
+      }),
   });
 
   return (

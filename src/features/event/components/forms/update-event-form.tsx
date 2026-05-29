@@ -31,7 +31,7 @@ const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
   const router = useRouter();
   const queryClient = getQueryClient();
   const [preview, setPreview] = useState<string | undefined>(
-    event.icon && `${process.env.NEXT_PUBLIC_API_URL}${event.icon}`
+    event.icon && `${process.env.NEXT_PUBLIC_API_URL}${event.icon}`,
   );
 
   const form = useForm<UpdateEventSchemaType>({
@@ -52,7 +52,7 @@ const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
     const res = await handleRequest<unknown>(
       "PATCH",
       `/admin/event/${eventId}`,
-      data
+      data,
     );
 
     if (res.error) {

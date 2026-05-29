@@ -55,7 +55,7 @@ const AddMemberForm = ({
     const { error } = await handleRequest<unknown>(
       "POST",
       "/user/data/member",
-      formData
+      formData,
     );
 
     if (error) {

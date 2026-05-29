@@ -24,7 +24,7 @@ const SuccessPage = () => {
       "GET",
       "/user/data/card",
       undefined,
-      "arraybuffer"
+      "arraybuffer",
     );
     setLoading(false);
     if (error) {

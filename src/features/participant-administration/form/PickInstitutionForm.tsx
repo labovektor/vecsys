@@ -43,10 +43,11 @@ const PickInstitutionForm = ({ choices }: { choices: Institution[] }) => {
   const [selectedInstitution, setSelectedInstitution] =
     React.useState<Institution | null>(
       user?.participant.institution_id
-        ? choices.find(
-            (institution) => institution.id === user?.participant.institution_id
-          ) ?? null
-        : null
+        ? (choices.find(
+            (institution) =>
+              institution.id === user?.participant.institution_id,
+          ) ?? null)
+        : null,
     );
 
   const form = useForm<PickInstitutionType>({
@@ -60,7 +61,7 @@ const PickInstitutionForm = ({ choices }: { choices: Institution[] }) => {
     const { error } = await handleRequest<unknown>(
       "PATCH",
       "/user/data/institution",
-      data
+      data,
     );
 
     if (error) {
@@ -94,12 +95,12 @@ const PickInstitutionForm = ({ choices }: { choices: Institution[] }) => {
                           role="combobox"
                           className={cn(
                             " w-full justify-between",
-                            !field.value && "text-muted-foreground"
+                            !field.value && "text-muted-foreground",
                           )}
                         >
                           {field.value
                             ? choices.find(
-                                (institution) => institution.id === field.value
+                                (institution) => institution.id === field.value,
                               )?.name
                             : "Pilih Institusi"}
                           <ChevronsUpDown className="opacity-50" />
@@ -124,7 +125,7 @@ const PickInstitutionForm = ({ choices }: { choices: Institution[] }) => {
                                 onSelect={() => {
                                   form.setValue(
                                     "institution_id",
-                                    institution.id
+                                    institution.id,
                                   );
                                   setSelectedInstitution(institution);
                                 }}
@@ -135,7 +136,7 @@ const PickInstitutionForm = ({ choices }: { choices: Institution[] }) => {
                                     "ml-auto",
                                     institution.id === field.value
                                       ? "opacity-100"
-                                      : "opacity-0"
+                                      : "opacity-0",
                                   )}
                                 />
                               </CommandItem>

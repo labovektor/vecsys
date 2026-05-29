@@ -11,7 +11,7 @@ import dynamic from "next/dynamic";
 
 const SelectInstitution = dynamic(
   () => import("../sections/tabs/SelectInstitution"),
-  { ssr: false }
+  { ssr: false },
 );
 
 const ManageMember = dynamic(() => import("../sections/tabs/ManageMember"), {
@@ -68,7 +68,7 @@ interface ParticipantAdministrationDataContextType {
 
 export const ParticipantAdministrationDataContext =
   React.createContext<ParticipantAdministrationDataContextType>(
-    {} as ParticipantAdministrationDataContextType
+    {} as ParticipantAdministrationDataContextType,
   );
 
 export function ParticipantAdministrationDataProvider({
@@ -123,7 +123,7 @@ export function ParticipantAdministrationDataProvider({
       toPreviousStep,
       toNextStep,
     }),
-    [selectedTab, isLoading, progressState, isLoading]
+    [selectedTab, isLoading, progressState, isLoading],
   );
 
   return (
@@ -138,7 +138,7 @@ export function useParticipantAdministrationData() {
 
   if (!context) {
     throw new Error(
-      "The App Context must be used within an ParticipantAdministrationDataContext"
+      "The App Context must be used within an ParticipantAdministrationDataContext",
     );
   }
 

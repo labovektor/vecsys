@@ -30,7 +30,7 @@ const BiodataAnggotaForm = ({
   anggotaNumber,
   initialData,
   onSubmit,
-  onFormRef
+  onFormRef,
 }: BiodataAnggotaFormProps) => {
   const form = useForm<BiodataAnggotaSchemaType>({
     resolver: zodResolver(biodataAnggotaSchema),
@@ -41,11 +41,10 @@ const BiodataAnggotaForm = ({
       phone: initialData.phone,
       id_number: initialData.id_number,
       email: initialData.email,
-      id_card_picture: initialData.id_card_picture
+      id_card_picture: initialData.id_card_picture,
     },
   });
 
-  
   useEffect(() => {
     if (onFormRef) {
       onFormRef(form);
@@ -68,9 +67,7 @@ const BiodataAnggotaForm = ({
           <FormField
             control={form.control}
             name="id"
-            render={({ field }) => (
-              <input type="hidden" {...field} />
-            )}
+            render={({ field }) => <input type="hidden" {...field} />}
           />
 
           <FormField
@@ -100,12 +97,20 @@ const BiodataAnggotaForm = ({
                     className="flex gap-6"
                   >
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="male" id={`male-${anggotaNumber}`} />
+                      <RadioGroupItem
+                        value="male"
+                        id={`male-${anggotaNumber}`}
+                      />
                       <Label htmlFor={`male-${anggotaNumber}`}>Laki-Laki</Label>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="female" id={`female-${anggotaNumber}`} />
-                      <Label htmlFor={`female-${anggotaNumber}`}>Perempuan</Label>
+                      <RadioGroupItem
+                        value="female"
+                        id={`female-${anggotaNumber}`}
+                      />
+                      <Label htmlFor={`female-${anggotaNumber}`}>
+                        Perempuan
+                      </Label>
                     </div>
                   </RadioGroup>
                 </FormControl>
@@ -149,7 +154,11 @@ const BiodataAnggotaForm = ({
               <FormItem className="flex items-center justify-between gap-4">
                 <FormLabel className="w-32">Email</FormLabel>
                 <FormControl className="flex-1">
-                  <Input {...field} type="email" placeholder="example@email.com" />
+                  <Input
+                    {...field}
+                    type="email"
+                    placeholder="example@email.com"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -159,10 +168,12 @@ const BiodataAnggotaForm = ({
           <div className="flex justify-end gap-2 pt-4">
             {initialData.id_card_picture && (
               <Link
-                href={process.env.NEXT_PUBLIC_API_URL + initialData.id_card_picture}
+                href={
+                  process.env.NEXT_PUBLIC_API_URL + initialData.id_card_picture
+                }
                 className={cn(
                   buttonVariants({ variant: "default" }),
-                  "bg-transparent text-blue-600 border border-blue-600 hover:bg-blue-600 hover:text-white"
+                  "bg-transparent text-blue-600 border border-blue-600 hover:bg-blue-600 hover:text-white",
                 )}
               >
                 Lihat Kartu Identitas

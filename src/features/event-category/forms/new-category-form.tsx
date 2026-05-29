@@ -44,7 +44,7 @@ const AddEventCategoryDialog = ({ id }: { id: string }) => {
     const { error } = await handleRequest<unknown>(
       "POST",
       `/admin/event/${id}/category`,
-      values
+      values,
     );
 
     if (error) {

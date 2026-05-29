@@ -1,5 +1,5 @@
-import { Card } from '@/components/ui/card';
-import React from 'react';
+import { Card } from "@/components/ui/card";
+import React from "react";
 
 const KelolaVoucher = () => {
   return (
@@ -7,6 +7,6 @@ const KelolaVoucher = () => {
       Kelola voucher content
     </Card>
   );
-}
+};
 
 export default KelolaVoucher;

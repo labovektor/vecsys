@@ -24,14 +24,18 @@ const DeletePaymentOptionForm = ({ payment }: { payment: PaymentOption }) => {
   const deletePayment = useMutation({
     mutationKey: [payment.id],
     mutationFn: () =>
-      handleRequest("DELETE", `/admin/payment-option/${payment.id}`).then((res) => {
-        if (res.error) {
-          toast.error(res.error.message);
-          return;
-        }
-        toast.success("Metode pembayaran berhasil dihapus");
-        queryClient.refetchQueries({ queryKey: ["payment-options", payment.event_id] });
-      }),
+      handleRequest("DELETE", `/admin/payment-option/${payment.id}`).then(
+        (res) => {
+          if (res.error) {
+            toast.error(res.error.message);
+            return;
+          }
+          toast.success("Metode pembayaran berhasil dihapus");
+          queryClient.refetchQueries({
+            queryKey: ["payment-options", payment.event_id],
+          });
+        },
+      ),
   });
 
   return (

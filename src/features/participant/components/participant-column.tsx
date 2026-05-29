@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export function getParticipantColumn(
-  status: PaymentStep
+  status: PaymentStep,
 ): ColumnDef<Participant>[] {
   const participantColumn: ColumnDef<Participant>[] = [
     {
@@ -54,7 +54,7 @@ export function getParticipantColumn(
               "px-2 py-1 rounded-full",
               isVerified
                 ? "bg-green-200 text-green-600"
-                : "bg-red-200 text-red-600"
+                : "bg-red-200 text-red-600",
             )}
           >
             {isVerified ? "Sudah" : "Belum"}
@@ -78,17 +78,17 @@ export function getParticipantColumn(
   return status === "paid"
     ? participantColumn
     : [
-      ...participantColumn.slice(0, -3),
-      unpaidExtraColumn,
-      ...participantColumn.slice(-3),
-    ];
+        ...participantColumn.slice(0, -3),
+        unpaidExtraColumn,
+        ...participantColumn.slice(-3),
+      ];
 }
 
 function ParticipantAction({ participant }: { participant: Participant }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const eventId = searchParams.get("eventId");
-  
+
   const toDetailClick = () =>
     router.push(`/dashboard/participant/${participant.id}?eventId=${eventId}`);
 

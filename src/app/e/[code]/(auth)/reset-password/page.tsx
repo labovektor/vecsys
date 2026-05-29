@@ -48,7 +48,7 @@ const ResetPasswordScreen = () => {
       {
         ...values,
         token,
-      }
+      },
     );
 
     if (error) {

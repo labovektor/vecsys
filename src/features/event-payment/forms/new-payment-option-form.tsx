@@ -48,7 +48,7 @@ const NewPaymentOptionForm = ({ id }: { id: string }) => {
     const { error } = await handleRequest<unknown>(
       "POST",
       `/admin/event/${id}/payment-option`,
-      values
+      values,
     );
 
     if (error) {

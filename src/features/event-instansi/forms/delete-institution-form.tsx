@@ -19,19 +19,27 @@ import React from "react";
 import { toast } from "sonner";
 import { Institution } from "../dto";
 
-const DeleteInstitutionForm = ({ institution }: { institution: Institution }) => {
+const DeleteInstitutionForm = ({
+  institution,
+}: {
+  institution: Institution;
+}) => {
   const queryClient = getQueryClient();
   const deleteInstitution = useMutation({
     mutationKey: [institution.id],
     mutationFn: () =>
-      handleRequest("DELETE", `/admin/institution/${institution.id}`).then((res) => {
-        if (res.error) {
-          toast.error(res.error.message);
-          return;
-        }
-        toast.success("instansi berhasil dihapus");
-        queryClient.refetchQueries({ queryKey: ["institutions", institution.event_id] });
-      }),
+      handleRequest("DELETE", `/admin/institution/${institution.id}`).then(
+        (res) => {
+          if (res.error) {
+            toast.error(res.error.message);
+            return;
+          }
+          toast.success("instansi berhasil dihapus");
+          queryClient.refetchQueries({
+            queryKey: ["institutions", institution.event_id],
+          });
+        },
+      ),
   });
 
   return (

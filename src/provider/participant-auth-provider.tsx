@@ -20,7 +20,7 @@ interface ParticipantAuthContextType {
 }
 
 export const ParticipantAuthContext = createContext<ParticipantAuthContextType>(
-  {} as ParticipantAuthContextType
+  {} as ParticipantAuthContextType,
 );
 
 export default function ParticipantAuthContextProvider({
@@ -66,7 +66,7 @@ export default function ParticipantAuthContextProvider({
       error,
       logout,
     }),
-    [participant, error]
+    [participant, error],
   );
 
   return (

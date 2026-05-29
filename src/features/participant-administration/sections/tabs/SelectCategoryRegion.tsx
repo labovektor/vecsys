@@ -13,7 +13,7 @@ const SelectCategoryRegion = () => {
     queryFn: () =>
       handleRequest<EventCategoriesNRegions>(
         "GET",
-        "/user/administration/category"
+        "/user/administration/category",
       ).then((res) => {
         if (res.error) {
           toast.error(res.error.message);

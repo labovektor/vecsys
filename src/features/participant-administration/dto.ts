@@ -6,8 +6,8 @@ import { Event } from "../event/dto";
 import { Participant, ParticipantProgressStep } from "../participant/dto";
 
 export type ParticipantAdmistration = Omit<Participant, "biodata"> & {
-	event: Event;
-	biodata: ParticipantBiodata[];
+  event: Event;
+  biodata: ParticipantBiodata[];
 };
 
 export type ParticipantData = {

@@ -15,7 +15,7 @@ const StepsTab = ({
         <div
           className={cn(
             "p-2 bg-white rounded-full",
-            index <= selectedTab && "bg-vblue-500 text-white"
+            index <= selectedTab && "bg-vblue-500 text-white",
           )}
         >
           {tab.icon}
@@ -23,7 +23,7 @@ const StepsTab = ({
         <span
           className={cn(
             " text-sm text-center",
-            selectedTab === tab.id ? "text-vblue-500" : ""
+            selectedTab === tab.id ? "text-vblue-500" : "",
           )}
         >
           {tab.name}
@@ -33,7 +33,7 @@ const StepsTab = ({
         <hr
           className={cn(
             "my-2 border  w-12",
-            index < selectedTab ? "border-vblue-500" : "border-gray-300"
+            index < selectedTab ? "border-vblue-500" : "border-gray-300",
           )}
         />
       )}

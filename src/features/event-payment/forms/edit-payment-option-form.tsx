@@ -49,7 +49,7 @@ const EditPaymentOptionForm = ({ payment }: { payment: PaymentOption }) => {
     const { error } = await handleRequest<unknown>(
       "PATCH",
       `/admin/payment-option/${payment.id}`,
-      values
+      values,
     );
     if (error) {
       toast.error(error.message);

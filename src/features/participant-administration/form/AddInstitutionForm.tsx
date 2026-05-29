@@ -40,7 +40,7 @@ const AddInstitutionForm = ({ callback }: { callback: VoidFunction }) => {
     const { error } = await handleRequest<unknown>(
       "POST",
       "/user/data/institution",
-      data
+      data,
     );
 
     if (error) {

@@ -25,7 +25,7 @@ export const excelParticipantColumn: IColumn[] = [
       row.verified_at
         ? beautifyDate(
             new Date(row.verified_at as string).toISOString(),
-            "FULL"
+            "FULL",
           )
         : "-",
   },

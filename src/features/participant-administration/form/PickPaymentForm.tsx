@@ -42,7 +42,7 @@ const PickPaymentForm = ({ options }: { options: EventPaymentOptions }) => {
         "/user/administration/validate-referal",
         {
           code: referal,
-        }
+        },
       ).then((res) => {
         if (res.error) {
           toast.error(res.error.message);
@@ -113,7 +113,7 @@ const PickPaymentForm = ({ options }: { options: EventPaymentOptions }) => {
               {validatedReferal && validatedReferal.discount > 0 && (
                 <span>
                   {formatCurrency(
-                    selectedPayment.amount - validatedReferal.discount
+                    selectedPayment.amount - validatedReferal.discount,
                   )}
                 </span>
               )}
