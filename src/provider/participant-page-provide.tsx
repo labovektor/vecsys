@@ -13,9 +13,9 @@ type ParticipantContextProviderProps = {
 };
 
 interface ParticipantContextType {
-    event?: Event | null;
-    refetchData: VoidFunction;
-    loading: boolean;
+  event?: Event | null;
+  refetchData: VoidFunction;
+  loading: boolean;
 }
 
 export const ParticipantContext = createContext<ParticipantContextType>(
@@ -25,15 +25,15 @@ export const ParticipantContext = createContext<ParticipantContextType>(
 export default function ParticipantContextProvider({
   children,
 }: ParticipantContextProviderProps) {
-    const { code: slug } = useParams()
-    const {
+  const { code: slug } = useParams();
+  const {
     data: event,
     isPending,
     refetch,
   } = useQuery({
     queryKey: ["event-page"],
     queryFn: () =>
-      handleRequest<Event>("GET", `/event/${slug}`).then((res) => {
+      handleRequest<Event>("GET", `/e/${slug}`).then((res) => {
         if (res.error) {
           toast.error(res.error.message);
         }
@@ -52,7 +52,7 @@ export default function ParticipantContextProvider({
 
   return (
     <ParticipantContext.Provider value={memoedValue}>
-      {event &&children}
+      {event && children}
     </ParticipantContext.Provider>
   );
 }
