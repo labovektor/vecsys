@@ -20,7 +20,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import React, { use } from "react";
+import { use } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { VIcons } from "@/lib/asset";
@@ -28,13 +28,11 @@ import handleRequest from "@/axios/request";
 import { toast } from "sonner";
 import Link from "next/link";
 import { schemaRegister, SchemaRegister } from "@/features/auth/schema";
-import { getEventConfigByCode } from "@/lib/event-config";
 
 const RegisterScreen = ({ params }: { params: Promise<{ code: string }> }) => {
   const router = useRouter();
 
   const { code } = use(params);
-  const cfg = getEventConfigByCode(code);
 
   const form = useForm<SchemaRegister>({
     resolver: zodResolver(schemaRegister),
@@ -49,7 +47,7 @@ const RegisterScreen = ({ params }: { params: Promise<{ code: string }> }) => {
   async function onSubmit(values: SchemaRegister) {
     const { error } = await handleRequest<unknown>("POST", "/user/register", {
       ...values,
-      event_id: cfg.id,
+      event_slug: code,
     });
 
     if (error) {

@@ -8,6 +8,7 @@ export type NewEventSchemaType = z.infer<typeof newEventSchema>;
 
 export const updateEventSchema = z.object({
   name: z.string(),
+  slug: z.string(),
   desc: z.string(),
   group_member_num: z.coerce
     .number()

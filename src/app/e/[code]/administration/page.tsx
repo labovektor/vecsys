@@ -7,7 +7,6 @@ import AdministrationDataSection from "@/features/participant-administration/sec
 import AdministrationProfileSection from "@/features/participant-administration/sections/profile";
 import SuccessPage from "@/features/participant-administration/sections/success-page";
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
 import { toast } from "sonner";
 
 const AdministrationPage = () => {

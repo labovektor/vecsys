@@ -1,5 +1,4 @@
 export interface EventConfig {
-  id: string;
   code: string;
   name: string;
   theme_color: string;
@@ -12,7 +11,6 @@ export interface NamingConfig {
 }
 
 export const OMVNConfig: EventConfig = {
-  id: "f435939b-ddd1-4bba-a067-e32eca25d010",
   code: "omvn2026",
   name: "Olimpiade Matematika Vektor Nasional (OMVN)",
   theme_color: "oklch(39.8% 0.195 277.366)",
@@ -23,7 +21,6 @@ export const OMVNConfig: EventConfig = {
 };
 
 export const DefaultConfig: EventConfig = {
-  id: "default",
   code: "default",
   name: "Event",
   theme_color: "oklch(39.8% 0.195 277.366)",
@@ -32,15 +29,6 @@ export const DefaultConfig: EventConfig = {
     region: "Region",
   },
 };
-
-export function getEventConfigById(id: string): EventConfig {
-  switch (id) {
-    case OMVNConfig.id:
-      return OMVNConfig;
-    default:
-      return DefaultConfig;
-  }
-}
 
 export function getEventConfigByCode(code: string): EventConfig {
   switch (code) {

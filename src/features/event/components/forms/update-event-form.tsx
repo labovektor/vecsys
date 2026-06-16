@@ -38,6 +38,7 @@ const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
     resolver: zodResolver(updateEventSchema),
     defaultValues: {
       name: event.name ?? "",
+      slug: event.slug ?? "",
       desc: event.desc ?? "",
       group_member_num: event.group_member_num ?? 3,
       participant_target: event.participant_target ?? 0,
@@ -90,6 +91,20 @@ const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
               <FormLabel>Deskripsi Event</FormLabel>
               <FormControl>
                 <Input {...field} placeholder="Deskripsi Event" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="slug"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Slug Event</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="Slug Event" />
               </FormControl>
               <FormMessage />
             </FormItem>

@@ -3,6 +3,7 @@ export type Event = {
   admin_id: string;
   name: string;
   desc: string;
+  slug: string;
   group_member_num: number;
   icon: string;
   participant_target: number;
