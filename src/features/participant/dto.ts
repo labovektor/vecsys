@@ -55,6 +55,7 @@ export type BiodataMember = {
   name: string;
   gender: "male" | "female";
   email: string;
+  participant_id: string;
   phone: string;
   id_number: string; // NIS/NISN
   id_card_picture?: string;

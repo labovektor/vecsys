@@ -8,9 +8,13 @@ import { DataTable } from "@/components/table/data-table";
 import { getParticipantColumn } from "./components/participant-column";
 import { Button } from "@/components/ui/button";
 import { exportAsExcelFile } from "@/lib/xlsx";
-import { excelParticipantColumn } from "./components/excel-participant-column";
+import {
+  excelBiodataColumn,
+  excelParticipantColumn,
+} from "./components/excel-participant-column";
 import { Save } from "lucide-react";
 import { BulkAddParticipantsForm } from "./form/bulk-add-participant-form";
+import { ParticipantBiodata } from "../participant-administration/dto";
 
 const KelolaPeserta = ({ id, step }: { id: string; step: PaymentStep }) => {
   const { data: participant, isLoading } = useQuery({
@@ -26,6 +30,20 @@ const KelolaPeserta = ({ id, step }: { id: string; step: PaymentStep }) => {
         return res.data;
       }),
   });
+
+  const exportLockedBiodatas = async () => {
+    const res = await handleRequest<ParticipantBiodata[]>(
+      "GET",
+      `/admin/event/${id}/biodata`,
+    );
+    if (res.error) {
+      toast.error(res.error.message);
+    }
+
+    if (res.data) {
+      exportAsExcelFile(res.data, excelBiodataColumn, `biodata-peserta`);
+    }
+  };
 
   return (
     <Card className="w-full h-full bg-white">
@@ -47,7 +65,11 @@ const KelolaPeserta = ({ id, step }: { id: string; step: PaymentStep }) => {
                   )
                 }
               >
-                Export ke Excel
+                Export Peserta (XLSX)
+                <Save />
+              </Button>
+              <Button variant="success" onClick={exportLockedBiodatas}>
+                Export Biodata Dikunci (XLSX)
                 <Save />
               </Button>
             </div>

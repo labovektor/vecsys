@@ -21,8 +21,7 @@ export const excelParticipantColumn: IColumn[] = [
   },
   {
     label: "Region",
-    value: (row: ExcelParticipantRow) =>
-      row.region ? row.region.name : "-",
+    value: (row: ExcelParticipantRow) => (row.region ? row.region.name : "-"),
   },
   {
     label: "Jenjang",
@@ -34,10 +33,22 @@ export const excelParticipantColumn: IColumn[] = [
     label: "Verifikasi",
     value: (row: ExcelParticipantRow) =>
       row.verified_at
-        ? beautifyDate(
-            new Date(row.verified_at).toISOString(),
-            "FULL",
-          )
+        ? beautifyDate(new Date(row.verified_at).toISOString(), "FULL")
         : "-",
+  },
+];
+
+export const excelBiodataColumn: IColumn[] = [
+  {
+    label: "name",
+    value: "name",
+  },
+  {
+    label: "email",
+    value: "email",
+  },
+  {
+    label: "team_id",
+    value: "participant_id",
   },
 ];
