@@ -10,6 +10,10 @@ import { Button } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+import handleRequest from "@/axios/request";
+import { toast } from "sonner";
+import { getQueryClient } from "@/lib/get-query-client";
 
 export function getParticipantColumn(
   status: PaymentStep,
@@ -86,11 +90,33 @@ export function getParticipantColumn(
 
 function ParticipantAction({ participant }: { participant: Participant }) {
   const router = useRouter();
+  const queryClient = getQueryClient();
   const searchParams = useSearchParams();
   const eventId = searchParams.get("eventId");
 
   const toDetailClick = () =>
     router.push(`/dashboard/participant/${participant.id}?eventId=${eventId}`);
+
+  const handleVerifyPeserta = useMutation({
+    mutationKey: ["verifyParticipant", participant.id],
+    mutationFn: () =>
+      handleRequest(
+        "PATCH",
+        `/admin/participant/${participant.id}/verify`,
+      ).then((res) => {
+        if (res.error) {
+          throw new Error(res.error.message);
+        }
+        return res.data;
+      }),
+    onSuccess: () => {
+      toast.success("Peserta berhasil diverifikasi");
+      queryClient.invalidateQueries({ queryKey: ["participant"] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
   return (
     <DropdownMenu>
@@ -103,7 +129,9 @@ function ParticipantAction({ participant }: { participant: Participant }) {
         <DropdownMenuItem onClick={toDetailClick}>
           Detail peserta
         </DropdownMenuItem>
-        <DropdownMenuItem>Verifikasi</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => handleVerifyPeserta.mutate()}>
+          Verifikasi
+        </DropdownMenuItem>
         <DropdownMenuItem className="text-red-500 hover:!bg-red-500 hover:!text-white">
           Tolak
         </DropdownMenuItem>
