@@ -15,6 +15,7 @@ import {
 import { Save } from "lucide-react";
 import { BulkAddParticipantsForm } from "./form/bulk-add-participant-form";
 import { ParticipantBiodata } from "../participant-administration/dto";
+import { IContent } from "json-as-xlsx";
 
 const KelolaPeserta = ({ id, step }: { id: string; step: PaymentStep }) => {
   const { data: participant, isLoading } = useQuery({
@@ -59,7 +60,7 @@ const KelolaPeserta = ({ id, step }: { id: string; step: PaymentStep }) => {
                 variant="success"
                 onClick={() =>
                   exportAsExcelFile(
-                    data,
+                    data as IContent[],
                     excelParticipantColumn,
                     `peserta-${step}`,
                   )
