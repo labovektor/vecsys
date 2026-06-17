@@ -6,9 +6,26 @@ export const newEventSchema = z.object({
 
 export type NewEventSchemaType = z.infer<typeof newEventSchema>;
 
+const reservedSlugs = [
+  "vecsys",
+  "admin",
+  "login",
+  "api",
+  "dashboard",
+  "settings",
+] as const;
 export const updateEventSchema = z.object({
   name: z.string(),
-  slug: z.string(),
+  slug: z
+    .string()
+    .min(3, { message: "Slug must be at least 3 characters long" })
+    .max(50, { message: "Slug cannot exceed 50 characters" })
+    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/i, {
+      message: "Slug can only contain alphanumeric characters and hyphens",
+    })
+    .refine((val) => !reservedSlugs.includes(val as any), {
+      message: "This slug is reserved and cannot be used",
+    }),
   desc: z.string(),
   group_member_num: z.coerce
     .number()

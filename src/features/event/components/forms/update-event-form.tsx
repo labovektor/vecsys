@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -104,9 +105,13 @@ const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
             <FormItem>
               <FormLabel>Slug Event</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="Slug Event" />
+                <Input {...field} placeholder="my-event" />
               </FormControl>
               <FormMessage />
+              <FormDescription>
+                Slug adalah parameter url yang akan diakses peserta. Misalnya
+                peserta akan melihat link sebagai vecsys.com/e/[slug]/login
+              </FormDescription>
             </FormItem>
           )}
         />
