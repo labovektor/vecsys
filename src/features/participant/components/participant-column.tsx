@@ -14,6 +14,8 @@ import { useMutation } from "@tanstack/react-query";
 import handleRequest from "@/axios/request";
 import { toast } from "sonner";
 import { getQueryClient } from "@/lib/get-query-client";
+import React from "react";
+import { arrayBufferDownload } from "@/lib/array_buffer_downloader";
 
 export function getParticipantColumn(
   status: PaymentStep,
@@ -93,6 +95,7 @@ function ParticipantAction({ participant }: { participant: Participant }) {
   const queryClient = getQueryClient();
   const searchParams = useSearchParams();
   const eventId = searchParams.get("eventId");
+  const [loadingCard, setLoadingCard] = React.useState(false);
 
   const toDetailClick = () =>
     router.push(`/dashboard/participant/${participant.id}?eventId=${eventId}`);
@@ -118,6 +121,23 @@ function ParticipantAction({ participant }: { participant: Participant }) {
     },
   });
 
+  const getParticipantCard = async () => {
+    setLoadingCard(true);
+    const { error, data } = await handleRequest<ArrayBuffer>(
+      "GET",
+      `/admin/participant/${participant.id}/card`,
+      undefined,
+      "arraybuffer",
+    );
+    setLoadingCard(false);
+    if (error || !data) {
+      if (error) toast.error(error.message);
+      return;
+    }
+
+    arrayBufferDownload(data, `kartu_peserta_${participant.name}.pdf`);
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -135,7 +155,9 @@ function ParticipantAction({ participant }: { participant: Participant }) {
         <DropdownMenuItem className="text-red-500 hover:!bg-red-500 hover:!text-white">
           Tolak
         </DropdownMenuItem>
-        <DropdownMenuItem>Cetak kartu peserta</DropdownMenuItem>
+        <DropdownMenuItem onClick={getParticipantCard} disabled={loadingCard}>
+          Cetak kartu peserta
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

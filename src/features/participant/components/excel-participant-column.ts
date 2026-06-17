@@ -40,6 +40,10 @@ export const excelParticipantColumn: IColumn[] = [
 
 export const excelBiodataColumn: IColumn[] = [
   {
+    label: "team_id",
+    value: "participant_id",
+  },
+  {
     label: "name",
     value: "name",
   },
@@ -48,7 +52,11 @@ export const excelBiodataColumn: IColumn[] = [
     value: "email",
   },
   {
-    label: "team_id",
-    value: "participant_id",
+    label: "phone",
+    value: "phone",
+  },
+  {
+    label: "id_number",
+    value: "id_number",
   },
 ];

@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useParticipant } from "@/hooks/use-participant";
+import { arrayBufferDownload } from "@/lib/array_buffer_downloader";
 import { Bookmark, Eye } from "lucide-react";
 import Image from "next/image";
 import React from "react";
@@ -32,18 +33,7 @@ const SuccessPage = () => {
       return;
     }
 
-    const blob = new Blob([data], { type: "application/pdf" });
-    const url = window.URL.createObjectURL(blob);
-
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `kartu_peserta_${user?.participant.name}.pdf`;
-    document.body.appendChild(link);
-    link.click();
-
-    // Bersihkan
-    link.remove();
-    window.URL.revokeObjectURL(url);
+    arrayBufferDownload(data, `kartu_peserta_${user?.participant.name}.pdf`);
   };
   return (
     <div className=" p-3">
