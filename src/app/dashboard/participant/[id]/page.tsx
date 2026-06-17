@@ -18,10 +18,7 @@ const ParticipantDetailPage = ({
   params: Promise<{ id: string }>;
 }) => {
   const { id } = use(params);
-  const {
-    data: participant,
-    isLoading,
-  } = useQuery({
+  const { data: participant, isLoading } = useQuery({
     queryKey: ["participant", id],
     queryFn: async () =>
       handleRequest<ParticipantDetail>("GET", `/admin/participant/${id}`).then(

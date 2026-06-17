@@ -121,7 +121,9 @@ export function createFormData(data: Record<string, unknown>): FormData {
 
     if (Array.isArray(value)) {
       // If the value is an array, append each item individually
-      value.forEach((item: unknown) => formData.append(`${key}[]`, item as string));
+      value.forEach((item: unknown) =>
+        formData.append(`${key}[]`, item as string),
+      );
     } else if (value instanceof File) {
       // If the value is a File, append it directly
       formData.append(key, value);

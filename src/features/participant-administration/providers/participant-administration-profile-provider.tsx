@@ -81,7 +81,9 @@ export function ParticipantAdministrationProfileProvider({
 }: ParticipantAdministrationProfileProviderProps) {
   const [selectedPayment, setSelectedPayment] =
     React.useState<PaymentOption | null>(null);
-  const [stepIndexOverride, setStepIndexOverride] = React.useState<number | null>(null);
+  const [stepIndexOverride, setStepIndexOverride] = React.useState<
+    number | null
+  >(null);
 
   const { data: progressState, isLoading } = useQuery({
     queryKey: ["progress"],
@@ -109,14 +111,16 @@ export function ParticipantAdministrationProfileProvider({
       isLoading,
       toNextStep: () => {
         setStepIndexOverride((prev) => {
-          const currentIdx = prev ?? steps.findIndex((s) => s.step === progressState?.step);
+          const currentIdx =
+            prev ?? steps.findIndex((s) => s.step === progressState?.step);
           if (currentIdx < 0 || currentIdx >= steps.length - 1) return prev;
           return currentIdx + 1;
         });
       },
       toPreviousStep: () => {
         setStepIndexOverride((prev) => {
-          const currentIdx = prev ?? steps.findIndex((s) => s.step === progressState?.step);
+          const currentIdx =
+            prev ?? steps.findIndex((s) => s.step === progressState?.step);
           if (currentIdx <= 0) return prev;
           return currentIdx - 1;
         });
@@ -124,7 +128,13 @@ export function ParticipantAdministrationProfileProvider({
       selectedPayment,
       setSelectedPayment,
     }),
-    [selectedTab, isLoading, progressState, selectedPayment, setSelectedPayment],
+    [
+      selectedTab,
+      isLoading,
+      progressState,
+      selectedPayment,
+      setSelectedPayment,
+    ],
   );
 
   return (

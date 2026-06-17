@@ -15,7 +15,7 @@ export function useParticipant() {
 }
 
 export function useEvent() {
-    const context = useContext(ParticipantContext);
+  const context = useContext(ParticipantContext);
 
   if (!context) {
     throw new Error(

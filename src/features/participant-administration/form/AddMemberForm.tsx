@@ -204,7 +204,11 @@ const AddMemberForm = ({
 
             <div>
               {preview && (
-                <img src={preview} alt="Preview" className=" max-h-24 object-contain" />
+                <img
+                  src={preview}
+                  alt="Preview"
+                  className=" max-h-24 object-contain"
+                />
               )}
             </div>
 

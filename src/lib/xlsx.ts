@@ -1,11 +1,12 @@
 import xlsx, {
+  IContent,
   type IColumn,
   type IJsonSheet,
   type ISettings,
 } from "json-as-xlsx";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function exportAsExcelFile(data: any[],
+export function exportAsExcelFile(
+  data: IContent[],
   columns: IColumn[],
   sheetName: string,
   callback?: () => void,

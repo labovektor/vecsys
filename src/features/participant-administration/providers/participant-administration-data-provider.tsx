@@ -74,7 +74,9 @@ export const ParticipantAdministrationDataContext =
 export function ParticipantAdministrationDataProvider({
   children,
 }: ParticipantAdministrationDataProviderProps) {
-  const [stepIndexOverride, setStepIndexOverride] = React.useState<number | null>(null);
+  const [stepIndexOverride, setStepIndexOverride] = React.useState<
+    number | null
+  >(null);
 
   const { data: progressState, isLoading } = useQuery({
     queryKey: ["progress"],
@@ -102,14 +104,16 @@ export function ParticipantAdministrationDataProvider({
       isLoading,
       toNextStep: () => {
         setStepIndexOverride((prev) => {
-          const currentIdx = prev ?? steps.findIndex((s) => s.step === progressState?.step);
+          const currentIdx =
+            prev ?? steps.findIndex((s) => s.step === progressState?.step);
           if (currentIdx < 0 || currentIdx >= steps.length - 1) return prev;
           return currentIdx + 1;
         });
       },
       toPreviousStep: () => {
         setStepIndexOverride((prev) => {
-          const currentIdx = prev ?? steps.findIndex((s) => s.step === progressState?.step);
+          const currentIdx =
+            prev ?? steps.findIndex((s) => s.step === progressState?.step);
           if (currentIdx <= 0) return prev;
           return currentIdx - 1;
         });

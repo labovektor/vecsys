@@ -2,9 +2,8 @@
 
 import handleRequest from "@/axios/request";
 import { Event } from "@/features/event/dto";
-import { ParticipantData } from "@/features/participant-administration/dto";
 import { useQuery } from "@tanstack/react-query";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { createContext, useMemo } from "react";
 import { toast } from "sonner";
 

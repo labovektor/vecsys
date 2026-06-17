@@ -5,9 +5,5 @@ export default function EventLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <ParticipantContextProvider>
-      {children}
-    </ParticipantContextProvider>
-  );
+  return <ParticipantContextProvider>{children}</ParticipantContextProvider>;
 }

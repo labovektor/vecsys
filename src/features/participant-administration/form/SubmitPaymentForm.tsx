@@ -193,7 +193,11 @@ const SubmitPaymentForm = () => {
 
         <div>
           {preview && (
-            <img src={preview} alt="Preview" className=" max-h-32 object-contain" />
+            <img
+              src={preview}
+              alt="Preview"
+              className=" max-h-32 object-contain"
+            />
           )}
         </div>
 

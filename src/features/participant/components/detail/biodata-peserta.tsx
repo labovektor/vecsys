@@ -1,7 +1,10 @@
 "use client";
 
 import React from "react";
-import { UpdateBiodatasSchemaType, BiodataAnggotaSchemaType } from "../../schema";
+import {
+  UpdateBiodatasSchemaType,
+  BiodataAnggotaSchemaType,
+} from "../../schema";
 import { Button } from "@/components/ui/button";
 import { TrashIcon } from "lucide-react";
 import { getQueryClient } from "@/lib/get-query-client";
@@ -27,13 +30,18 @@ const BiodataPeserta = ({
   const searchParams = useSearchParams();
   const eventId = searchParams.get("eventId");
 
-  const formRefs = React.useRef<{ [key: string]: UseFormReturn<BiodataAnggotaSchemaType> }>({});
+  const formRefs = React.useRef<{
+    [key: string]: UseFormReturn<BiodataAnggotaSchemaType>;
+  }>({});
 
   const biodataMembers = React.useMemo(() => {
     return participant?.biodata || [];
   }, [participant?.biodata]);
 
-  const handleFormRef = (anggotaNumber: number, formRef: UseFormReturn<BiodataAnggotaSchemaType>) => {
+  const handleFormRef = (
+    anggotaNumber: number,
+    formRef: UseFormReturn<BiodataAnggotaSchemaType>,
+  ) => {
     formRefs.current[`anggota${anggotaNumber}`] = formRef;
   };
 
