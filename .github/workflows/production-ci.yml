@@ -26,8 +26,6 @@ jobs:
         with:
           context: .
           push: true
-          build-args: |
-            NEXT_PUBLIC_API_URL=${{ vars.NEXT_PUBLIC_API_URL }}
           tags: |
             ghcr.io/labovektor/vecsys:stable
             ghcr.io/labovektor/vecsys:${{ github.sha }}

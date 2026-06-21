@@ -1,12 +1,11 @@
+import { getBaseURL } from "@/axios/axios";
 import { Button } from "@/components/ui/button";
 import { EyeIcon, PrinterIcon } from "lucide-react";
 import { toast } from "sonner";
 
 const downloadIDCard = (participantId: string) => {
   try {
-    const url =
-      process.env.NEXT_PUBLIC_API_URL +
-      `/admin/participant/${participantId}/card`;
+    const url = getBaseURL() + `/admin/participant/${participantId}/card`;
     const link = document.createElement("a");
     link.href = url;
     link.target = "_blank";

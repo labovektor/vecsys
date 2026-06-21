@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 import handleRequest from "@/axios/request";
 import { toast } from "sonner";
+import { getBaseURL } from "@/axios/axios";
 
 const MemberCard = ({
   biodata,
@@ -87,7 +88,7 @@ const MemberCard = ({
               <td>Kartu Identitas</td>
               <td>
                 <a
-                  href={`${process.env.NEXT_PUBLIC_API_URL}${biodata.id_card_picture}`}
+                  href={`${getBaseURL()}${biodata.id_card_picture}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className=" underline text-blue-600"

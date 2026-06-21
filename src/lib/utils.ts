@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { baseURL } from "@/axios/axios";
+import { getBaseURL } from "@/axios/axios";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -143,7 +143,7 @@ export function getProfileImageUrl(
   profilePicture?: string | null,
 ): string | undefined {
   if (!profilePicture) return undefined;
-  return `${baseURL}${profilePicture}`;
+  return `${getBaseURL()}${profilePicture}`;
 }
 
 export const csvToText = (file: File): Promise<string> => {

@@ -4,7 +4,7 @@ import { z } from "zod";
 // Define the schema as an object with all of the env
 // variables and their types
 const envSchema = z.object({
-  NEXT_PUBLIC_API_URL: z.string().default(""),
+  API_URL: z.string().default(""),
   ENV: z
     .union([
       z.literal("development"),

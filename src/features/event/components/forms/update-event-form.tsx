@@ -22,6 +22,7 @@ import { UpdateEventSchemaType, updateEventSchema } from "../../schema";
 import { createFormData } from "@/lib/utils";
 import { CircleOff } from "lucide-react";
 import { getQueryClient } from "@/lib/get-query-client";
+import { getBaseURL } from "@/axios/axios";
 
 interface UpdateEventFormProps {
   eventId: string;
@@ -32,7 +33,7 @@ const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
   const router = useRouter();
   const queryClient = getQueryClient();
   const [preview, setPreview] = useState<string | undefined>(
-    event.icon && `${process.env.NEXT_PUBLIC_API_URL}${event.icon}`,
+    event.icon && `${getBaseURL()}${event.icon}`,
   );
 
   const form = useForm<UpdateEventSchemaType>({
