@@ -11,6 +11,7 @@ import Link from "next/link";
 import React, { use } from "react";
 import { toast } from "sonner";
 import ParticipantDetailForm from "@/features/participant/form/detail/participant-detail-form";
+import { getBaseURL } from "@/axios/axios";
 
 const ParticipantDetailPage = ({
   params,
@@ -41,7 +42,7 @@ const ParticipantDetailPage = ({
           <Link
             href={
               participant?.payment
-                ? `${process.env.NEXT_PUBLIC_API_URL}${participant?.payment?.invoice}`
+                ? `${getBaseURL()}${participant?.payment?.invoice}`
                 : `#`
             }
             className={cn(buttonVariants(), "bg-gray-800 text-white")}

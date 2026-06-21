@@ -1,12 +1,25 @@
 import { extractEventCodeFromPath } from "@/lib/event-config";
 import axios from "axios";
 
-export const baseURL = process.env.NEXT_PUBLIC_API_URL;
+let cachedBaseURL: string | null = null;
 
 const axiosInstance = axios.create({
-  baseURL: baseURL,
   withCredentials: true,
 });
+
+export async function getBaseURL(): Promise<string> {
+  if (cachedBaseURL) {
+    return cachedBaseURL;
+  }
+  try {
+    const response = await axios.get("/api/config");
+    cachedBaseURL = response.data.baseURL;
+    return cachedBaseURL || "";
+  } catch (error) {
+    console.error("Gagal mengambil konfigurasi runtime:", error);
+    return "";
+  }
+}
 
 const nonProtectedRoutes = [
   "/",
@@ -25,6 +38,22 @@ function isNonProtectedRoute(pathname: string) {
     return route.test(pathname);
   });
 }
+
+axiosInstance.interceptors.request.use(
+  async (config) => {
+    if (config.url === "/api/config") {
+      return config;
+    }
+
+    if (!config.baseURL) {
+      config.baseURL = await getBaseURL();
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
 
 axiosInstance.interceptors.response.use(
   (response) => {

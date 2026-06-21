@@ -29,6 +29,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import handleRequest from "@/axios/request";
 import { toast } from "sonner";
+import { getBaseURL } from "@/axios/axios";
 
 const SubmitPaymentForm = () => {
   const { user, refetchData } = useParticipant();
@@ -48,7 +49,7 @@ const SubmitPaymentForm = () => {
 
   const [preview, setPreview] = React.useState<string | null>(
     user?.participant?.payment?.invoice
-      ? `${process.env.NEXT_PUBLIC_API_URL}${user?.participant?.payment?.invoice}`
+      ? `${getBaseURL()}${user?.participant?.payment?.invoice}`
       : null,
   );
 
