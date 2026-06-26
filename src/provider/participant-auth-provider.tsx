@@ -3,7 +3,7 @@
 import handleRequest from "@/axios/request";
 import { ParticipantData } from "@/features/participant-administration/dto";
 import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { createContext, useMemo } from "react";
 import { toast } from "sonner";
 
@@ -26,6 +26,15 @@ export default function ParticipantAuthContextProvider({
   children,
 }: ParticipantAuthContextProviderProps) {
   const router = useRouter();
+  const pathname = usePathname();
+
+  const toLoginPage = () => {
+    const segments = pathname.split("/").filter(Boolean);
+
+    if (segments[0] === "e" && segments[1]) {
+      router.replace(`/e/${segments[1]}/login`);
+    }
+  };
 
   const {
     data: participant,
@@ -37,12 +46,11 @@ export default function ParticipantAuthContextProvider({
       handleRequest<ParticipantData>("GET", "/user/data").then((res) => {
         if (res.error) {
           toast.error(res.error.message);
+          toLoginPage();
         }
         return res.data;
       }),
   });
-
-  const eventId = participant?.participant.event_id;
 
   const memoedValue = useMemo(
     () => ({
@@ -51,10 +59,10 @@ export default function ParticipantAuthContextProvider({
       refetchData: () => refetch(),
       logout: () => {
         handleRequest<unknown>("GET", "/user/logout");
-        router.replace(`/e/${eventId}/login`);
+        toLoginPage();
       },
     }),
-    [participant, isPending, refetch, eventId, router],
+    [participant, isPending, refetch, router],
   );
 
   return (
