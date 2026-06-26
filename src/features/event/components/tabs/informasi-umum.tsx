@@ -27,9 +27,14 @@ const InformasiUmum = ({ id }: { id: string }) => {
         <Button
           variant="outline"
           onClick={() =>
-            navigator.clipboard.writeText(
-              `https://vecsys.my.id/e/${event?.slug}/login`,
-            )
+            navigator.clipboard
+              .writeText(`https://vecsys.my.id/e/${event?.slug}/login`)
+              .then(() => {
+                toast.success("Link berhasil disalin!");
+              })
+              .catch(() => {
+                toast.error("Oops! terjadi kesalahan");
+              })
           }
         >
           Bagikan Event

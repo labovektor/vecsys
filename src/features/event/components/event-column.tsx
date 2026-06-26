@@ -62,9 +62,14 @@ function EventAction({ event }: { event: Event }) {
       <Button
         variant="outline"
         onClick={() =>
-          navigator.clipboard.writeText(
-            `https://vecsys.my.id/e/${event.slug}/login`,
-          )
+          navigator.clipboard
+            .writeText(`https://vecsys.my.id/e/${event.slug}/login`)
+            .then(() => {
+              toast.success("Link berhasil disalin!");
+            })
+            .catch(() => {
+              toast.error("Oops! terjadi kesalahan");
+            })
         }
       >
         <Share />
