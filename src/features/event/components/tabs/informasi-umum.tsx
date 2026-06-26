@@ -6,6 +6,8 @@ import { toast } from "sonner";
 import ToggleEventStatus from "../toggle-event-status";
 import { Event } from "../../dto";
 import UpdateEventForm from "../forms/update-event-form";
+import { Button } from "@/components/ui/button";
+import { Share } from "lucide-react";
 
 const InformasiUmum = ({ id }: { id: string }) => {
   const { data: event, isLoading } = useQuery({
@@ -21,7 +23,23 @@ const InformasiUmum = ({ id }: { id: string }) => {
 
   return (
     <Card className="w-full h-full p-4 bg-white border border-gray-200 shadow-sm rounded-md">
-      <div className="w-full flex justify-end mb-4">
+      <div className="w-full flex justify-between mb-4">
+        <Button
+          variant="outline"
+          onClick={() =>
+            navigator.clipboard
+              .writeText(`https://vecsys.my.id/e/${event?.slug}/login`)
+              .then(() => {
+                toast.success("Link berhasil disalin!");
+              })
+              .catch(() => {
+                toast.error("Oops! terjadi kesalahan");
+              })
+          }
+        >
+          Bagikan Event
+          <Share />
+        </Button>
         <ToggleEventStatus
           key={`${event?.active}`}
           eventId={id}
