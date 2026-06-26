@@ -111,7 +111,7 @@ const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
               <FormMessage />
               <FormDescription>
                 Slug adalah parameter url yang akan diakses peserta. Misalnya
-                peserta akan melihat link sebagai vecsys.com/e/[slug]/login
+                peserta akan melihat link sebagai vecsys.my.id/e/[slug]/login
               </FormDescription>
             </FormItem>
           )}

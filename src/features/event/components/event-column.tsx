@@ -1,6 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Event } from "../dto";
-import { Edit, Trash2 } from "lucide-react";
+import { Edit, Share, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -59,6 +59,16 @@ function EventAction({ event }: { event: Event }) {
       >
         <Edit />
       </Link>
+      <Button
+        variant="outline"
+        onClick={() =>
+          navigator.clipboard.writeText(
+            `https://vecsys.my.id/e/${event.slug}/login`,
+          )
+        }
+      >
+        <Share />
+      </Button>
       <AlertDialog>
         <AlertDialogTrigger asChild>
           <Button
