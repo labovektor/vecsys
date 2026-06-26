@@ -12,6 +12,7 @@ import React, { use } from "react";
 import { toast } from "sonner";
 import ParticipantDetailForm from "@/features/participant/form/detail/participant-detail-form";
 import { getBaseURL } from "@/axios/axios";
+import { arrayBufferDownload } from "@/lib/array_buffer_downloader";
 
 const ParticipantDetailPage = ({
   params,
@@ -33,6 +34,23 @@ const ParticipantDetailPage = ({
       ),
   });
 
+  const getParticipantCard = async () => {
+    if (participant) {
+      const { error, data } = await handleRequest<ArrayBuffer>(
+        "GET",
+        `/admin/participant/${participant.id}/card`,
+        undefined,
+        "arraybuffer",
+      );
+      if (error || !data) {
+        if (error) toast.error(error.message);
+        return;
+      }
+
+      arrayBufferDownload(data, `kartu_peserta_${participant.name}.pdf`);
+    }
+  };
+
   return (
     <>
       <div className="flex justify-between py-4 px-1">
@@ -51,7 +69,10 @@ const ParticipantDetailPage = ({
           >
             <EyeIcon /> Lihat Bukti Pembayaran
           </Link>
-          <Button className="bg-gray-800 text-white">
+          <Button
+            className="bg-gray-800 text-white"
+            onClick={getParticipantCard}
+          >
             <PrinterIcon /> Cetak Kartu Peserta
           </Button>
         </div>
