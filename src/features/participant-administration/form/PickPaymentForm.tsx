@@ -112,7 +112,9 @@ const PickPaymentForm = ({ options }: { options: EventPaymentOptions }) => {
               {validatedReferal && validatedReferal.discount > 0 && (
                 <span>
                   {formatCurrency(
-                    selectedPayment.amount - validatedReferal.discount,
+                    selectedPayment.amount -
+                      (validatedReferal.discount / 100) *
+                        selectedPayment.amount,
                   )}
                 </span>
               )}
