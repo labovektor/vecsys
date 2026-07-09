@@ -20,6 +20,8 @@ const ParticipantDetailPage = ({
   params: Promise<{ id: string }>;
 }) => {
   const { id } = use(params);
+  const baseUrl = use(getBaseURL());
+
   const { data: participant, isLoading } = useQuery({
     queryKey: ["participant", id],
     queryFn: async () =>
@@ -43,7 +45,10 @@ const ParticipantDetailPage = ({
         "arraybuffer",
       );
       if (error || !data) {
-        if (error) toast.error(error.message);
+        if (error)
+          toast.error(
+            error.message ?? "Kesalahan! Pastikan peserta telah lock data.",
+          );
         return;
       }
 
@@ -60,7 +65,7 @@ const ParticipantDetailPage = ({
           <Link
             href={
               participant?.payment
-                ? `${getBaseURL()}${participant?.payment?.invoice}`
+                ? `${baseUrl}${participant?.payment?.invoice}`
                 : `#`
             }
             className={cn(buttonVariants(), "bg-gray-800 text-white")}

@@ -139,11 +139,12 @@ export function createFormData(data: Record<string, unknown>): FormData {
   return formData;
 }
 
-export function getProfileImageUrl(
+export async function getProfileImageUrl(
   profilePicture?: string | null,
-): string | undefined {
+): Promise<string | undefined> {
+  const baseUrl = await getBaseURL();
   if (!profilePicture) return undefined;
-  return `${getBaseURL()}${profilePicture}`;
+  return `${baseUrl}${profilePicture}`;
 }
 
 export const csvToText = (file: File): Promise<string> => {

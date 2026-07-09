@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/hooks/use-user";
 import { getInitial, getProfileImageUrl } from "@/lib/utils";
-import React, { useRef, useState } from "react";
+import React, { use, useRef, useState } from "react";
 import { Camera } from "lucide-react";
 import EditProfileForm from "../forms/edit-profile-form";
 import Skeleton from "./skeleton";
@@ -15,6 +15,7 @@ const ProfileCard = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const currentProfileImage = use(getProfileImageUrl(user?.profile_picture));
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -48,7 +49,7 @@ const ProfileCard = () => {
     );
   }
 
-  const imageUrl = previewImage || getProfileImageUrl(user.profile_picture);
+  const imageUrl = previewImage || currentProfileImage;
 
   return (
     <div className="flex flex-col lg:flex-row gap-8 w-full">
