@@ -19,7 +19,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import type { UseFormReturn } from "react-hook-form";
-import { getBaseURL } from "@/axios/axios";
+import { getBaseURLUnasync } from "@/axios/axios";
 
 interface BiodataAnggotaFormProps {
   anggotaNumber: number;
@@ -170,7 +170,7 @@ const BiodataAnggotaForm = ({
           <div className="flex justify-end gap-2 pt-4">
             {initialData.id_card_picture && (
               <Link
-                href={getBaseURL() + initialData.id_card_picture}
+                href={getBaseURLUnasync() + initialData.id_card_picture}
                 className={cn(
                   buttonVariants({ variant: "default" }),
                   "bg-transparent text-blue-600 border border-blue-600 hover:bg-blue-600 hover:text-white",
