@@ -1,13 +1,13 @@
 "use client";
 
-import React, { use } from "react";
+import React from "react";
 import { ParticipantBiodata } from "../dto";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 import handleRequest from "@/axios/request";
 import { toast } from "sonner";
-import { getBaseURL } from "@/axios/axios";
+import { getBaseURLUnasync } from "@/axios/axios";
 
 const MemberCard = ({
   biodata,
@@ -20,7 +20,6 @@ const MemberCard = ({
   callBack?: VoidFunction;
   canDelete: boolean;
 }) => {
-  const baseUrl = use(getBaseURL());
   const [deleting, setDeleting] = React.useState(false);
   const deleteMember = async () => {
     setDeleting(true);
@@ -89,7 +88,7 @@ const MemberCard = ({
               <td>Kartu Identitas</td>
               <td>
                 <a
-                  href={`${baseUrl}${biodata.id_card_picture}`}
+                  href={`${getBaseURLUnasync()}${biodata.id_card_picture}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className=" underline text-blue-600"

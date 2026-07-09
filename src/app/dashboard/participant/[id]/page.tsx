@@ -4,15 +4,15 @@ import handleRequest from "@/axios/request";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { ParticipantDetail } from "@/features/participant/dto";
 import { cn } from "@/lib/utils";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import BiodataPeserta from "@/features/participant/components/detail/biodata-peserta";
 import { EyeIcon, PrinterIcon } from "lucide-react";
 import Link from "next/link";
-import React, { use } from "react";
+import { use } from "react";
 import { toast } from "sonner";
 import ParticipantDetailForm from "@/features/participant/form/detail/participant-detail-form";
-import { getBaseURL } from "@/axios/axios";
 import { arrayBufferDownload } from "@/lib/array_buffer_downloader";
+import { getBaseURLUnasync } from "@/axios/axios";
 
 const ParticipantDetailPage = ({
   params,
@@ -20,7 +20,6 @@ const ParticipantDetailPage = ({
   params: Promise<{ id: string }>;
 }) => {
   const { id } = use(params);
-  const baseUrl = use(getBaseURL());
 
   const { data: participant, isLoading } = useQuery({
     queryKey: ["participant", id],
@@ -65,7 +64,7 @@ const ParticipantDetailPage = ({
           <Link
             href={
               participant?.payment
-                ? `${baseUrl}${participant?.payment?.invoice}`
+                ? `${getBaseURLUnasync()}${participant?.payment?.invoice}`
                 : `#`
             }
             className={cn(buttonVariants(), "bg-gray-800 text-white")}

@@ -21,7 +21,6 @@ async function handleRequest<T>(
     const config = {
       method,
       url: endpoint,
-      responseType,
       ...(body ? { data: body } : {}),
     };
 

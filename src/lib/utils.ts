@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { getBaseURL } from "@/axios/axios";
+import { getBaseURLUnasync } from "@/axios/axios";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -139,12 +139,11 @@ export function createFormData(data: Record<string, unknown>): FormData {
   return formData;
 }
 
-export async function getProfileImageUrl(
+export function getProfileImageUrl(
   profilePicture?: string | null,
-): Promise<string | undefined> {
-  const baseUrl = await getBaseURL();
+): string | undefined {
   if (!profilePicture) return undefined;
-  return `${baseUrl}${profilePicture}`;
+  return `${getBaseURLUnasync()}${profilePicture}`;
 }
 
 export const csvToText = (file: File): Promise<string> => {

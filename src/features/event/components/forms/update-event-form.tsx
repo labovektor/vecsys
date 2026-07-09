@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -22,7 +22,7 @@ import { UpdateEventSchemaType, updateEventSchema } from "../../schema";
 import { createFormData } from "@/lib/utils";
 import { CircleOff } from "lucide-react";
 import { getQueryClient } from "@/lib/get-query-client";
-import { getBaseURL } from "@/axios/axios";
+import { getBaseURLUnasync } from "@/axios/axios";
 
 interface UpdateEventFormProps {
   eventId: string;
@@ -31,10 +31,9 @@ interface UpdateEventFormProps {
 
 const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
   const router = useRouter();
-  const baseUrl = use(getBaseURL());
   const queryClient = getQueryClient();
   const [preview, setPreview] = useState<string | undefined>(
-    event.icon && `${baseUrl}${event.icon}`,
+    event.icon && `${getBaseURLUnasync()}${event.icon}`,
   );
 
   const form = useForm<UpdateEventSchemaType>({
