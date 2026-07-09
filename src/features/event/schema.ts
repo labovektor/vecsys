@@ -13,7 +13,7 @@ const reservedSlugs = [
   "api",
   "dashboard",
   "settings",
-] as const;
+];
 export const updateEventSchema = z.object({
   name: z.string(),
   slug: z
@@ -23,7 +23,7 @@ export const updateEventSchema = z.object({
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/i, {
       message: "Slug can only contain alphanumeric characters and hyphens",
     })
-    .refine((val) => !reservedSlugs.includes(val as any), {
+    .refine((val) => !reservedSlugs.includes(val), {
       message: "This slug is reserved and cannot be used",
     }),
   desc: z.string(),

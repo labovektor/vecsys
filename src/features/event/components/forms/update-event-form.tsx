@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -31,9 +31,10 @@ interface UpdateEventFormProps {
 
 const UpdateEventForm = ({ eventId, event }: UpdateEventFormProps) => {
   const router = useRouter();
+  const baseUrl = use(getBaseURL());
   const queryClient = getQueryClient();
   const [preview, setPreview] = useState<string | undefined>(
-    event.icon && `${getBaseURL()}${event.icon}`,
+    event.icon && `${baseUrl}${event.icon}`,
   );
 
   const form = useForm<UpdateEventSchemaType>({

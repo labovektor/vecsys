@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { use } from "react";
 import { ParticipantBiodata } from "../dto";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,7 @@ const MemberCard = ({
   callBack?: VoidFunction;
   canDelete: boolean;
 }) => {
+  const baseUrl = use(getBaseURL());
   const [deleting, setDeleting] = React.useState(false);
   const deleteMember = async () => {
     setDeleting(true);
@@ -88,7 +89,7 @@ const MemberCard = ({
               <td>Kartu Identitas</td>
               <td>
                 <a
-                  href={`${getBaseURL()}${biodata.id_card_picture}`}
+                  href={`${baseUrl}${biodata.id_card_picture}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className=" underline text-blue-600"
