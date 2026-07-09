@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { getBaseURL, getBaseURLUnasync } from "@/axios/axios";
+import { getBaseURLUnasync } from "@/axios/axios";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
