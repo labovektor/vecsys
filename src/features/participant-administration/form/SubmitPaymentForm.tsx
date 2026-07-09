@@ -1,7 +1,7 @@
 "use client";
 
 import { useParticipant } from "@/hooks/use-participant";
-import React, { use } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { submitPaymentSchema, SubmitPaymentType } from "../schema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -29,10 +29,9 @@ import { Calendar } from "@/components/ui/calendar";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import handleRequest from "@/axios/request";
 import { toast } from "sonner";
-import { getBaseURL } from "@/axios/axios";
+import { getBaseURLUnasync } from "@/axios/axios";
 
 const SubmitPaymentForm = () => {
-  const baseUrl = use(getBaseURL());
   const { user, refetchData } = useParticipant();
   const { toPreviousStep, selectedPayment } =
     useParticipantAdministrationProfile();
@@ -50,7 +49,7 @@ const SubmitPaymentForm = () => {
 
   const [preview, setPreview] = React.useState<string | null>(
     user?.participant?.payment?.invoice
-      ? `${baseUrl}${user?.participant?.payment?.invoice}`
+      ? `${getBaseURLUnasync()}${user?.participant?.payment?.invoice}`
       : null,
   );
 

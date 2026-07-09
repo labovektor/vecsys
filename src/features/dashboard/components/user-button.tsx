@@ -4,12 +4,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { getInitial, getProfileImageUrl } from "@/lib/utils";
 import { LogOut } from "lucide-react";
-import React, { use } from "react";
 import { useUser } from "@/hooks/use-user";
 
 const UserButton = () => {
   const { user, logout } = useUser();
-  const profileImageUrl = use(getProfileImageUrl(user?.profile_picture));
+  const profileImageUrl = getProfileImageUrl(user?.profile_picture);
   return (
     <div className=" flex gap-2 items-center space-x-4 rounded-md ">
       <Avatar>

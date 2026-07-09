@@ -7,7 +7,7 @@ const axiosInstance = axios.create({
   withCredentials: true,
 });
 
-export async function getBaseURL(): Promise<string> {
+export async function getBaseURL() {
   if (cachedBaseURL) {
     return cachedBaseURL;
   }
@@ -19,6 +19,11 @@ export async function getBaseURL(): Promise<string> {
     console.error("Gagal mengambil konfigurasi runtime:", error);
     return "";
   }
+}
+
+export function getBaseURLUnasync() {
+  if (!cachedBaseURL) getBaseURL();
+  return cachedBaseURL ?? "/";
 }
 
 const nonProtectedRoutes = [
